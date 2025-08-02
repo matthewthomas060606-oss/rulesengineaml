@@ -1,0 +1,8 @@
+Flask
+requests
+schedule
+regex
+Unidecode
+rapidfuzz
+SQLAlchemy
+pandas

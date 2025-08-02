@@ -1,0 +1,18 @@
+# Byte-compiled / optimized Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtualenvs
+venv/
+.env/
+
+# SQLite DB
+data/sanctions.db
+
+# Editor dirs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
