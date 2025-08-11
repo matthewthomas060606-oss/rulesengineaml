@@ -3,15 +3,13 @@ from pathlib import Path
 from isoparser import parse, buildbase
 from links import detailsExtractor, fetchsanctionslist, returnDetails
 from database import createdatabase, returnDetails2
+from screening import submitresponse
 from matcher import matching
-from gui import gui
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
 import json
 import uvicorn
-
-from src.screening import submitresponse
 templates = Jinja2Templates(directory="templates")
 
 #Sample ISO20022 file

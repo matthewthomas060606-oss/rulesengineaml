@@ -6,3 +6,6 @@ Unidecode
 rapidfuzz
 SQLAlchemy
 pandas
+fastapi
+uvicorn
+Jinja2
