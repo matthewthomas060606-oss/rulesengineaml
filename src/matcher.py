@@ -1,7 +1,11 @@
-import difflib, pandas as pd, sqlite3
-from typing import List
+import difflib
+import pandas as pd
+import sqlite3
 from pathlib import Path
-from sqlalchemy import false, true
+from datetime import datetime, timezone
+
+def isonow():
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 def matching(dbtrfullname, cdtrfullname, details):
     db_path = Path(__file__).parent.parent/"data"/"sanctions.db"
@@ -39,7 +43,7 @@ def matching(dbtrfullname, cdtrfullname, details):
     else:
         code = "NOFLAG"
         flagged = False
-    response = {"responseCode":code, "flagged":flagged, "matches":hits}
+    response = {"responseCode":code, "flagged":flagged, "matches":hits, "timeflagged": isonow()}
     seen = set()
     unique = []
     for h in response["matches"]:

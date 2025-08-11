@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>CPS Screening Result</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding: 1.25rem; }
+    h1 { margin-bottom: .5rem; }
+    section { margin-top: 1.25rem; }
+    pre { background:#f5f5f5; padding:1rem; border-radius:6px; overflow:auto; }
+    ul { padding-left: 1.25rem; }
+    li { margin: .25rem 0; }
+    details { margin:.25rem 0 .5rem; }
+    pre.json .json-key{color:#b11;font-weight:600}
+    pre.json .json-string{color:#083}
+    pre.json .json-number{color:#16c}
+    pre.json .json-boolean{color:#a70}
+    pre.json .json-null{color:#777}
+  </style>
+</head>
+<body>
+  <h1>CPS Screening Result</h1>
+  <section>
+    <h2>Latest Flagged Item</h2>
+    <pre id="latest">Loading…</pre>
+  </section>
+  <section>
+    <h2>Past Flagged Items</h2>
+    <ul id="history-list"></ul>
+  </section>
+  <script>
+    function fmt(ts){
+      if(!ts) return '(no time)';
+      const d=new Date(ts);
+      return isNaN(d)?ts:d.toLocaleString();
+    }
+    function highlightJSON(obj){
+      let json=typeof obj==='string'?obj:JSON.stringify(obj,null,2);
+      json=json.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      return json.replace(/("(\\u[a-fA-F0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,m=>{
+        let cls='json-number';
+        if(m[0]==='"') cls=m.endsWith(':')?'json-key':'json-string';
+        else if(/true|false/.test(m)) cls='json-boolean';
+        else if(/null/.test(m)) cls='json-null';
+        return `<span class="${cls}">${m}</span>`;
+      });
+    }
+    async function refresh(){
+      const latest=await fetch('/api/latest').then(r=>r.json());
+      document.getElementById('latest').textContent=JSON.stringify(latest,null,2);
+      const history=await fetch('/api/history').then(r=>r.json());
+      const ul=document.getElementById('history-list');
+      ul.innerHTML='';
+      const entries=Array.isArray(history)?history.slice().reverse():[];
+      if(!entries.length){
+        const li=document.createElement('li');
+        li.textContent='No past items yet.';
+        ul.appendChild(li);
+        return;
+      }
+      entries.forEach(entry=>{
+        const response=entry?.response??entry;
+        const code=response?.responseCode??'UNKNOWN';
+        const matches=Array.isArray(response?.matches)?response.matches:[];
+        const when=entry?.ts??response?.timeflagged;
+        const li=document.createElement('li');
+        const details=document.createElement('details');
+        const summary=document.createElement('summary');
+        summary.textContent=`[${fmt(when)}] ${code} — ${matches.length} match(es)`;
+        details.appendChild(summary);
+        const list=document.createElement('ul');
+        if(matches.length){
+          matches.forEach(m=>{
+            const mi=document.createElement('li');
+            mi.textContent=`${m.role}: ${m.name} (ssid ${m.ssid})`;
+            list.appendChild(mi);
+          });
+        }else{
+          const mi=document.createElement('li');
+          mi.textContent='No matches.';
+          list.appendChild(mi);
+        }
+        details.appendChild(list);
+        const pre=document.createElement('pre');
+        pre.className='json';
+        pre.innerHTML=highlightJSON(response);
+        details.appendChild(pre);
+        li.appendChild(details);
+        ul.appendChild(li);
+      });
+    }
+    window.addEventListener('load',refresh);
+  </script>
+</body>
+</html>

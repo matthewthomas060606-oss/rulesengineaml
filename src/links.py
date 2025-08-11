@@ -1,7 +1,5 @@
 import xml.etree.ElementTree as ET
 import requests
-from typing import List, Tuple
-import logging
 SECOurl = (
     "https://www.sesam.search.admin.ch/sesam-search-web/pages/downloadXmlGesamtliste.xhtml?lang=de&action=downloadXmlGesamtlisteAction"
 )
@@ -22,9 +20,9 @@ def detailsExtractor(target_elem):
             return (ssid, issid, f"{givenname.text.strip()} {familyname.text.strip()}")
     return None
 
-def returnDetails(seco_root):
+def returnDetails(root):
     details = []
-    for target in seco_root.findall('.//target'):
+    for target in root.findall('.//target'):
         record = detailsExtractor(target) if target is not None else None
         if record:
            details.append(record)

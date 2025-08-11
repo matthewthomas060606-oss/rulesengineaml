@@ -1,9 +1,5 @@
-from __future__ import annotations
 import sqlite3
 from pathlib import Path
-import pandas as pd
-import logging
-
 def createdatabase(detailslist):
     db_dir = Path(__file__).parent.parent / "data"
     db_dir.mkdir(parents=True, exist_ok=True)
@@ -30,3 +26,13 @@ def createdatabase(detailslist):
            WHERE sanctionslist.name IS DISTINCT FROM excluded.name
     """, detailslist)
     connection.commit()
+
+
+def returnDetails2():
+    db_path = Path(__file__).parent.parent / "data" / "sanctions.db"
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    cursor.execute("SELECT ssid, issid, name FROM sanctionslist")
+    details = cursor.fetchall()
+    conn.close()
+    return details
