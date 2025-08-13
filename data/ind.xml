@@ -96,7 +96,7 @@
 
             <!-- Debtor (individual) -->
             <pacs:Dbtr>
-                <pacs:Nm>Ramzan Kadyrov</pacs:Nm>
+                <pacs:Nm>Vladimir Putin</pacs:Nm>
                 <pacs:PstlAdr>
                     <pacs:StrtNm>123 Maple Street</pacs:StrtNm>
                     <pacs:TownNm>Boston</pacs:TownNm>
@@ -132,7 +132,7 @@
 
             <!-- Creditor (individual) -->
             <pacs:Cdtr>
-                <pacs:Nm>Vladimir Putin</pacs:Nm>
+                <pacs:Nm>Vasili Soyko</pacs:Nm>
                 <pacs:PstlAdr>
                     <pacs:StrtNm>4 Rue de la Paix</pacs:StrtNm>
                     <pacs:TownNm>Paris</pacs:TownNm>
