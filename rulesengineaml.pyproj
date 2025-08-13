@@ -22,12 +22,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="src\database.py" />
-    <Compile Include="src\gui2.py" />
+    <Compile Include="src\gui.py" />
     <Compile Include="src\isoparser.py" />
     <Compile Include="src\main.py" />
     <Compile Include="src\matcher.py" />
     <Compile Include="src\links.py" />
-    <Compile Include="src\gui.py" />
     <Compile Include="src\screening.py" />
     <Compile Include="src\__init__.py" />
   </ItemGroup>

@@ -5,17 +5,14 @@ from links import detailsExtractor, fetchsanctionslist, returnDetails
 from database import createdatabase, returnDetails2
 from screening import submitresponse
 from matcher import matching
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse, HTMLResponse
-from fastapi.templating import Jinja2Templates
 import json
-import uvicorn
-templates = Jinja2Templates(directory="templates")
 
 #Sample ISO20022 file
 xmlpath = Path(__file__).parent.parent/"data"/"ind.xml"
 
 def main(xmlpath):
+    gui = Path(__file__).parent.parent / "iso-viewer" / "public"  # <-- adjust to your viewer path
+    gui.mkdir(parents=True, exist_ok=True)
     dbpath = Path(__file__).parent.parent/"data"/"sanctions.db"
     latestpath = Path(__file__).parent.parent/"data"/"latest.json"
     historypath = Path(__file__).parent.parent/"data"/"history.jsonl"
@@ -40,8 +37,8 @@ def main(xmlpath):
         response = submitresponse(base, match)
         print(json.dumps(response, indent=2, ensure_ascii=False))
         logging.info(response)
-        latestpath.write_text(json.dumps(response, ensure_ascii=False, indent=2), encoding="utf-8")
-        with historypath.open("a", encoding="utf-8") as f:
+        (gui / "latest.json").write_text(json.dumps(response, ensure_ascii=False, indent=2), encoding="utf-8")
+        with (gui / "history.jsonl").open("a", encoding="utf-8") as f:
             f.write(json.dumps(response, ensure_ascii=False) + "\n")
     return response
 
