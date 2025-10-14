@@ -1,0 +1,504 @@
+<?xml version="1.0" ?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.029.001.02">
+  <MulSttlmReq>
+    <GrpHdr>
+      <MsgId>MSG-E7PF382T</MsgId>
+      <CreDtTm>2025-09-20T01:53:11Z</CreDtTm>
+      <NbOfSttlmReqs>2</NbOfSttlmReqs>
+      <CtrlSum>250000.00</CtrlSum>
+      <SttlmInf>
+        <SttlmAgt>
+          <FinInstnId>
+            <BICFI>RABONL2UXXX</BICFI>
+          </FinInstnId>
+          <BrnchId>
+            <Id>BR-GO6A35I6</Id>
+          </BrnchId>
+        </SttlmAgt>
+        <SttlmAgtAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-1817AXF9</Id>
+            </Othr>
+          </Id>
+          <Nm>Ops Account</Nm>
+          <Ccy>GBP</Ccy>
+        </SttlmAgtAcct>
+        <ClrSysInstn>
+          <FinInstnId>
+            <BICFI>BOFAUS3NXXX</BICFI>
+          </FinInstnId>
+          <BrnchId>
+            <Id>BR-C4R4NPQJ</Id>
+          </BrnchId>
+        </ClrSysInstn>
+        <Ptcpt>
+          <Nm>Blue Meadow LLC</Nm>
+          <PstlAdr>
+            <StrtNm>19 Ash Lane</StrtNm>
+            <TwnNm>Cinder Ridge</TwnNm>
+            <Ctry>CA</Ctry>
+          </PstlAdr>
+          <Id>
+            <OrgId>
+              <Othr>
+                <Id>ORG-1VJMUXMY</Id>
+                <SchmeNm>
+                  <Prtry>BIC</Prtry>
+                </SchmeNm>
+                <Issr>RegistrarSvc</Issr>
+              </Othr>
+              <LEI>5493001KJTIIGC8Y1R12</LEI>
+            </OrgId>
+          </Id>
+        </Ptcpt>
+        <PtcptAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-RI5OEXU1</Id>
+            </Othr>
+          </Id>
+          <Nm>Pool Account</Nm>
+          <Ccy>CAD</Ccy>
+        </PtcptAcct>
+        <Ref>SETT-AR2C8PTC</Ref>
+      </SttlmInf>
+      <InstgAgt>
+        <FinInstnId>
+          <BICFI>BARCGB22XXX</BICFI>
+        </FinInstnId>
+        <BrnchId>
+          <Id>BR-9ZTJO5LR</Id>
+        </BrnchId>
+      </InstgAgt>
+      <InstdAgt>
+        <FinInstnId>
+          <BICFI>SECTSESSXXX</BICFI>
+        </FinInstnId>
+        <BrnchId>
+          <Id>BR-9ZTZE33H</Id>
+        </BrnchId>
+      </InstdAgt>
+    </GrpHdr>
+    <SttlmReq>
+      <InstrId>INSTR1-EIAN4W0U</InstrId>
+      <MvmntRcrd>
+        <NtryId>NTRY11-THN2M5GJ</NtryId>
+        <NtryRef>REF-19KI1K1N</NtryRef>
+        <TxAmt>
+          <Amt Ccy="USD">125000.00</Amt>
+          <CdtDbtInd>CRDT</CdtDbtInd>
+        </TxAmt>
+        <Dbtr>
+          <Nm>Taylor Njoroge</Nm>
+          <PstlAdr>
+            <StrtNm>421 Ember Rd</StrtNm>
+            <TwnNm>Cinder Ridge</TwnNm>
+            <Ctry>AU</Ctry>
+          </PstlAdr>
+          <Id>
+            <OrgId>
+              <Othr>
+                <Id>ORG-C7G6JW67</Id>
+                <SchmeNm>
+                  <Prtry>BIC</Prtry>
+                </SchmeNm>
+                <Issr>RegistrarSvc</Issr>
+              </Othr>
+              <LEI>5493001KJTIIGC8Y1R12</LEI>
+            </OrgId>
+          </Id>
+        </Dbtr>
+        <DbtrAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-F6WSYGXP</Id>
+            </Othr>
+          </Id>
+          <Nm>Clearing Account</Nm>
+          <Ccy>GBP</Ccy>
+        </DbtrAcct>
+        <DbtrAgt>
+          <FinInstnId>
+            <BICFI>RABONL2UXXX</BICFI>
+          </FinInstnId>
+          <BrnchId>
+            <Id>BR-5J510GV6</Id>
+          </BrnchId>
+        </DbtrAgt>
+        <DbtrAgtAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-1HO78G2H</Id>
+            </Othr>
+          </Id>
+          <Nm>Clearing Account</Nm>
+          <Ccy>USD</Ccy>
+        </DbtrAgtAcct>
+        <Cdtr>
+          <Nm>Quinn O'Connor</Nm>
+          <PstlAdr>
+            <StrtNm>421 Ember Rd</StrtNm>
+            <TwnNm>Frost Harbor</TwnNm>
+            <Ctry>AU</Ctry>
+          </PstlAdr>
+          <Id>
+            <OrgId>
+              <Othr>
+                <Id>ORG-BKWICPBA</Id>
+                <SchmeNm>
+                  <Prtry>BIC</Prtry>
+                </SchmeNm>
+                <Issr>RegistrarSvc</Issr>
+              </Othr>
+              <LEI>5493001KJTIIGC8Y1R12</LEI>
+            </OrgId>
+          </Id>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-HVBTLTJ2</Id>
+            </Othr>
+          </Id>
+          <Nm>Pool Account</Nm>
+          <Ccy>USD</Ccy>
+        </CdtrAcct>
+        <CdtrAgt>
+          <FinInstnId>
+            <BICFI>NATADEFFXXX</BICFI>
+          </FinInstnId>
+          <BrnchId>
+            <Id>BR-20L29H2H</Id>
+          </BrnchId>
+        </CdtrAgt>
+        <CdtrAgtAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-7681FNRV</Id>
+            </Othr>
+          </Id>
+          <Nm>Ops Account</Nm>
+          <Ccy>GBP</Ccy>
+        </CdtrAgtAcct>
+        <EndToEndId>E2E-WG1J7WDH</EndToEndId>
+        <Ustrd>Consulting services by Avery Chen</Ustrd>
+      </MvmntRcrd>
+      <MvmntRcrd>
+        <NtryId>NTRY12-MG7DVODM</NtryId>
+        <NtryRef>REF-MAEX376C</NtryRef>
+        <TxAmt>
+          <Amt Ccy="AUD">125000.00</Amt>
+          <CdtDbtInd>DBIT</CdtDbtInd>
+        </TxAmt>
+        <Dbtr>
+          <Nm>Avery Chen</Nm>
+          <PstlAdr>
+            <StrtNm>7 Willow Walk</StrtNm>
+            <TwnNm>Ember City</TwnNm>
+            <Ctry>GB</Ctry>
+          </PstlAdr>
+          <Id>
+            <OrgId>
+              <Othr>
+                <Id>ORG-6CK94DRY</Id>
+                <SchmeNm>
+                  <Prtry>BIC</Prtry>
+                </SchmeNm>
+                <Issr>RegistrarSvc</Issr>
+              </Othr>
+              <LEI>5493001KJTIIGC8Y1R12</LEI>
+            </OrgId>
+          </Id>
+        </Dbtr>
+        <DbtrAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-NIVRODM8</Id>
+            </Othr>
+          </Id>
+          <Nm>Pool Account</Nm>
+          <Ccy>CAD</Ccy>
+        </DbtrAcct>
+        <DbtrAgt>
+          <FinInstnId>
+            <BICFI>NATADEFFXXX</BICFI>
+          </FinInstnId>
+          <BrnchId>
+            <Id>BR-DU7EWHDK</Id>
+          </BrnchId>
+        </DbtrAgt>
+        <DbtrAgtAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-OTDK9WYC</Id>
+            </Othr>
+          </Id>
+          <Nm>Trust Account</Nm>
+          <Ccy>SEK</Ccy>
+        </DbtrAgtAcct>
+        <Cdtr>
+          <Nm>Avery Chen</Nm>
+          <PstlAdr>
+            <StrtNm>7 Willow Walk</StrtNm>
+            <TwnNm>Frost Harbor</TwnNm>
+            <Ctry>CA</Ctry>
+          </PstlAdr>
+          <Id>
+            <OrgId>
+              <Othr>
+                <Id>ORG-RKHHQ2YH</Id>
+                <SchmeNm>
+                  <Prtry>BIC</Prtry>
+                </SchmeNm>
+                <Issr>RegistrarSvc</Issr>
+              </Othr>
+              <LEI>5493001KJTIIGC8Y1R12</LEI>
+            </OrgId>
+          </Id>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-RAURQOB6</Id>
+            </Othr>
+          </Id>
+          <Nm>Trust Account</Nm>
+          <Ccy>CAD</Ccy>
+        </CdtrAcct>
+        <CdtrAgt>
+          <FinInstnId>
+            <BICFI>BOFAUS3NXXX</BICFI>
+          </FinInstnId>
+          <BrnchId>
+            <Id>BR-M8JGCI5T</Id>
+          </BrnchId>
+        </CdtrAgt>
+        <CdtrAgtAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-GPIOCFIR</Id>
+            </Othr>
+          </Id>
+          <Nm>Pool Account</Nm>
+          <Ccy>SEK</Ccy>
+        </CdtrAgtAcct>
+        <EndToEndId>E2E-P58DG10M</EndToEndId>
+        <Ustrd>Payment for park event at Hollow Creek</Ustrd>
+      </MvmntRcrd>
+    </SttlmReq>
+    <SttlmReq>
+      <InstrId>INSTR2-XBVL5JNL</InstrId>
+      <MvmntRcrd>
+        <NtryId>NTRY21-48QEAYHS</NtryId>
+        <NtryRef>REF-DYHBDD27</NtryRef>
+        <TxAmt>
+          <Amt Ccy="GBP">125000.00</Amt>
+          <CdtDbtInd>CRDT</CdtDbtInd>
+        </TxAmt>
+        <Dbtr>
+          <Nm>Jane Roe Ventures</Nm>
+          <PstlAdr>
+            <StrtNm>88 Harbor Quay</StrtNm>
+            <TwnNm>New Riverton</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+          <Id>
+            <OrgId>
+              <Othr>
+                <Id>ORG-FPBK7HIZ</Id>
+                <SchmeNm>
+                  <Prtry>BIC</Prtry>
+                </SchmeNm>
+                <Issr>RegistrarSvc</Issr>
+              </Othr>
+              <LEI>5493001KJTIIGC8Y1R12</LEI>
+            </OrgId>
+          </Id>
+        </Dbtr>
+        <DbtrAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-CDYFT2NT</Id>
+            </Othr>
+          </Id>
+          <Nm>Clearing Account</Nm>
+          <Ccy>GBP</Ccy>
+        </DbtrAcct>
+        <DbtrAgt>
+          <FinInstnId>
+            <BICFI>SECTSESSXXX</BICFI>
+          </FinInstnId>
+          <BrnchId>
+            <Id>BR-ZPLGO0L6</Id>
+          </BrnchId>
+        </DbtrAgt>
+        <DbtrAgtAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-98WDG0M5</Id>
+            </Othr>
+          </Id>
+          <Nm>Pool Account</Nm>
+          <Ccy>CAD</Ccy>
+        </DbtrAgtAcct>
+        <Cdtr>
+          <Nm>Taylor Njoroge</Nm>
+          <PstlAdr>
+            <StrtNm>7 Willow Walk</StrtNm>
+            <TwnNm>Ember City</TwnNm>
+            <Ctry>SE</Ctry>
+          </PstlAdr>
+          <Id>
+            <OrgId>
+              <Othr>
+                <Id>ORG-4HW5SMQI</Id>
+                <SchmeNm>
+                  <Prtry>BIC</Prtry>
+                </SchmeNm>
+                <Issr>RegistrarSvc</Issr>
+              </Othr>
+              <LEI>5493001KJTIIGC8Y1R12</LEI>
+            </OrgId>
+          </Id>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-XJZLFL75</Id>
+            </Othr>
+          </Id>
+          <Nm>Ops Account</Nm>
+          <Ccy>SEK</Ccy>
+        </CdtrAcct>
+        <CdtrAgt>
+          <FinInstnId>
+            <BICFI>BOFAUS3NXXX</BICFI>
+          </FinInstnId>
+          <BrnchId>
+            <Id>BR-E9Y20H4A</Id>
+          </BrnchId>
+        </CdtrAgt>
+        <CdtrAgtAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-QO18VYHP</Id>
+            </Othr>
+          </Id>
+          <Nm>Pool Account</Nm>
+          <Ccy>GBP</Ccy>
+        </CdtrAgtAcct>
+        <EndToEndId>E2E-28TZYVMH</EndToEndId>
+        <Ustrd>Payment for park event at Hollow Creek</Ustrd>
+      </MvmntRcrd>
+      <MvmntRcrd>
+        <NtryId>NTRY22-HN8XLSM4</NtryId>
+        <NtryRef>REF-B58TP7B7</NtryRef>
+        <TxAmt>
+          <Amt Ccy="GBP">125000.00</Amt>
+          <CdtDbtInd>DBIT</CdtDbtInd>
+        </TxAmt>
+        <Dbtr>
+          <Nm>Quinn O'Connor</Nm>
+          <PstlAdr>
+            <StrtNm>19 Ash Lane</StrtNm>
+            <TwnNm>Frost Harbor</TwnNm>
+            <Ctry>DE</Ctry>
+          </PstlAdr>
+          <Id>
+            <OrgId>
+              <Othr>
+                <Id>ORG-WFC8217W</Id>
+                <SchmeNm>
+                  <Prtry>BIC</Prtry>
+                </SchmeNm>
+                <Issr>RegistrarSvc</Issr>
+              </Othr>
+              <LEI>5493001KJTIIGC8Y1R12</LEI>
+            </OrgId>
+          </Id>
+        </Dbtr>
+        <DbtrAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-JQMM2AG4</Id>
+            </Othr>
+          </Id>
+          <Nm>Trust Account</Nm>
+          <Ccy>CAD</Ccy>
+        </DbtrAcct>
+        <DbtrAgt>
+          <FinInstnId>
+            <BICFI>SECTSESSXXX</BICFI>
+          </FinInstnId>
+          <BrnchId>
+            <Id>BR-9B2OEA2A</Id>
+          </BrnchId>
+        </DbtrAgt>
+        <DbtrAgtAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-GE1Z9RFG</Id>
+            </Othr>
+          </Id>
+          <Nm>Clearing Account</Nm>
+          <Ccy>GBP</Ccy>
+        </DbtrAgtAcct>
+        <Cdtr>
+          <Nm>Riley Patel</Nm>
+          <PstlAdr>
+            <StrtNm>421 Ember Rd</StrtNm>
+            <TwnNm>Death Park</TwnNm>
+            <Ctry>US</Ctry>
+          </PstlAdr>
+          <Id>
+            <OrgId>
+              <Othr>
+                <Id>ORG-4WEMI7P0</Id>
+                <SchmeNm>
+                  <Prtry>BIC</Prtry>
+                </SchmeNm>
+                <Issr>RegistrarSvc</Issr>
+              </Othr>
+              <LEI>5493001KJTIIGC8Y1R12</LEI>
+            </OrgId>
+          </Id>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-QA2GING8</Id>
+            </Othr>
+          </Id>
+          <Nm>Clearing Account</Nm>
+          <Ccy>GBP</Ccy>
+        </CdtrAcct>
+        <CdtrAgt>
+          <FinInstnId>
+            <BICFI>BOFAUS3NXXX</BICFI>
+          </FinInstnId>
+          <BrnchId>
+            <Id>BR-E012LXEQ</Id>
+          </BrnchId>
+        </CdtrAgt>
+        <CdtrAgtAcct>
+          <Id>
+            <Othr>
+              <Id>ACC-6UZ01R6J</Id>
+            </Othr>
+          </Id>
+          <Nm>Trust Account</Nm>
+          <Ccy>AUD</Ccy>
+        </CdtrAgtAcct>
+        <EndToEndId>E2E-U3P3QWC9</EndToEndId>
+        <Ustrd>Consulting services by Avery Chen</Ustrd>
+      </MvmntRcrd>
+    </SttlmReq>
+    <SplmtryData>
+      <PlcAndNm>Note-B</PlcAndNm>
+      <Envlpd>
+        <AddtlInf>Additional narrative for audit.</AddtlInf>
+      </Envlpd>
+    </SplmtryData>
+  </MulSttlmReq>
+</Document>

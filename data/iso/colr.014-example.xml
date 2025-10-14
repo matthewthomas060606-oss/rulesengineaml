@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Envelope>
+  <AppHdr>
+    <Fr>
+      <FIId>
+        <FinInstnId>
+          <BICFI>AAAABBCCXXX</BICFI>
+          <Nm>Alpha Bank Ltd.</Nm>
+        </FinInstnId>
+      </FIId>
+    </Fr>
+    <To>
+      <FIId>
+        <FinInstnId>
+          <BICFI>DDDDEEFFXXX</BICFI>
+          <Nm>Delta Clearing House</Nm>
+        </FinInstnId>
+      </FIId>
+    </To>
+    <BizMsgIdr>COLR014-EXAMPLE-2025-09-29-0001</BizMsgIdr>
+    <MsgDefIdr>colr.014.001.05</MsgDefIdr>
+    <CreDt>2025-09-29T16:45:00Z</CreDt>
+  </AppHdr>
+
+  <Document xmlns="urn:iso:std:iso:20022:tech:xsd:colr.014.001.05">
+    <MsgHdr>
+      <MsgId>MSG-0001</MsgId>
+      <CreDtTm>2025-09-29T16:45:00Z</CreDtTm>
+      <NbOfTxs>1</NbOfTxs>
+    </MsgHdr>
+
+    <CollPrpslRspn>
+      <!-- Collateral Taker (CltrlTkr) -->
+      <CltrlTkr>
+        <Nm>Global Collateral Taker PLC</Nm>
+        <OrgId>
+          <AnyBIC>GCTKGB2LXXX</AnyBIC>
+          <LEI>5493001KJTIIGC8Y1R12</LEI>
+          <Othr>
+            <Id>CTKR-983471</Id>
+            <SchmeNm>
+              <Prtry>InternalId</Prtry>
+            </SchmeNm>
+            <Issr>GCTK</Issr>
+          </Othr>
+        </OrgId>
+        <PstlAdr>
+          <AdrTp>
+            <Prtry>
+              <Id>BIZ</Id>
+              <Issr>GCTK</Issr>
+              <SchmeNm>BIZADDR</SchmeNm>
+            </Prtry>
+          </AdrTp>
+          <StrtNm>1 King Street</StrtNm>
+          <BldgNb>12A</BldgNb>
+          <PstCd>EC2R 8AD</PstCd>
+          <TwnNm>London</TwnNm>
+          <CtrySubDvsn>Greater London</CtrySubDvsn>
+          <Ctry>GB</Ctry>
+          <AdrLine>1 King Street, London EC2R 8AD, GB</AdrLine>
+        </PstlAdr>
+        <CtctDtls>
+          <Nm>Jane Smith</Nm>
+          <PhneNb>+44 20 1234 5678</PhneNb>
+          <MobNb>+44 7700 900123</MobNb>
+          <FaxNb>+44 20 1234 5679</FaxNb>
+          <EmailAdr>jane.smith@gctk.example</EmailAdr>
+          <URLAdr>https://gctk.example</URLAdr>
+          <Dept>Collateral Operations</Dept>
+          <JobTitl>Director</JobTitl>
+          <Othr>
+            <ChanlTp>XMPP</ChanlTp>
+            <Id>gctk_ops@chat.example</Id>
+          </Othr>
+          <PrefrdMtd>EMAIL</PrefrdMtd>
+        </CtctDtls>
+        <FinInstnId>
+          <BICFI>GCTKGB2LXXX</BICFI>
+          <LEI>5493001KJTIIGC8Y1R12</LEI>
+          <ClrSysMmbId>
+            <ClrSysId>
+              <Cd>CHAPS</Cd>
+            </ClrSysId>
+            <MmbId>GCTKGB2L</MmbId>
+          </ClrSysMmbId>
+          <Othr>
+            <Id>CSD1234</Id>
+            <SchmeNm>
+              <Prtry>CSD</Prtry>
+            </SchmeNm>
+          </Othr>
+        </FinInstnId>
+      </CltrlTkr>
+
+      <!-- Collateral Giver (CltrlGv) -->
+      <CltrlGv>
+        <Nm>Northstar Investments LLC</Nm>
+        <PrvtId>
+          <DtAndPlcOfBirth>
+            <BirthDt>1984-11-23</BirthDt>
+            <PrvcOfBirth>California</PrvcOfBirth>
+            <CityOfBirth>San Diego</CityOfBirth>
+            <CtryOfBirth>US</CtryOfBirth>
+            <City>San Diego</City>
+          </DtAndPlcOfBirth>
+        </PrvtId>
+        <PstlAdr>
+          <StrtNm>500 Market Street</StrtNm>
+          <BldgNb>820</BldgNb>
+          <PstCd>94103</PstCd>
+          <TwnNm>San Francisco</TwnNm>
+          <CtrySubDvsn>CA</CtrySubDvsn>
+          <Ctry>US</Ctry>
+          <AdrLine>500 Market Street, San Francisco, CA 94103 USA</AdrLine>
+        </PstlAdr>
+        <CtctDtls>
+          <NmPrfx>Mr</NmPrfx>
+          <Nm>John Doe</Nm>
+          <PhneNb>+1 415 555 0100</PhneNb>
+          <EmailAdr>john.doe@northstar.example</EmailAdr>
+          <Dept>Trading</Dept>
+          <Rspnsblty>Signatory</Rspnsblty>
+        </CtctDtls>
+        <AcctId>
+          <Id>NS-CLTRL-ACCT-001</Id>
+        </AcctId>
+        <IBAN>US00NSINV0000000000001</IBAN>
+        <Ccy>USD</Ccy>
+      </CltrlGv>
+
+      <!-- Triparty Agent (TrptyAgt) -->
+      <TrptyAgt>
+        <Nm>TriClear Services AG</Nm>
+        <FinInstnId>
+          <BICFI>TRICCHZZXXX</BICFI>
+          <LEI>5299003TRICLEAR00001</LEI>
+          <BrnchId>
+            <Id>TRIC-ZUR</Id>
+            <LEI>5299003TRICBRANCH001</LEI>
+            <Nm>Zurich Branch</Nm>
+            <PstlAdr>
+              <StrtNm>Bahnhofstrasse</StrtNm>
+              <BldgNb>15</BldgNb>
+              <PstCd>8001</PstCd>
+              <TwnNm>Zurich</TwnNm>
+              <Ctry>CH</Ctry>
+            </PstlAdr>
+          </BrnchId>
+        </FinInstnId>
+        <PstlAdr>
+          <StrtNm>Bahnhofstrasse 15</StrtNm>
+          <PstCd>8001</PstCd>
+          <TwnNm>Zurich</TwnNm>
+          <Ctry>CH</Ctry>
+        </PstlAdr>
+      </TrptyAgt>
+
+      <!-- Delivering Agent (DlvrgAgt) -->
+      <DlvrgAgt>
+        <Nm>Prime Broker One</Nm>
+        <FinInstnId>
+          <AnyBIC>PBONEUS3NXXX</AnyBIC>
+          <LEI>254900PBONEUS3N0001</LEI>
+        </FinInstnId>
+      </DlvrgAgt>
+
+      <!-- Receiving Agent (RcvgAgt) -->
+      <RcvgAgt>
+        <Nm>Custody Bank SA</Nm>
+        <FinInstnId>
+          <BICFI>CUSTFRPPXXX</BICFI>
+          <LEI>969500CUSTFRPP00001</LEI>
+        </FinInstnId>
+      </RcvgAgt>
+
+      <!-- Depository (Dpstry) -->
+      <Dpstry>
+        <Nm>Euroclear Bank</Nm>
+        <FinInstnId>
+          <BICFI>MGTCBEBE</BICFI>
+          <Othr>
+            <Id>EB-ACC-445566</Id>
+            <SchmeNm>
+              <Prtry>Internal</Prtry>
+            </SchmeNm>
+          </Othr>
+        </FinInstnId>
+      </Dpstry>
+
+      <!-- Custodian (Ctdn) -->
+      <Ctdn>
+        <Nm>SafeHold Custody Ltd</Nm>
+        <PstlAdr>
+          <StrtNm>10 Harbour Road</StrtNm>
+          <TwnNm>Dublin</TwnNm>
+          <Ctry>IE</Ctry>
+        </PstlAdr>
+      </Ctdn>
+
+      <!-- Clearing Member (ClrMmb) and CCP -->
+      <ClrMmb>
+        <Nm>Northstar Clearing Member</Nm>
+        <Id>NSCLR001</Id>
+      </ClrMmb>
+      <CCP>
+        <Nm>Global CCP</Nm>
+      </CCP>
+
+      <!-- Broker (Brkr) -->
+      <Brkr>
+        <Nm>Atlas Brokerage</Nm>
+        <OrgId>
+          <LEI>815600ATLASBRKR0001</LEI>
+        </OrgId>
+      </Brkr>
+
+      <!-- Safekeeping Account -->
+      <SfkpgAcct>
+        <Id>CUST-EUROC-ACCT-778899</Id>
+      </SfkpgAcct>
+
+      <!-- Collateral details / narrative placeholders -->
+      <Othr>
+        <Id>PROP-REF-2025-09-29-01</Id>
+        <SchmeNm>
+          <Prtry>ProposalReference</Prtry>
+        </SchmeNm>
+      </Othr>
+      <AddtlInf>Response to collateral proposal: Accepted with conditions. Haircut 2.5%, substitution window 2 days.</AddtlInf>
+
+      <!-- Include an extra party using NmAndAdr to exercise parser -->
+      <Issr>
+        <NmAndAdr>
+          <Nm>Issuer Example Corp</Nm>
+          <Adr>
+            <StrtNm>Main Street</StrtNm>
+            <BldgNb>100</BldgNb>
+            <TwnNm>Luxembourg</TwnNm>
+            <PstCd>L-1234</PstCd>
+            <Ctry>LU</Ctry>
+            <AdrLine>100 Main Street, L-1234 Luxembourg</AdrLine>
+          </Adr>
+        </NmAndAdr>
+      </Issr>
+
+      <!-- Add settlement/amount-like elements commonly seen -->
+      <SttlmPlc>
+        <Nm>Euroclear Belgium</Nm>
+      </SttlmPlc>
+      <PngAgt>
+        <Nm>Paying Agent Example</Nm>
+      </PngAgt>
+      <WhldgAgt>
+        <Nm>Withholding Agent Example</Nm>
+      </WhldgAgt>
+      <TaxAgt>
+        <Nm>Tax Agent Example</Nm>
+      </TaxAgt>
+      <InfAgt>
+        <Nm>Information Agent Example</Nm>
+      </InfAgt>
+
+      <!-- Investment account details section to trigger account extraction -->
+      <IndvOrdrDtls>
+        <AcctOwnr>
+          <Nm>Northstar Investments LLC</Nm>
+        </AcctOwnr>
+        <InvstmtAcctDtls>
+          <AcctId>
+            <Id>INV-ACC-00012345</Id>
+          </AcctId>
+          <AcctNm>Primary Investment Account</AcctNm>
+        </InvstmtAcctDtls>
+      </IndvOrdrDtls>
+
+    </CollPrpslRspn>
+  </Document>
+</Envelope>

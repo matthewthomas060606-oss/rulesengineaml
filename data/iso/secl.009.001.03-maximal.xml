@@ -1,0 +1,73 @@
+<?xml version="1.0" ?>
+<ns0:Document xmlns:ns0="urn:iso:std:iso:20022:tech:xsd:secl.009.001.03">
+  <ns0:BuyInConf>
+    <ns0:TxId>TX-14X2G43F</ns0:TxId>
+    <ns0:ClrMmb>
+      <ns0:NmAndAdr>
+        <ns0:Nm>Orchid Bay Limited</ns0:Nm>
+        <ns0:Adr>
+          <ns0:StrtNm>421 Ember Rd</ns0:StrtNm>
+          <ns0:TwnNm>Ember City</ns0:TwnNm>
+          <ns0:Ctry>GB</ns0:Ctry>
+        </ns0:Adr>
+      </ns0:NmAndAdr>
+    </ns0:ClrMmb>
+    <ns0:BuyInDtls>
+      <ns0:BuyInId>BUYIN-NU070DID</ns0:BuyInId>
+      <ns0:BuyInExctnDt>2025-09-20</ns0:BuyInExctnDt>
+      <ns0:BuyInSts>STLD</ns0:BuyInSts>
+    </ns0:BuyInDtls>
+    <ns0:SttlmPties>
+      <ns0:Buyr>
+        <ns0:Nm>Quinn O'Connor</ns0:Nm>
+        <ns0:Adr>
+          <ns0:StrtNm>88 Harbor Quay</ns0:StrtNm>
+          <ns0:TwnNm>Ember City</ns0:TwnNm>
+          <ns0:Ctry>AU</ns0:Ctry>
+        </ns0:Adr>
+      </ns0:Buyr>
+      <ns0:Sellr>
+        <ns0:Nm>Taylor Njoroge</ns0:Nm>
+        <ns0:Adr>
+          <ns0:StrtNm>421 Ember Rd</ns0:StrtNm>
+          <ns0:TwnNm>New Riverton</ns0:TwnNm>
+          <ns0:Ctry>SE</ns0:Ctry>
+        </ns0:Adr>
+      </ns0:Sellr>
+    </ns0:SttlmPties>
+    <ns0:FinInstrmId>
+      <ns0:ISIN>US0000000001</ns0:ISIN>
+      <ns0:Desc>Sample Corporate Bond 5% 2030</ns0:Desc>
+    </ns0:FinInstrmId>
+    <ns0:FinInstrmAttrbts>
+      <ns0:PlcOfListg>XNYS</ns0:PlcOfListg>
+      <ns0:Issr>Nimbus &amp; Sons</ns0:Issr>
+      <ns0:MtrtyDt>2030-09-20</ns0:MtrtyDt>
+    </ns0:FinInstrmAttrbts>
+    <ns0:SttlmQty>
+      <ns0:Qty>1000</ns0:Qty>
+      <ns0:Unit>UNIT</ns0:Unit>
+    </ns0:SttlmQty>
+    <ns0:SttlmAmt>
+      <ns0:Amt>250000.00</ns0:Amt>
+      <ns0:Ccy>USD</ns0:Ccy>
+      <ns0:Drctn>CRDT</ns0:Drctn>
+    </ns0:SttlmAmt>
+    <ns0:OrgnlSttlmOblgtn>
+      <ns0:TxId>OBLIG-WX9TK6L1</ns0:TxId>
+      <ns0:Sts>FAIL</ns0:Sts>
+      <ns0:Pty>
+        <ns0:Nm>Jane Roe Ventures</ns0:Nm>
+        <ns0:Adr>
+          <ns0:StrtNm>88 Harbor Quay</ns0:StrtNm>
+          <ns0:TwnNm>Death Park</ns0:TwnNm>
+          <ns0:Ctry>SE</ns0:Ctry>
+        </ns0:Adr>
+      </ns0:Pty>
+    </ns0:OrgnlSttlmOblgtn>
+    <ns0:SplmtryData>
+      <ns0:PlcAndNm>Note-1</ns0:PlcAndNm>
+      <ns0:Envlpd/>
+    </ns0:SplmtryData>
+  </ns0:BuyInConf>
+</ns0:Document>

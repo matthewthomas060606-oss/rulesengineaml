@@ -1,126 +1,163 @@
 {
-  "metadata": {
-    "apiVersion": "1.0",
-    "responseId": "UUID-PLACEHOLDER",
-    "createdAt": "2025-07-22T10:15:30Z",
-    "sourceSystem": "ISO20022 Screen Engine",
-    "environment": "dev"
-  },
-  "request": {
-    "messageStandard": "ISO 20022",
-    "messageDefinition": "pacs.008.001.09",
-    "ingestHash": "SHA256-OF-RAW-MSG"
-  },
-  "sourceMessage": {
-    "appHdr": {
-      "fromBIC": null,
-      "toBIC": "BNPAFRPPXXX",
-      "bizMsgId": "MSG20250722-0001",
-      "msgDefId": "pacs.008.001.09",
-      "created": "2025-07-22T10:15:30Z"
-    },
-    "grpHdr": {
-      "msgId": "PAY20250722-12345",
-      "createdDateTime": "2025-07-22T10:15:30",
-      "nbOfTxs": 1,
-      "settlementMethod": "CLRG",
-      "instructingAgentBIC": "BOFAUS3NXXX",
-      "instructedAgentBIC": "BNPAFRPPXXX"
-    }
-  },
-  "transaction": {
-    "paymentIdentification": {
-      "instrId": "JD20250722-XY99",
-      "endToEndId": "E2E-20250722-0001",
-      "txId": "TX-AB12CD34EF56"
-    },
-    "paymentType": {
-      "serviceLevel": "SEPA",
-      "localInstrument": "INST",
-      "categoryPurpose": "P2P"
-    },
-    "amount": {
-      "value": 250.0,
-      "currency": "EUR"
-    },
-    "settlementDate": "2025-07-22",
-    "chargeBearer": "SLEV",
-    "purposeCode": "GIFT",
-    "remittanceInformation": "Birthday gift – enjoy!"
-  },
-  "parties": [
+  "listsUsed": [
     {
-      "role": "Debtor",
-      "name": "Vladimir Putin",
-      "address": {
-        "street": "123 Maple Street",
-        "town": "Boston",
-        "postCode": "02116",
-        "country": "US"
-      },
-      "contact": {
-        "email": "john.doe@example.com"
-      },
-      "account": {
-        "iban": "US64BOFA1234567890123456",
-        "currency": "USD"
-      },
-      "agentBIC": "BOFAUS3NXXX"
+      "name": "OFAC SDN",
+      "publisher": "OFAC (USA)",
+      "sourceUrl": "https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.XML",
+      "lastRefreshedAt": "2025-10-14T00:04:51.980195+00:00"
     },
     {
-      "role": "Creditor",
-      "name": "Vasili Soyko",
-      "address": {
-        "street": "4 Rue de la Paix",
-        "town": "Paris",
-        "postCode": "75002",
-        "country": "FR"
-      },
-      "contact": {
-        "email": "jane.smith@example.fr"
-      },
-      "account": {
-        "iban": "FR7630006000011234567890189",
-        "currency": "EUR"
-      },
-      "agentBIC": "BNPAFRPPXXX"
+      "name": "OFAC consolidated",
+      "publisher": "OFAC (USA)",
+      "sourceUrl": "https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/CONSOLIDATED.XML",
+      "lastRefreshedAt": "2025-10-14T00:04:47.501023+00:00"
+    },
+    {
+      "name": "UK consolidated",
+      "publisher": "OFSI (UK)",
+      "sourceUrl": "https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.xml",
+      "lastRefreshedAt": "2025-10-14T00:04:56.479957+00:00"
+    },
+    {
+      "name": "UN consolidated",
+      "publisher": "United Nations",
+      "sourceUrl": "https://scsanctions.un.org/resources/xml/en/consolidated.xml",
+      "lastRefreshedAt": "2025-10-14T00:04:59.084601+00:00"
+    },
+    {
+      "name": "EU consolidated",
+      "publisher": "European Union",
+      "sourceUrl": "https://webgate.ec.europa.eu/fsd/fsf/public/files/xmlFullSanctionsList_1_1/content?token=n009sfr8",
+      "lastRefreshedAt": "2025-10-14T00:05:03.828648+00:00"
+    },
+    {
+      "name": "AU consolidated",
+      "publisher": "DFAT (Australia)",
+      "sourceUrl": "https://www.dfat.gov.au/sites/default/files/regulation8_consolidated.xlsx",
+      "lastRefreshedAt": "2025-10-14T00:05:14.017017+00:00"
+    },
+    {
+      "name": "CA consolidated",
+      "publisher": "Global Affairs Canada",
+      "sourceUrl": "https://www.international.gc.ca/world-monde/assets/office_docs/international_relations-relations_internationales/sanctions/sema-lmes.xml",
+      "lastRefreshedAt": "2025-10-14T00:05:17.012191+00:00"
+    },
+    {
+      "name": "SECO consolidated",
+      "publisher": "SECO (Switzerland)",
+      "sourceUrl": "https://www.sesam.search.admin.ch/sesam-search-web/pages/downloadXmlGesamtliste.xhtml",
+      "lastRefreshedAt": "2025-10-14T00:05:37.470184+00:00"
     }
   ],
-  "riskSummary": {
-    "riskScore": 95,
-    "riskLevel": "High",
-    "drivers": [
-      "Sanctions name match"
-    ]
+  "parties": [
+    {
+      "Role": [
+        "initiatingParty"
+      ],
+      "Name": "Test Initiator Inc."
+    },
+    {
+      "Role": [
+        "debtor"
+      ],
+      "Name": "Michel Joseph MARTELLY",
+      "Country": "US",
+      "City": "Miami",
+      "Address Line": "123 Example Street",
+      "State": "FL",
+      "Iban": "US00TEST0000000000000000"
+    },
+    {
+      "Role": [
+        "debtorAgent"
+      ],
+      "Name": "TESTUS33XXX",
+      "BIC": "TESTUS33XXX",
+      "Structured Identifiers": {
+        "bic": "TESTUS33XXX"
+      }
+    },
+    {
+      "Role": [
+        "creditor"
+      ],
+      "Name": "Sample Beneficiary",
+      "Country": "US",
+      "City": "New York",
+      "Address Line": "456 Beneficiary Ave",
+      "State": "NY",
+      "Iban": "US00TEST1111111111111111"
+    }
+  ],
+  "transaction": {
+    "Message Id": "STATE-NAME-MATCH-TEST-001",
+    "Creation Date Time": "2025-10-13T12:00:00Z",
+    "Number Of Transactions": "1",
+    "End To End Id": "E2E-001",
+    "Amount": "100.00",
+    "Currency": "USD",
+    "Order Id": "E2E-001",
+    "Message Definition": "pain.001.001.12",
+    "Message Family": "pain"
   },
   "decision": {
-    "automatedStatus": "FLAGGED",
-    "recommendedAction": "Escalate",
-    "reasonCodes": [
-      "SANCTIONS_MATCH"
-    ],
-    "explanations": [
-      "Name match at/above threshold on SECO list."
-    ]
+    "recommendedAction": "Review"
   },
-  "audit": {
-    "screeningRunAt": "2025-08-12T11:51:11.001467Z",
-    "engineVersion": "0.1",
-    "rulesFired": [
-      "difflib>=0.90"
-    ],
-    "executionMs": 0,
-    "rawEngineResponse": {
-      "responseCode": "FLAGGED",
-      "flagged": true,
-      "matches": [
+  "riskSummary": {
+    "riskScore": 95,
+    "riskLevel": "very high risk",
+    "drivers": [],
+    "time": "2025-10-14T03:09:26.266852Z"
+  },
+  "engine": {
+    "topMatchScore": 95,
+    "topMatchRiskLevel": "very high risk",
+    "riskScore": 95,
+    "riskLevel": "very high risk",
+    "responseCode": "VERY_HIGH_RISK",
+    "matchCounts": {
+      "total": 491976,
+      "byRiskLevel": {
+        "very high risk": 2,
+        "high risk": 0,
+        "moderate risk": 0,
+        "slight risk": 0,
+        "no risk": 491974
+      }
+    }
+  },
+  "matches": [
+    {
+      "partyName": "Michel Joseph MARTELLY",
+      "role": "debtor",
+      "sanctionsName": "Michel Joseph MARTELLY",
+      "sanctionsAliases": [
+        "michael martelly",
+        "sweet micky"
+      ],
+      "sanctionsList": "OFAC",
+      "sanctionsId": "50476",
+      "riskLevel": "very high risk",
+      "finalScore": 95,
+      "matchedFields": [
         {
-          "role": "Debtor",
-          "name": "Vladimir Putin",
-          "ssid": "49812"
+          "field": "name",
+          "strength": "exact"
+        },
+        {
+          "field": "country",
+          "strength": "iso"
+        },
+        {
+          "field": "city",
+          "strength": "exact"
+        },
+        {
+          "field": "state",
+          "strength": "exact"
         }
       ],
-      "timeflagged": "2025-08-12T11:51:11.001467Z"
+      "matchSummary": ""
     }
-  }
+  ]
 }

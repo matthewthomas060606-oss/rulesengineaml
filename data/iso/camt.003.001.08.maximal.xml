@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.003.001.08"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="urn:iso:std:iso:20022:tech:xsd:camt.003.001.08 camt.003.001.08.xsd">
+  <GetAcct>
+    <MsgHdr>
+      <MsgId>MSG-2025-GETACCT-0001</MsgId>
+      <CreDtTm>2025-09-18T12:34:56Z</CreDtTm>
+      <ReqTp>
+        <Prtry>
+          <Id>GETA</Id>
+          <SchmeNm>REQTYPE</SchmeNm>
+          <Issr>ACME</Issr>
+        </Prtry>
+      </ReqTp>
+    </MsgHdr>
+    <AcctQryDef>
+      <QryTp>ALLL</QryTp>
+      <AcctCrit>
+        <NewCrit>
+          <NewQryNm>MaximalAccountQuery</NewQryNm>
+
+          <!-- Search criteria #1: lots of IDs, types, currencies, balances, owner (org), servicer -->
+          <SchCrit>
+            <AcctId>
+              <EQ>
+                <IBAN>GB29NWBK60161331926819</IBAN>
+              </EQ>
+            </AcctId>
+            <AcctId>
+              <EQ>
+                <Othr>
+                  <Id>1234567890</Id>
+                  <SchmeNm>
+                    <Prtry>BBAN</Prtry>
+                  </SchmeNm>
+                  <Issr>ACME-BANK</Issr>
+                </Othr>
+              </EQ>
+            </AcctId>
+            <AcctId>
+              <CTTxt>ACCT-REF-ABC</CTTxt>
+            </AcctId>
+            <AcctId>
+              <NCTTxt>LEGACY-EXCLUDE</NCTTxt>
+            </AcctId>
+
+            <Tp><Cd>CACC</Cd></Tp>
+            <Tp><Prtry>VOSTRO</Prtry></Tp>
+
+            <Ccy>EUR</Ccy>
+            <Ccy>USD</Ccy>
+
+            <Bal>
+              <Tp><Cd>CLBD</Cd></Tp>
+              <CtrPtyTp>BILA</CtrPtyTp>
+              <ValDt>
+                <Dt>
+                  <FrToDt>
+                    <FrDt>2025-01-01</FrDt>
+                    <ToDt>2025-12-31</ToDt>
+                  </FrToDt>
+                </Dt>
+              </ValDt>
+              <PrcgDt>
+                <DtTm>
+                  <FrToDtTm>
+                    <FrDtTm>2025-09-01T00:00:00Z</FrDtTm>
+                    <ToDtTm>2025-09-30T23:59:59Z</ToDtTm>
+                  </FrToDtTm>
+                </DtTm>
+              </PrcgDt>
+            </Bal>
+
+            <Bal>
+              <Tp><Prtry>AVAIL</Prtry></Tp>
+              <CtrPtyTp>MULT</CtrPtyTp>
+              <ValDt>
+                <DtTm>
+                  <EQDtTm>2025-09-18T12:00:00Z</EQDtTm>
+                </DtTm>
+              </ValDt>
+            </Bal>
+
+            <AcctOwnr>
+              <Nm>Example GmbH</Nm>
+              <PstlAdr>
+                <AdrTp>
+                  <Prtry>
+                    <Id>ADDR</Id>
+                    <Issr>ACME</Issr>
+                    <SchmeNm>ADDRTYPE</SchmeNm>
+                  </Prtry>
+                </AdrTp>
+                <CareOf>c/o Contoso Services</CareOf>
+                <Dept>Finance</Dept>
+                <SubDept>AP</SubDept>
+                <StrtNm>Unter den Linden</StrtNm>
+                <BldgNb>77</BldgNb>
+                <BldgNm>Haus Nord</BldgNm>
+                <Flr>5</Flr>
+                <UnitNb>501</UnitNb>
+                <PstBx>PO123</PstBx>
+                <Room>5A</Room>
+                <PstCd>10117</PstCd>
+                <TwnNm>Berlin</TwnNm>
+                <TwnLctnNm>Mitte</TwnLctnNm>
+                <DstrctNm>Berlin-Center</DstrctNm>
+                <CtrySubDvsn>BE</CtrySubDvsn>
+                <Ctry>DE</Ctry>
+                <AdrLine>Alt-Moabit 12</AdrLine>
+                <AdrLine>Building B</AdrLine>
+              </PstlAdr>
+              <Id>
+                <OrgId>
+                  <AnyBIC>DEUTDEFFXXX</AnyBIC>
+                  <LEI>5493001KJTIIGC8Y1R12</LEI>
+                  <Othr>
+                    <Id>HRB-999999</Id>
+                    <SchmeNm><Prtry>TRADE-REG</Prtry></SchmeNm>
+                    <Issr>DE-BERLIN</Issr>
+                  </Othr>
+                </OrgId>
+              </Id>
+              <CtryOfRes>DE</CtryOfRes>
+              <CtctDtls>
+                <NmPrfx>MIST</NmPrfx>
+                <Nm>Hans Zimmer</Nm>
+                <PhneNb>+49-30-123456</PhneNb>
+                <MobNb>+49-171-5555555</MobNb>
+                <FaxNb>+49-30-654321</FaxNb>
+                <URLAdr>https://example-gmbh.de</URLAdr>
+                <EmailAdr>ap@example-gmbh.de</EmailAdr>
+                <EmailPurp>AP</EmailPurp>
+                <JobTitl>AP Manager</JobTitl>
+                <Rspnsblty>Payments</Rspnsblty>
+                <Dept>Finance</Dept>
+                <Othr>
+                  <ChanlTp>CHAT</ChanlTp>
+                  <Id>teams:example-gmbh/ap</Id>
+                </Othr>
+                <PrefrdMtd>MAIL</PrefrdMtd>
+              </CtctDtls>
+            </AcctOwnr>
+
+            <AcctSvcr>
+              <FinInstnId>
+                <BICFI>DEUTDEFF</BICFI>
+                <ClrSysMmbId>
+                  <ClrSysId><Cd>DEBK</Cd></ClrSysId>
+                  <MmbId>50070010</MmbId>
+                </ClrSysMmbId>
+                <LEI>529900R0X6G3Q0Z3GQ02</LEI>
+                <Nm>Deutsche Bank AG</Nm>
+                <PstlAdr>
+                  <StrtNm>Taunusanlage</StrtNm>
+                  <BldgNb>12</BldgNb>
+                  <PstCd>60325</PstCd>
+                  <TwnNm>Frankfurt</TwnNm>
+                  <Ctry>DE</Ctry>
+                </PstlAdr>
+                <Othr>
+                  <Id>DB-DE-OTHER</Id>
+                  <SchmeNm><Prtry>LOCALBANK</Prtry></SchmeNm>
+                </Othr>
+              </FinInstnId>
+              <BrnchId>
+                <Id>FRA-001</Id>
+                <LEI>529900ABCDEFGH123456</LEI>
+                <Nm>Frankfurt Branch</Nm>
+                <PstlAdr>
+                  <StrtNm>Mainzer Landstrasse</StrtNm>
+                  <BldgNb>1</BldgNb>
+                  <PstCd>60329</PstCd>
+                  <TwnNm>Frankfurt</TwnNm>
+                  <Ctry>DE</Ctry>
+                </PstlAdr>
+              </BrnchId>
+            </AcctSvcr>
+          </SchCrit>
+
+          <!-- Search criteria #2: person owner path -->
+          <SchCrit>
+            <Tp><Cd>SACC</Cd></Tp>
+            <Ccy>CAD</Ccy>
+            <AcctOwnr>
+              <Nm>John Doe</Nm>
+              <Id>
+                <PrvtId>
+                  <DtAndPlcOfBirth>
+                    <BirthDt>1984-01-15</BirthDt>
+                    <PrvcOfBirth>CA-ON</PrvcOfBirth>
+                    <CityOfBirth>Toronto</CityOfBirth>
+                    <CtryOfBirth>CA</CtryOfBirth>
+                  </DtAndPlcOfBirth>
+                  <Othr>
+                    <Id>SSN-123-45-6789</Id>
+                    <SchmeNm><Prtry>SSN</Prtry></SchmeNm>
+                    <Issr>US-SSA</Issr>
+                  </Othr>
+                </PrvtId>
+              </Id>
+              <CtryOfRes>CA</CtryOfRes>
+            </AcctOwnr>
+          </SchCrit>
+
+          <!-- Return criteria: ask for everything -->
+          <RtrCrit>
+            <NmInd>true</NmInd>
+            <CcyInd>true</CcyInd>
+            <TpInd>true</TpInd>
+            <MulLmtInd>true</MulLmtInd>
+            <MulBalRtrCrit>
+              <TpInd>true</TpInd>
+              <StsInd>true</StsInd>
+              <ValDtInd>true</ValDtInd>
+              <PrcgDtInd>true</PrcgDtInd>
+              <NbOfPmtsInd>true</NbOfPmtsInd>
+            </MulBalRtrCrit>
+            <BilLmtInd>true</BilLmtInd>
+            <BilBalRtrCrit>
+              <TpInd>true</TpInd>
+              <StsInd>true</StsInd>
+              <ValDtInd>true</ValDtInd>
+              <PrcgDtInd>true</PrcgDtInd>
+              <NbOfPmtsInd>true</NbOfPmtsInd>
+            </BilBalRtrCrit>
+            <StgOrdrInd>true</StgOrdrInd>
+            <AcctOwnrInd>true</AcctOwnrInd>
+            <AcctSvcrInd>true</AcctSvcrInd>
+          </RtrCrit>
+
+        </NewCrit>
+      </AcctCrit>
+    </AcctQryDef>
+
+    <!-- two SupplementaryData samples exercising the open envelope -->
+    <SplmtryData>
+      <PlcAndNm>CustomExtensions</PlcAndNm>
+      <Envlp>
+        <ext:AdditionalInfo xmlns:ext="urn:example:ext">
+          <ext:Note>Requested by AML engine for full account profile</ext:Note>
+          <ext:Priority>High</ext:Priority>
+        </ext:AdditionalInfo>
+      </Envlp>
+    </SplmtryData>
+    <SplmtryData>
+      <Envlp>
+        <ext2:Meta xmlns:ext2="urn:example:meta">
+          <ext2:TraceId>abc123</ext2:TraceId>
+          <ext2:RequestedBy>system@acme.com</ext2:RequestedBy>
+        </ext2:Meta>
+      </Envlp>
+    </SplmtryData>
+  </GetAcct>
+</Document>

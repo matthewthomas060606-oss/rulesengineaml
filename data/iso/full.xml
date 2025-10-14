@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.10">
+  <FIToFICstmrCdtTrf>
+    <GrpHdr>
+      <MsgId>TEST-MATCH-ALL-001</MsgId>
+      <CreDtTm>2025-10-13T12:00:00Z</CreDtTm>
+      <NbOfTxs>3</NbOfTxs>
+      <SttlmInf>
+        <SttlmMtd>CLRG</SttlmMtd>
+      </SttlmInf>
+    </GrpHdr>
+
+    <!-- TX1: Exact matches for name, country (text + ISO), city, and street against OFAC 7322 -->
+    <CdtTrfTxInf>
+      <PmtId>
+        <EndToEndId>TX1-BIF-EXACT</EndToEndId>
+      </PmtId>
+      <IntrBkSttlmAmt Ccy="USD">10.00</IntrBkSttlmAmt>
+      <ChrgBr>SLEV</ChrgBr>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>BOFAUS3NXXX</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <CdtrAgt>
+        <FinInstnId>
+          <BICFI>BARCGB22XXX</BICFI>
+        </FinInstnId>
+      </CdtrAgt>
+      <Dbtr>
+        <Nm>Acme Sender LLC</Nm>
+        <PstlAdr>
+          <StrtNm>1 Test Way</StrtNm>
+          <TwnNm>New Riverton</TwnNm>
+          <Ctry>United States</Ctry>
+        </PstlAdr>
+      </Dbtr>
+      <Cdtr>
+        <Nm>Benevolence International Fund</Nm>
+        <PstlAdr>
+          <!-- Matches sanctions primary address exactly once normalized -->
+          <StrtNm>2465 Cawthra Rd., Unit 203, Mississauga</StrtNm>
+          <!-- Matches sanctions city exactly (Ontario is stored as city in DB) -->
+          <TwnNm>Ontario</TwnNm>
+          <Ctry>Canada</Ctry>
+        </PstlAdr>
+      </Cdtr>
+      <CdtrAcct>
+        <Id>
+          <Othr>
+            <Id>ACC-FU5WE789</Id>
+          </Othr>
+        </Id>
+      </CdtrAcct>
+    </CdtTrfTxInf>
+
+    <!-- TX2: Exact name/country/city + street against OFAC 25139 ("IYARI") -->
+    <CdtTrfTxInf>
+      <PmtId>
+        <EndToEndId>TX2-IYARI-EXACT</EndToEndId>
+      </PmtId>
+      <IntrBkSttlmAmt Ccy="USD">20.00</IntrBkSttlmAmt>
+      <ChrgBr>SLEV</ChrgBr>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>RABONL2UXXX</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <CdtrAgt>
+        <FinInstnId>
+          <BICFI>SECTSESSXXX</BICFI>
+        </FinInstnId>
+      </CdtrAgt>
+      <Dbtr>
+        <Nm>Contoso BV</Nm>
+        <PstlAdr>
+          <StrtNm>2 Example Road</StrtNm>
+          <TwnNm>Amsterdam</TwnNm>
+          <Ctry>Netherlands</Ctry>
+        </PstlAdr>
+      </Dbtr>
+      <Cdtr>
+        <Nm>IYARI</Nm>
+        <PstlAdr>
+          <StrtNm>Av. De la Cultura No. 157</StrtNm>
+          <TwnNm>Tepic</TwnNm>
+          <Ctry>Mexico</Ctry>
+        </PstlAdr>
+      </Cdtr>
+      <CdtrAcct>
+        <Id>
+          <Othr>
+            <Id>ACC-IYARI-001</Id>
+          </Othr>
+        </Id>
+      </CdtrAcct>
+    </CdtTrfTxInf>
+
+    <!-- TX3: Exact name but PARTIAL city and PARTIAL street against OFAC 22391 ("TRANSNEFT-DRUZHBA, AO") -->
+    <CdtTrfTxInf>
+      <PmtId>
+        <EndToEndId>TX3-TRANSNEFT-PARTIAL</EndToEndId>
+      </PmtId>
+      <IntrBkSttlmAmt Ccy="USD">30.00</IntrBkSttlmAmt>
+      <ChrgBr>SLEV</ChrgBr>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>BOFAUS3NXXX</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <CdtrAgt>
+        <FinInstnId>
+          <BICFI>BARCGB22XXX</BICFI>
+        </FinInstnId>
+      </CdtrAgt>
+      <Dbtr>
+        <Nm>Fabrikam Ltd</Nm>
+        <PstlAdr>
+          <StrtNm>3 Sample Street</StrtNm>
+          <TwnNm>London</TwnNm>
+          <Ctry>United Kingdom</Ctry>
+        </PstlAdr>
+      </Dbtr>
+      <Cdtr>
+        <Nm>TRANSNEFT-DRUZHBA, AO</Nm>
+        <PstlAdr>
+          <!-- Street is a substring of the sanctions primary address "d. 113 ul. Uralskaya" -->
+          <StrtNm>ul. Uralskaya</StrtNm>
+          <!-- City is a substring of sanctions city "Bryansk" to produce town_partial -->
+          <TwnNm>Bryan</TwnNm>
+          <Ctry>Russia</Ctry>
+        </PstlAdr>
+      </Cdtr>
+      <CdtrAcct>
+        <Id>
+          <Othr>
+            <Id>ACC-TRANSNEFT-001</Id>
+          </Othr>
+        </Id>
+      </CdtrAcct>
+    </CdtTrfTxInf>
+
+  </FIToFICstmrCdtTrf>
+</Document>

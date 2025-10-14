@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Message>
+  <!-- Business Application Header -->
+  <AppHdr xmlns="urn:iso:std:iso:20022:tech:xsd:head.001.001.03">
+    <Fr>
+      <FIId>
+        <FinInstnId>
+          <BICFI>BOFAUS3NXXX</BICFI>
+          <Nm>Bank of America N.A. (New York)</Nm>
+          <LEI>5493001KJTIIGC8Y1R12</LEI>
+        </FinInstnId>
+      </FIId>
+    </Fr>
+    <To>
+      <FIId>
+        <FinInstnId>
+          <BICFI>DEUTDEFFXXX</BICFI>
+          <Nm>Deutsche Bank AG (Frankfurt)</Nm>
+          <LEI>7LTWFZYICNSX8D621K86</LEI>
+        </FinInstnId>
+      </FIId>
+    </To>
+    <BizMsgIdr>2025-10-10-BOFA-9876543210</BizMsgIdr>
+    <MsgDefIdr>pacs.008.001.10</MsgDefIdr>
+    <BizSvc>swift.cbprplus.02</BizSvc>
+    <CreDt>2025-10-10T12:34:56Z</CreDt>
+    <CpyDplct>CODU</CpyDplct>
+    <PssblDplct>false</PssblDplct>
+  </AppHdr>
+
+  <!-- Document payload -->
+  <Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.10"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.10 pacs.008.001.10.xsd">
+    <FIToFICstmrCdtTrf>
+      <GrpHdr>
+        <MsgId>BOFA/FT/2025/10/10/00012345</MsgId>
+        <CreDtTm>2025-10-10T12:34:56Z</CreDtTm>
+        <NbOfTxs>2</NbOfTxs>
+        <SttlmInf>
+          <SttlmMtd>CLRG</SttlmMtd>
+          <ClrSys>
+            <Prtry>FEDWIRE</Prtry>
+          </ClrSys>
+        </SttlmInf>
+        <TtlIntrBkSttlmAmt Ccy="USD">150250.90</TtlIntrBkSttlmAmt>
+        <IntrBkSttlmDt>2025-10-10</IntrBkSttlmDt>
+        <PmtTpInf>
+          <InstrPrty>NORM</InstrPrty>
+          <SvcLvl>
+            <Cd>SEPA</Cd>
+          </SvcLvl>
+          <LclInstrm>
+            <Prtry>CRED</Prtry>
+          </LclInstrm>
+          <CtgyPurp>
+            <Cd>SALA</Cd>
+          </CtgyPurp>
+        </PmtTpInf>
+        <InstgAgt>
+          <FinInstnId>
+            <BICFI>BOFAUS3NXXX</BICFI>
+          </FinInstnId>
+        </InstgAgt>
+        <InstdAgt>
+          <FinInstnId>
+            <BICFI>DEUTDEFFXXX</BICFI>
+          </FinInstnId>
+        </InstdAgt>
+      </GrpHdr>
+
+      <!-- Transaction 1 -->
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>FT-2025-10-10-0001</InstrId>
+          <EndToEndId>E2E-INV-8842-1</EndToEndId>
+          <TxId>BOFA-TRX-0001-ABC123</TxId>
+        </PmtId>
+        <PmtTpInf>
+          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
+          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
+        </PmtTpInf>
+        <IntrBkSttlmAmt Ccy="USD">125000.50</IntrBkSttlmAmt>
+        <ChrgBr>SHAR</ChrgBr>
+        <IntrBkSttlmDt>2025-10-10</IntrBkSttlmDt>
+
+        <!-- Debtor Agent (Sending Bank) -->
+        <DbtrAgt>
+          <FinInstnId>
+            <BICFI>BOFAUS3NXXX</BICFI>
+            <Nm>Bank of America N.A. (New York)</Nm>
+            <LEI>5493001KJTIIGC8Y1R12</LEI>
+          </FinInstnId>
+          <BrnchId>
+            <Id>NYC-001</Id>
+            <Nm>Midtown Payments Hub</Nm>
+            <PstlAdr>
+              <StrtNm>One Bryant Park</StrtNm>
+              <BldgNb>1</BldgNb>
+              <TwnNm>New York</TwnNm>
+              <CtrySubDvsn>NY</CtrySubDvsn>
+              <PstCd>10036</PstCd>
+              <Ctry>US</Ctry>
+            </PstlAdr>
+          </BrnchId>
+        </DbtrAgt>
+
+        <!-- Creditor Agent (Receiving Bank) -->
+        <CdtrAgt>
+          <FinInstnId>
+            <BICFI>DEUTDEFFXXX</BICFI>
+            <Nm>Deutsche Bank AG</Nm>
+            <LEI>7LTWFZYICNSX8D621K86</LEI>
+          </FinInstnId>
+          <BrnchId>
+            <Id>FRA-CLR-02</Id>
+            <Nm>Frankfurt Clearing</Nm>
+          </BrnchId>
+        </CdtrAgt>
+
+        <!-- Intermediary chains -->
+        <IntrmyAgt1>
+          <FinInstnId>
+            <BICFI>IRVTUS3NXXX</BICFI>
+            <Nm>The Bank of New York Mellon</Nm>
+          </FinInstnId>
+        </IntrmyAgt1>
+        <IntrmyAgt2>
+          <FinInstnId>
+            <AnyBIC>PARBFRPP</AnyBIC>
+            <Nm>BNP Paribas (Paris)</Nm>
+          </FinInstnId>
+        </IntrmyAgt2>
+
+        <!-- Debtor (Ordering Customer) -->
+        <Dbtr>
+          <Nm>Atlas Components LLC</Nm>
+          <Id>
+            <OrgId>
+              <LEI>529900MVPQ1G9NZ5XW21</LEI>
+              <Othr>
+                <Id>US-TAX-94-1234567</Id>
+                <SchmeNm><Prtry>US-TIN</Prtry></SchmeNm>
+              </Othr>
+            </OrgId>
+          </Id>
+          <CtryOfRes>US</CtryOfRes>
+          <PstlAdr>
+            <StrtNm>400 Market Street</StrtNm>
+            <BldgNb>400</BldgNb>
+            <TwnNm>San Francisco</TwnNm>
+            <CtrySubDvsn>CA</CtrySubDvsn>
+            <PstCd>94111</PstCd>
+            <Ctry>US</Ctry>
+            <AdrLine>Suite 1200</AdrLine>
+          </PstlAdr>
+        </Dbtr>
+
+        <!-- Debtor Account -->
+        <DbtrAcct>
+          <Id>
+            <IBAN>US64BOFA12345678901234</IBAN>
+          </Id>
+          <Ccy>USD</Ccy>
+          <Nm>OPERATING-USD</Nm>
+        </DbtrAcct>
+
+        <!-- Creditor (Beneficiary) -->
+        <Cdtr>
+          <Nm>Fabrik Maschinenbau GmbH</Nm>
+          <Id>
+            <OrgId>
+              <LEI>391200C4F79R2SM0WQ28</LEI>
+              <Othr>
+                <Id>DE-USTID-DE123456789</Id>
+                <SchmeNm><Prtry>DE-VAT</Prtry></SchmeNm>
+              </Othr>
+            </OrgId>
+          </Id>
+          <CtryOfRes>DE</CtryOfRes>
+          <PstlAdr>
+            <StrtNm>Industriestrasse</StrtNm>
+            <BldgNb>77</BldgNb>
+            <TwnNm>Frankfurt am Main</TwnNm>
+            <PstCd>60329</PstCd>
+            <Ctry>DE</Ctry>
+          </PstlAdr>
+        </Cdtr>
+
+        <!-- Creditor Account -->
+        <CdtrAcct>
+          <Id>
+            <IBAN>DE89370400440532013000</IBAN>
+          </Id>
+          <Ccy>EUR</Ccy>
+          <Nm>FABRIK RECEIVABLES</Nm>
+        </CdtrAcct>
+
+        <!-- Ultimate parties -->
+        <UltmtDbtr>
+          <Nm>Atlas Holdings Inc.</Nm>
+          <Id>
+            <OrgId>
+              <LEI>213800D1EI4B9K1Z6S44</LEI>
+            </OrgId>
+          </Id>
+        </UltmtDbtr>
+        <UltmtCdtr>
+          <Nm>Fabrik Group AG</Nm>
+        </UltmtCdtr>
+
+        <!-- Instruction for agent -->
+        <InstrForNxtAgt>
+          <Cd>PHOB</Cd>
+          <InstrInf>Phone beneficiary upon receipt</InstrInf>
+        </InstrForNxtAgt>
+
+        <!-- Regulatory reporting -->
+        <RgltryRptg>
+          <DbtCdtRptgInd>DBIT</DbtCdtRptgInd>
+          <Authrty>
+            <Nm>BaFin</Nm>
+            <Ctry>DE</Ctry>
+          </Authrty>
+          <Dtl>
+            <Tp>
+              <Cd>VATX</Cd>
+            </Tp>
+            <Amt Ccy="EUR">125000.50</Amt>
+            <Inf>Cross-border payment for goods; Incoterms DAP.</Inf>
+          </Dtl>
+        </RgltryRptg>
+
+        <!-- Purpose -->
+        <Purp>
+          <Cd>GDDS</Cd>
+        </Purp>
+
+        <!-- Remittance Information -->
+        <RmtInf>
+          <Ustrd>Invoice 8842 / PO 2025-77. Ship lot A12.</Ustrd>
+          <Ustrd>Include CoO and packing list.</Ustrd>
+          <Strd>
+            <CdtrRefInf>
+              <Tp>
+                <CdOrPrtry>
+                  <Cd>SCOR</Cd>
+                </CdOrPrtry>
+              </Tp>
+              <Ref>INV-8842-2025-09</Ref>
+            </CdtrRefInf>
+            <AddtlRmtInf>Payment covers 3 invoices: 8842, 8843 (partial), 8845.</AddtlRmtInf>
+          </Strd>
+        </RmtInf>
+
+        <!-- Charges -->
+        <ChrgsInf>
+          <Amt Ccy="USD">25.00</Amt>
+          <Agt>
+            <FinInstnId>
+              <BICFI>BOFAUS3NXXX</BICFI>
+            </FinInstnId>
+          </Agt>
+        </ChrgsInf>
+
+        <!-- Supplementary data -->
+        <SplmtryData>
+          <PlcAndNm>ComplianceExtensions</PlcAndNm>
+          <Envlp>
+            <Document>
+              <Compliance>
+                <SanctionsScreening>
+                  <Version>1.0</Version>
+                  <RequestedAt>2025-10-10T12:35:01Z</RequestedAt>
+                  <Engine>ISO20022 CPS Rules Engine</Engine>
+                  <Flags>
+                    <Watchlist>OFAC, EU, UN, UK</Watchlist>
+                    <FalsePositiveThreshold>0.30</FalsePositiveThreshold>
+                  </Flags>
+                </SanctionsScreening>
+              </Compliance>
+            </Document>
+          </Envlp>
+        </SplmtryData>
+      </CdtTrfTxInf>
+
+      <!-- Transaction 2 (different currencies, richer party details) -->
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>FT-2025-10-10-0002</InstrId>
+          <EndToEndId>E2E-SAL-2025-10-BONUS</EndToEndId>
+          <TxId>BOFA-TRX-0002-ZXY987</TxId>
+        </PmtId>
+        <PmtTpInf>
+          <SvcLvl><Prtry>PRIO</Prtry></SvcLvl>
+          <LclInstrm><Prtry>URGNT</Prtry></LclInstrm>
+          <CtgyPurp><Cd>SALA</Cd></CtgyPurp>
+        </PmtTpInf>
+        <IntrBkSttlmAmt Ccy="USD">25250.40</IntrBkSttlmAmt>
+        <ChrgBr>DEBT</ChrgBr>
+        <IntrBkSttlmDt>2025-10-10</IntrBkSttlmDt>
+
+        <!-- Debtor Agent -->
+        <DbtrAgt>
+          <FinInstnId>
+            <BICFI>BOFAUS3NXXX</BICFI>
+          </FinInstnId>
+        </DbtrAgt>
+
+        <!-- Creditor Agent -->
+        <CdtrAgt>
+          <FinInstnId>
+            <BICFI>NATAGB2LXXX</BICFI>
+            <Nm>NatWest Bank plc</Nm>
+          </FinInstnId>
+        </CdtrAgt>
+
+        <!-- Debtor (Individual) -->
+        <Dbtr>
+          <Nm>Maria Isabel Núñez</Nm>
+          <PstlAdr>
+            <AdrTp>
+              <Prtry>
+                <Id>HOME</Id>
+                <SchmeNm>ADDR</SchmeNm>
+                <Issr>ATLAS-HR</Issr>
+              </Prtry>
+            </AdrTp>
+            <Dept>Engineering</Dept>
+            <StrtNm>1100 Mission St</StrtNm>
+            <BldgNb>1100</BldgNb>
+            <Flr>8</Flr>
+            <Room>805</Room>
+            <TwnNm>San Francisco</TwnNm>
+            <CtrySubDvsn>CA</CtrySubDvsn>
+            <PstCd>94103</PstCd>
+            <Ctry>US</Ctry>
+            <AdrLine>Employee ID: 004219</AdrLine>
+          </PstlAdr>
+          <Id>
+            <PrvtId>
+              <DtAndPlcOfBirth>
+                <BirthDt>1993-07-14</BirthDt>
+                <CityOfBirth>Buenos Aires</CityOfBirth>
+                <CtryOfBirth>AR</CtryOfBirth>
+              </DtAndPlcOfBirth>
+              <Othr>
+                <Id>US-SSN-000-45-6789</Id>
+                <SchmeNm><Prtry>US-SSN</Prtry></SchmeNm>
+              </Othr>
+              <Othr>
+                <Id>AR-DNI-35.123.456</Id>
+                <SchmeNm><Prtry>AR-DNI</Prtry></SchmeNm>
+                <Issr>RENAPER</Issr>
+              </Othr>
+            </PrvtId>
+          </Id>
+          <CtryOfRes>US</CtryOfRes>
+        </Dbtr>
+
+        <DbtrAcct>
+          <Id><Othr><Id>ACCT-USD-0004219</Id></Othr></Id>
+          <Ccy>USD</Ccy>
+          <Nm>Payroll Account</Nm>
+        </DbtrAcct>
+
+        <!-- Creditor (Individual in UK) -->
+        <Cdtr>
+          <Nm>Maria Isabel Núñez</Nm>
+          <PstlAdr>
+            <StrtNm>221B Baker Street</StrtNm>
+            <BldgNb>221B</BldgNb>
+            <TwnNm>London</TwnNm>
+            <PstCd>NW1 6XE</PstCd>
+            <Ctry>GB</Ctry>
+          </PstlAdr>
+          <CtryOfRes>GB</CtryOfRes>
+        </Cdtr>
+
+        <CdtrAcct>
+          <Id>
+            <IBAN>GB29NWBK60161331926819</IBAN>
+          </Id>
+          <Ccy>GBP</Ccy>
+          <Nm>Personal Current Account</Nm>
+        </CdtrAcct>
+
+        <!-- Remittance -->
+        <RmtInf>
+          <Ustrd>October bonus payment</Ustrd>
+          <Strd>
+            <Invcr>
+              <Nm>Atlas Components LLC</Nm>
+            </Invcr>
+            <Invcee>
+              <Nm>Maria Isabel Núñez</Nm>
+            </Invcee>
+            <CdtrRefInf>
+              <Tp>
+                <CdOrPrtry><Prtry>PAYR</Prtry></CdOrPrtry>
+              </Tp>
+              <Ref>PAY-2025-10-BONUS-004219</Ref>
+            </CdtrRefInf>
+          </Strd>
+        </RmtInf>
+
+        <!-- Purpose -->
+        <Purp><Cd>SALA</Cd></Purp>
+
+        <!-- Supplementary -->
+        <SplmtryData>
+          <PlcAndNm>HRPayroll</PlcAndNm>
+          <Envlp>
+            <Document>
+              <Payroll>
+                <Period>2025-10</Period>
+                <Gross Ccy="USD">30000.00</Gross>
+                <Net Ccy="USD">25250.40</Net>
+                <Deductions>
+                  <Item>
+                    <Type>FederalTax</Type>
+                    <Amt Ccy="USD">3500.00</Amt>
+                  </Item>
+                  <Item>
+                    <Type>StateTax</Type>
+                    <Amt Ccy="USD">900.00</Amt>
+                  </Item>
+                  <Item>
+                    <Type>401k</Type>
+                    <Amt Ccy="USD">1349.60</Amt>
+                  </Item>
+                </Deductions>
+              </Payroll>
+            </Document>
+          </Envlp>
+        </SplmtryData>
+      </CdtTrfTxInf>
+    </FIToFICstmrCdtTrf>
+  </Document>
+</Message>

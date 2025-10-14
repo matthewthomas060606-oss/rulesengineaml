@@ -1,0 +1,100 @@
+<?xml version="1.0" ?>
+<ns0:Document xmlns:ns0="urn:iso:std:iso:20022:tech:xsd:seev.015.001.01">
+  <ns0:AgtCAElctnStsAdvc>
+    <ns0:Id>
+      <ns0:Id>SEEVID-0001</ns0:Id>
+      <ns0:CreDtTm>2025-09-19T12:00:00Z</ns0:CreDtTm>
+      <ns0:Frqcy>ADHO</ns0:Frqcy>
+    </ns0:Id>
+    <ns0:AgtCAElctnStsAdvcGnlInf>
+      <ns0:MtgElctnId>ELCT-2025-001</ns0:MtgElctnId>
+      <ns0:ElctnSts>COMP</ns0:ElctnSts>
+      <ns0:AddtlInf>All elections processed successfully.</ns0:AddtlInf>
+    </ns0:AgtCAElctnStsAdvcGnlInf>
+    <ns0:MtgRef>
+      <ns0:MtgId>MEET-98765</ns0:MtgId>
+      <ns0:Issr>IssuerCo plc</ns0:Issr>
+      <ns0:SctyId>US0000000001</ns0:SctyId>
+    </ns0:MtgRef>
+    <ns0:PrvsAgtCAElctnInstrId>PREV-ELCT-123</ns0:PrvsAgtCAElctnInstrId>
+    <ns0:RptgPty>
+      <ns0:Nm>Sample Party Name</ns0:Nm>
+      <ns0:PstlAdr>
+        <ns0:StrtNm>1 Avenue Road</ns0:StrtNm>
+        <ns0:TwnNm>Metropolis</ns0:TwnNm>
+        <ns0:Ctry>US</ns0:Ctry>
+      </ns0:PstlAdr>
+      <ns0:Id>
+        <ns0:OrgId>
+          <ns0:Othr>
+            <ns0:Id>ORG-123456</ns0:Id>
+            <ns0:SchmeNm>
+              <ns0:Prtry>BIC</ns0:Prtry>
+            </ns0:SchmeNm>
+            <ns0:Issr>Issuer</ns0:Issr>
+          </ns0:Othr>
+          <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+        </ns0:OrgId>
+      </ns0:Id>
+    </ns0:RptgPty>
+    <ns0:InstgPty>
+      <ns0:Nm>Sample Party Name</ns0:Nm>
+      <ns0:PstlAdr>
+        <ns0:StrtNm>1 Avenue Road</ns0:StrtNm>
+        <ns0:TwnNm>Metropolis</ns0:TwnNm>
+        <ns0:Ctry>US</ns0:Ctry>
+      </ns0:PstlAdr>
+      <ns0:Id>
+        <ns0:OrgId>
+          <ns0:Othr>
+            <ns0:Id>ORG-123456</ns0:Id>
+            <ns0:SchmeNm>
+              <ns0:Prtry>BIC</ns0:Prtry>
+            </ns0:SchmeNm>
+            <ns0:Issr>Issuer</ns0:Issr>
+          </ns0:Othr>
+          <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+        </ns0:OrgId>
+      </ns0:Id>
+    </ns0:InstgPty>
+    <ns0:InstdPty>
+      <ns0:Nm>Sample Party Name</ns0:Nm>
+      <ns0:PstlAdr>
+        <ns0:StrtNm>1 Avenue Road</ns0:StrtNm>
+        <ns0:TwnNm>Metropolis</ns0:TwnNm>
+        <ns0:Ctry>US</ns0:Ctry>
+      </ns0:PstlAdr>
+      <ns0:Id>
+        <ns0:OrgId>
+          <ns0:Othr>
+            <ns0:Id>ORG-123456</ns0:Id>
+            <ns0:SchmeNm>
+              <ns0:Prtry>BIC</ns0:Prtry>
+            </ns0:SchmeNm>
+            <ns0:Issr>Issuer</ns0:Issr>
+          </ns0:Othr>
+          <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+        </ns0:OrgId>
+      </ns0:Id>
+    </ns0:InstdPty>
+    <ns0:Scty>
+      <ns0:ISIN>US0000000001</ns0:ISIN>
+      <ns0:Desc>Sample Common Stock</ns0:Desc>
+      <ns0:ClssTp>EQUITY</ns0:ClssTp>
+    </ns0:Scty>
+    <ns0:AgtCAElctnSts>
+      <ns0:ElctnId>EL-0001</ns0:ElctnId>
+      <ns0:Sts>ACPT</ns0:Sts>
+      <ns0:Rsn>
+        <ns0:Cd>NARR</ns0:Cd>
+        <ns0:AddtlInf>Validated and booked.</ns0:AddtlInf>
+      </ns0:Rsn>
+    </ns0:AgtCAElctnSts>
+    <ns0:SplmtryData>
+      <ns0:PlcAndNm>Addendum A</ns0:PlcAndNm>
+      <ns0:Envlpd>
+        <ns0:AnyBIC>BANKUS33XXX</ns0:AnyBIC>
+      </ns0:Envlpd>
+    </ns0:SplmtryData>
+  </ns0:AgtCAElctnStsAdvc>
+</ns0:Document>

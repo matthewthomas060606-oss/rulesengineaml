@@ -1,0 +1,327 @@
+<?xml version="1.0" ?>
+<ns0:Document xmlns:ns0="urn:iso:std:iso:20022:tech:xsd:pain.013.001.11">
+  <ns0:CdtrPmtActvtnReq>
+    <ns0:GrpHdr>
+      <ns0:MsgId>MSG-W4L6GSE6</ns0:MsgId>
+      <ns0:CreDtTm>2025-09-20T02:32:26Z</ns0:CreDtTm>
+      <ns0:NbOfTxs>3</ns0:NbOfTxs>
+      <ns0:CtrlSum>375000.00</ns0:CtrlSum>
+      <ns0:InitgPty>
+        <ns0:Nm>Blue Meadow LLC</ns0:Nm>
+        <ns0:PstlAdr>
+          <ns0:StrtNm>421 Ember Rd</ns0:StrtNm>
+          <ns0:TwnNm>Frost Harbor</ns0:TwnNm>
+          <ns0:Ctry>AU</ns0:Ctry>
+        </ns0:PstlAdr>
+        <ns0:Id>
+          <ns0:OrgId>
+            <ns0:Othr>
+              <ns0:Id>ORG-E6FVEPCV</ns0:Id>
+              <ns0:SchmeNm>
+                <ns0:Prtry>BIC</ns0:Prtry>
+              </ns0:SchmeNm>
+              <ns0:Issr>RegistrarSvc</ns0:Issr>
+            </ns0:Othr>
+            <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+          </ns0:OrgId>
+        </ns0:Id>
+      </ns0:InitgPty>
+      <ns0:FwdgAgt>
+        <ns0:FinInstnId>
+          <ns0:BICFI>BARCGB22XXX</ns0:BICFI>
+        </ns0:FinInstnId>
+        <ns0:BrnchId>
+          <ns0:Id>BR-O5P6GBO9</ns0:Id>
+        </ns0:BrnchId>
+      </ns0:FwdgAgt>
+    </ns0:GrpHdr>
+    <ns0:PmtInf>
+      <ns0:PmtInfId>PMT1-S0H1MV03</ns0:PmtInfId>
+      <ns0:PmtTpInf>
+        <ns0:SvcLvl>
+          <ns0:Cd>SEPA</ns0:Cd>
+        </ns0:SvcLvl>
+        <ns0:LclInstrm>
+          <ns0:Prtry>INST</ns0:Prtry>
+        </ns0:LclInstrm>
+        <ns0:CtgyPurp>
+          <ns0:Cd>SALA</ns0:Cd>
+        </ns0:CtgyPurp>
+      </ns0:PmtTpInf>
+      <ns0:ReqdExctnDt>2025-09-20</ns0:ReqdExctnDt>
+      <ns0:Dbtr>
+        <ns0:Nm>Morgan Alvarez</ns0:Nm>
+        <ns0:PstlAdr>
+          <ns0:StrtNm>12 Quartz Loop</ns0:StrtNm>
+          <ns0:TwnNm>Ember City</ns0:TwnNm>
+          <ns0:Ctry>SE</ns0:Ctry>
+        </ns0:PstlAdr>
+        <ns0:Id>
+          <ns0:OrgId>
+            <ns0:Othr>
+              <ns0:Id>ORG-XC2PDW0J</ns0:Id>
+              <ns0:SchmeNm>
+                <ns0:Prtry>BIC</ns0:Prtry>
+              </ns0:SchmeNm>
+              <ns0:Issr>RegistrarSvc</ns0:Issr>
+            </ns0:Othr>
+            <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+          </ns0:OrgId>
+        </ns0:Id>
+      </ns0:Dbtr>
+      <ns0:DbtrAcct>
+        <ns0:Id>
+          <ns0:Othr>
+            <ns0:Id>ACC-69KXQDCX</ns0:Id>
+          </ns0:Othr>
+        </ns0:Id>
+        <ns0:Nm>Ops Account</ns0:Nm>
+        <ns0:Ccy>SEK</ns0:Ccy>
+      </ns0:DbtrAcct>
+      <ns0:DbtrAgt>
+        <ns0:FinInstnId>
+          <ns0:BICFI>RABONL2UXXX</ns0:BICFI>
+        </ns0:FinInstnId>
+        <ns0:BrnchId>
+          <ns0:Id>BR-KR33LTZH</ns0:Id>
+        </ns0:BrnchId>
+      </ns0:DbtrAgt>
+      <ns0:CdtTrfTxInf>
+        <ns0:PmtId>
+          <ns0:InstrId>INSTR-7EHWLBVW</ns0:InstrId>
+          <ns0:EndToEndId>E2E-RGG2IG81</ns0:EndToEndId>
+        </ns0:PmtId>
+        <ns0:Amt>
+          <ns0:InstdAmt Ccy="CAD">125000.00</ns0:InstdAmt>
+        </ns0:Amt>
+        <ns0:Cdtr>
+          <ns0:Nm>Riley Patel</ns0:Nm>
+          <ns0:PstlAdr>
+            <ns0:StrtNm>12 Quartz Loop</ns0:StrtNm>
+            <ns0:TwnNm>Death Park</ns0:TwnNm>
+            <ns0:Ctry>DE</ns0:Ctry>
+          </ns0:PstlAdr>
+          <ns0:Id>
+            <ns0:OrgId>
+              <ns0:Othr>
+                <ns0:Id>ORG-BRU8C1TJ</ns0:Id>
+                <ns0:SchmeNm>
+                  <ns0:Prtry>BIC</ns0:Prtry>
+                </ns0:SchmeNm>
+                <ns0:Issr>RegistrarSvc</ns0:Issr>
+              </ns0:Othr>
+              <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+            </ns0:OrgId>
+          </ns0:Id>
+        </ns0:Cdtr>
+        <ns0:CdtrAcct>
+          <ns0:Id>
+            <ns0:Othr>
+              <ns0:Id>ACC-8JCCU77D</ns0:Id>
+            </ns0:Othr>
+          </ns0:Id>
+          <ns0:Nm>Pool Account</ns0:Nm>
+          <ns0:Ccy>EUR</ns0:Ccy>
+        </ns0:CdtrAcct>
+        <ns0:CdtrAgt>
+          <ns0:FinInstnId>
+            <ns0:BICFI>BOFAUS3NXXX</ns0:BICFI>
+          </ns0:FinInstnId>
+          <ns0:BrnchId>
+            <ns0:Id>BR-A28OIR7D</ns0:Id>
+          </ns0:BrnchId>
+        </ns0:CdtrAgt>
+        <ns0:ChrgsInf>
+          <ns0:TtlChrgsAndTaxAmt Ccy="USD">9.99</ns0:TtlChrgsAndTaxAmt>
+          <ns0:Agt>
+            <ns0:FinInstnId>
+              <ns0:BICFI>BARCGB22XXX</ns0:BICFI>
+            </ns0:FinInstnId>
+            <ns0:BrnchId>
+              <ns0:Id>BR-8KYHBLCP</ns0:Id>
+            </ns0:BrnchId>
+          </ns0:Agt>
+        </ns0:ChrgsInf>
+        <ns0:RmtInf>
+          <ns0:Ustrd>Consulting services by Riley Patel</ns0:Ustrd>
+        </ns0:RmtInf>
+      </ns0:CdtTrfTxInf>
+      <ns0:CdtTrfTxInf>
+        <ns0:PmtId>
+          <ns0:InstrId>INSTR-6OR4M3GV</ns0:InstrId>
+          <ns0:EndToEndId>E2E-25584GRS</ns0:EndToEndId>
+        </ns0:PmtId>
+        <ns0:Amt>
+          <ns0:InstdAmt Ccy="SEK">125000.00</ns0:InstdAmt>
+        </ns0:Amt>
+        <ns0:Cdtr>
+          <ns0:Nm>Orchid Bay Limited</ns0:Nm>
+          <ns0:PstlAdr>
+            <ns0:StrtNm>303 Eclipse Blvd</ns0:StrtNm>
+            <ns0:TwnNm>New Riverton</ns0:TwnNm>
+            <ns0:Ctry>SE</ns0:Ctry>
+          </ns0:PstlAdr>
+          <ns0:Id>
+            <ns0:OrgId>
+              <ns0:Othr>
+                <ns0:Id>ORG-2G68X3N1</ns0:Id>
+                <ns0:SchmeNm>
+                  <ns0:Prtry>BIC</ns0:Prtry>
+                </ns0:SchmeNm>
+                <ns0:Issr>RegistrarSvc</ns0:Issr>
+              </ns0:Othr>
+              <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+            </ns0:OrgId>
+          </ns0:Id>
+        </ns0:Cdtr>
+        <ns0:CdtrAcct>
+          <ns0:Id>
+            <ns0:Othr>
+              <ns0:Id>ACC-CXNX0FMG</ns0:Id>
+            </ns0:Othr>
+          </ns0:Id>
+          <ns0:Nm>Trust Account</ns0:Nm>
+          <ns0:Ccy>GBP</ns0:Ccy>
+        </ns0:CdtrAcct>
+        <ns0:CdtrAgt>
+          <ns0:FinInstnId>
+            <ns0:BICFI>BARCGB22XXX</ns0:BICFI>
+          </ns0:FinInstnId>
+          <ns0:BrnchId>
+            <ns0:Id>BR-JKIFXYFX</ns0:Id>
+          </ns0:BrnchId>
+        </ns0:CdtrAgt>
+        <ns0:ChrgsInf>
+          <ns0:TtlChrgsAndTaxAmt Ccy="SEK">9.99</ns0:TtlChrgsAndTaxAmt>
+          <ns0:Agt>
+            <ns0:FinInstnId>
+              <ns0:BICFI>BARCGB22XXX</ns0:BICFI>
+            </ns0:FinInstnId>
+            <ns0:BrnchId>
+              <ns0:Id>BR-SONIELCE</ns0:Id>
+            </ns0:BrnchId>
+          </ns0:Agt>
+        </ns0:ChrgsInf>
+        <ns0:RmtInf>
+          <ns0:Ustrd>Payment for park event at Hollow Creek</ns0:Ustrd>
+        </ns0:RmtInf>
+      </ns0:CdtTrfTxInf>
+    </ns0:PmtInf>
+    <ns0:PmtInf>
+      <ns0:PmtInfId>PMT2-KMCK95WQ</ns0:PmtInfId>
+      <ns0:PmtTpInf>
+        <ns0:SvcLvl>
+          <ns0:Cd>SEPA</ns0:Cd>
+        </ns0:SvcLvl>
+        <ns0:LclInstrm>
+          <ns0:Prtry>INST</ns0:Prtry>
+        </ns0:LclInstrm>
+        <ns0:CtgyPurp>
+          <ns0:Cd>SALA</ns0:Cd>
+        </ns0:CtgyPurp>
+      </ns0:PmtTpInf>
+      <ns0:ReqdExctnDt>2025-09-20</ns0:ReqdExctnDt>
+      <ns0:Dbtr>
+        <ns0:Nm>Blue Meadow LLC</ns0:Nm>
+        <ns0:PstlAdr>
+          <ns0:StrtNm>7 Willow Walk</ns0:StrtNm>
+          <ns0:TwnNm>Cinder Ridge</ns0:TwnNm>
+          <ns0:Ctry>CA</ns0:Ctry>
+        </ns0:PstlAdr>
+        <ns0:Id>
+          <ns0:OrgId>
+            <ns0:Othr>
+              <ns0:Id>ORG-U57R5RJO</ns0:Id>
+              <ns0:SchmeNm>
+                <ns0:Prtry>BIC</ns0:Prtry>
+              </ns0:SchmeNm>
+              <ns0:Issr>RegistrarSvc</ns0:Issr>
+            </ns0:Othr>
+            <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+          </ns0:OrgId>
+        </ns0:Id>
+      </ns0:Dbtr>
+      <ns0:DbtrAcct>
+        <ns0:Id>
+          <ns0:Othr>
+            <ns0:Id>ACC-BT79T9WC</ns0:Id>
+          </ns0:Othr>
+        </ns0:Id>
+        <ns0:Nm>Trust Account</ns0:Nm>
+        <ns0:Ccy>AUD</ns0:Ccy>
+      </ns0:DbtrAcct>
+      <ns0:DbtrAgt>
+        <ns0:FinInstnId>
+          <ns0:BICFI>NATADEFFXXX</ns0:BICFI>
+        </ns0:FinInstnId>
+        <ns0:BrnchId>
+          <ns0:Id>BR-0253HRRC</ns0:Id>
+        </ns0:BrnchId>
+      </ns0:DbtrAgt>
+      <ns0:CdtTrfTxInf>
+        <ns0:PmtId>
+          <ns0:InstrId>INSTR-LROVHFDL</ns0:InstrId>
+          <ns0:EndToEndId>E2E-JJ91R6BZ</ns0:EndToEndId>
+        </ns0:PmtId>
+        <ns0:Amt>
+          <ns0:InstdAmt Ccy="AUD">125000.00</ns0:InstdAmt>
+        </ns0:Amt>
+        <ns0:Cdtr>
+          <ns0:Nm>Morgan Alvarez</ns0:Nm>
+          <ns0:PstlAdr>
+            <ns0:StrtNm>88 Harbor Quay</ns0:StrtNm>
+            <ns0:TwnNm>Death Park</ns0:TwnNm>
+            <ns0:Ctry>DE</ns0:Ctry>
+          </ns0:PstlAdr>
+          <ns0:Id>
+            <ns0:OrgId>
+              <ns0:Othr>
+                <ns0:Id>ORG-LLQ0VGX8</ns0:Id>
+                <ns0:SchmeNm>
+                  <ns0:Prtry>BIC</ns0:Prtry>
+                </ns0:SchmeNm>
+                <ns0:Issr>RegistrarSvc</ns0:Issr>
+              </ns0:Othr>
+              <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+            </ns0:OrgId>
+          </ns0:Id>
+        </ns0:Cdtr>
+        <ns0:CdtrAcct>
+          <ns0:Id>
+            <ns0:Othr>
+              <ns0:Id>ACC-ID3FZ8DV</ns0:Id>
+            </ns0:Othr>
+          </ns0:Id>
+          <ns0:Nm>Trust Account</ns0:Nm>
+          <ns0:Ccy>AUD</ns0:Ccy>
+        </ns0:CdtrAcct>
+        <ns0:CdtrAgt>
+          <ns0:FinInstnId>
+            <ns0:BICFI>SECTSESSXXX</ns0:BICFI>
+          </ns0:FinInstnId>
+          <ns0:BrnchId>
+            <ns0:Id>BR-GRHABAYP</ns0:Id>
+          </ns0:BrnchId>
+        </ns0:CdtrAgt>
+        <ns0:ChrgsInf>
+          <ns0:TtlChrgsAndTaxAmt Ccy="GBP">9.99</ns0:TtlChrgsAndTaxAmt>
+          <ns0:Agt>
+            <ns0:FinInstnId>
+              <ns0:BICFI>BARCGB22XXX</ns0:BICFI>
+            </ns0:FinInstnId>
+            <ns0:BrnchId>
+              <ns0:Id>BR-XGR6KPIZ</ns0:Id>
+            </ns0:BrnchId>
+          </ns0:Agt>
+        </ns0:ChrgsInf>
+        <ns0:RmtInf>
+          <ns0:Ustrd>Consulting services by Quinn O'Connor</ns0:Ustrd>
+        </ns0:RmtInf>
+      </ns0:CdtTrfTxInf>
+    </ns0:PmtInf>
+    <ns0:SplmtryData>
+      <ns0:PlcAndNm>Note-CPAR</ns0:PlcAndNm>
+      <ns0:Envlpd/>
+    </ns0:SplmtryData>
+  </ns0:CdtrPmtActvtnReq>
+</ns0:Document>

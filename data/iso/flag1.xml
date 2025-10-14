@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:Document xmlns:ns0="urn:iso:std:iso:20022:tech:xsd:pain.001.001.12" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:iso:std:iso:20022:tech:xsd:pain.001.001.12 pain.001.001.12.xsd">
+  <ns0:CstmrCdtTrfInitn>
+    <ns0:GrpHdr>
+      <ns0:MsgId>MSG-2025-0001</ns0:MsgId>
+      <ns0:CreDtTm>2025-09-18T12:00:00Z</ns0:CreDtTm>
+      <ns0:NbOfTxs>1</ns0:NbOfTxs>
+      <ns0:InitgPty>
+        <ns0:Nm>Yevgeniy Viktorovich Prigozhin</ns0:Nm>
+        <ns0:PstlAdr>
+          <ns0:StrtNm>High Street</ns0:StrtNm>
+          <ns0:BldgNb>1</ns0:BldgNb>
+          <ns0:TwnNm>London</ns0:TwnNm>
+          <ns0:Ctry>GB</ns0:Ctry>
+        </ns0:PstlAdr>
+      </ns0:InitgPty>
+    </ns0:GrpHdr>
+
+    <ns0:PmtInf>
+      <ns0:PmtInfId>PMTINF-0001</ns0:PmtInfId>
+      <ns0:PmtMtd>TRF</ns0:PmtMtd>
+      <ns0:PmtTpInf>
+        <ns0:SvcLvl>
+          <ns0:Cd>SEPA</ns0:Cd>
+        </ns0:SvcLvl>
+      </ns0:PmtTpInf>
+      <ns0:ReqdExctnDt>
+        <ns0:Dt>2025-09-20</ns0:Dt>
+      </ns0:ReqdExctnDt>
+
+      <ns0:Dbtr>
+        <ns0:Nm>ACME Corporation</ns0:Nm>
+        <ns0:PstlAdr>
+          <ns0:StrtNm>High Street</ns0:StrtNm>
+          <ns0:BldgNb>1</ns0:BldgNb>
+          <ns0:TwnNm>London</ns0:TwnNm>
+          <ns0:Ctry>GB</ns0:Ctry>
+        </ns0:PstlAdr>
+      </ns0:Dbtr>
+      <ns0:DbtrAcct>
+        <ns0:Id>
+          <ns0:IBAN>GB29NWBK60161331926819</ns0:IBAN>
+        </ns0:Id>
+        <ns0:Ccy>GBP</ns0:Ccy>
+        <ns0:Nm>ACME Operating Account</ns0:Nm>
+      </ns0:DbtrAcct>
+      <ns0:DbtrAgt>
+        <ns0:FinInstnId>
+          <ns0:BICFI>NWBKGB2L</ns0:BICFI>
+          <ns0:Nm>National Westminster Bank</ns0:Nm>
+        </ns0:FinInstnId>
+      </ns0:DbtrAgt>
+      <ns0:ChrgBr>SLEV</ns0:ChrgBr>
+
+      <ns0:CdtTrfTxInf>
+        <ns0:PmtId>
+          <ns0:EndToEndId>E2E-0001-2025</ns0:EndToEndId>
+        </ns0:PmtId>
+        <ns0:Amt>
+          <ns0:InstdAmt Ccy="EUR">1250.00</ns0:InstdAmt>
+        </ns0:Amt>
+        <ns0:CdtrAgt>
+          <ns0:FinInstnId>
+            <ns0:BICFI>DEUTDEFF</ns0:BICFI>
+            <ns0:Nm>Deutsche Bank</ns0:Nm>
+          </ns0:FinInstnId>
+        </ns0:CdtrAgt>
+        <ns0:Cdtr>
+          <ns0:Nm>Example GmbH</ns0:Nm>
+          <ns0:PstlAdr>
+            <ns0:StrtNm>Unter den Linden</ns0:StrtNm>
+            <ns0:BldgNb>77</ns0:BldgNb>
+            <ns0:TwnNm>Berlin</ns0:TwnNm>
+            <ns0:Ctry>DE</ns0:Ctry>
+          </ns0:PstlAdr>
+        </ns0:Cdtr>
+        <ns0:CdtrAcct>
+          <ns0:Id>
+            <ns0:IBAN>DE89370400440532013000</ns0:IBAN>
+          </ns0:Id>
+        </ns0:CdtrAcct>
+        <ns0:Purp>
+          <ns0:Cd>SERV</ns0:Cd>
+        </ns0:Purp>
+        <ns0:RmtInf>
+          <ns0:Ustrd>Invoice 2025-0915 #12345</ns0:Ustrd>
+        </ns0:RmtInf>
+      </ns0:CdtTrfTxInf>
+    </ns0:PmtInf>
+  </ns0:CstmrCdtTrfInitn>
+</ns0:Document>

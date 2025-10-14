@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:tsrv.014.001.01">
+  <XtndOrPayReq>
+    <XtndOrPayReqDtls>
+      <UdrtkgId>
+        <Id>UND-REF-12345</Id>
+        <Issr>
+          <Nm>Issuer Bank PLC</Nm>
+          <PstlAdr>
+            <StrtNm>1 Market Street</StrtNm>
+            <TwnNm>London</TwnNm>
+            <Ctry>GB</Ctry>
+          </PstlAdr>
+          <CtctDtls>
+            <Nm>Trade Services Desk</Nm>
+            <EmailAdr>tradeservices@examplebank.com</EmailAdr>
+          </CtctDtls>
+        </Issr>
+        <ApplcntRefNb>APP-98765</ApplcntRefNb>
+      </UdrtkgId>
+      <DmndDtls>
+        <Id>DEMAND-0001</Id>
+        <SubmissnDtTm>2025-09-19T14:45:00Z</SubmissnDtTm>
+        <Amt Ccy="USD">150000.00</Amt>
+        <AddtlInf>Draw request per clause 4 due to shipment delay.</AddtlInf>
+      </DmndDtls>
+      <ReqdXpryDt>2025-10-31</ReqdXpryDt>
+      <BkInstrs>
+        <Txt>Please advise applicant and confirm extension terms.</Txt>
+        <LastDtForRspn>2025-10-07</LastDtForRspn>
+      </BkInstrs>
+      <BkCtct>
+        <Nm>Alex Morgan</Nm>
+        <PhneNb>+1-2125550100</PhneNb>
+        <EmailAdr>alex.morgan@examplebank.com</EmailAdr>
+        <Dept>Trade Finance</Dept>
+      </BkCtct>
+      <NclsdFile>
+        <Tp>
+          <Prtry>
+            <Id>SHIPDOC</Id>
+            <SchmeNm>
+              <Prtry>InternalDocType</Prtry>
+            </SchmeNm>
+            <Issr>ApplicantCo</Issr>
+          </Prtry>
+        </Tp>
+        <Id>BL-123456</Id>
+        <Frmt>
+          <Cd>PDF</Cd>
+        </Frmt>
+        <Nclsr>VGhpcyBpcyBhIGJhc2U2NC1lbmNvZGVkIHBsYWNlaG9sZGVyIGZvciBhIHBkZiBiaWxs
+        Lg==</Nclsr>
+      </NclsdFile>
+      <AddtlInf>Please extend the expiry by 60 days or pay on demand.</AddtlInf>
+    </XtndOrPayReqDtls>
+  </XtndOrPayReq>
+</Document>

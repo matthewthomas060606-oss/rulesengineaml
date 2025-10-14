@@ -1,0 +1,349 @@
+<?xml version="1.0" ?>
+<ns0:Document xmlns:ns0="urn:iso:std:iso:20022:tech:xsd:camt.052.001.13">
+  <ns0:BkToCstmrAcctRpt>
+    <ns0:GrpHdr>
+      <ns0:MsgId>MSG-XUC5VZDQ</ns0:MsgId>
+      <ns0:CreDtTm>2025-09-20T02:57:50Z</ns0:CreDtTm>
+      <ns0:MsgRcpt>
+        <ns0:Nm>Riley Patel</ns0:Nm>
+        <ns0:PstlAdr>
+          <ns0:StrtNm>7 Willow Walk</ns0:StrtNm>
+          <ns0:TwnNm>New Riverton</ns0:TwnNm>
+          <ns0:Ctry>US</ns0:Ctry>
+        </ns0:PstlAdr>
+        <ns0:Id>
+          <ns0:OrgId>
+            <ns0:Othr>
+              <ns0:Id>ORG-IDWFZPOE</ns0:Id>
+              <ns0:SchmeNm>
+                <ns0:Prtry>BIC</ns0:Prtry>
+              </ns0:SchmeNm>
+              <ns0:Issr>RegistrarSvc</ns0:Issr>
+            </ns0:Othr>
+            <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+          </ns0:OrgId>
+        </ns0:Id>
+      </ns0:MsgRcpt>
+      <ns0:MsgPgntn>
+        <ns0:PgNb>1</ns0:PgNb>
+        <ns0:LastPgInd>true</ns0:LastPgInd>
+      </ns0:MsgPgntn>
+    </ns0:GrpHdr>
+    <ns0:Rpt>
+      <ns0:Id>RPT-9GCDU35A</ns0:Id>
+      <ns0:RptPgntn>
+        <ns0:PgNb>1</ns0:PgNb>
+        <ns0:LastPgInd>true</ns0:LastPgInd>
+      </ns0:RptPgntn>
+      <ns0:CreDtTm>2025-09-20T02:57:50Z</ns0:CreDtTm>
+      <ns0:Acct>
+        <ns0:Id>
+          <ns0:Othr>
+            <ns0:Id>ACC-I8H81GRG</ns0:Id>
+          </ns0:Othr>
+        </ns0:Id>
+        <ns0:Nm>Trust Account</ns0:Nm>
+        <ns0:Ccy>AUD</ns0:Ccy>
+        <ns0:Ownr>
+          <ns0:Nm>Avery Chen</ns0:Nm>
+          <ns0:PstlAdr>
+            <ns0:StrtNm>7 Willow Walk</ns0:StrtNm>
+            <ns0:TwnNm>New Riverton</ns0:TwnNm>
+            <ns0:Ctry>DE</ns0:Ctry>
+          </ns0:PstlAdr>
+          <ns0:Id>
+            <ns0:OrgId>
+              <ns0:Othr>
+                <ns0:Id>ORG-JGKTKXS4</ns0:Id>
+                <ns0:SchmeNm>
+                  <ns0:Prtry>BIC</ns0:Prtry>
+                </ns0:SchmeNm>
+                <ns0:Issr>RegistrarSvc</ns0:Issr>
+              </ns0:Othr>
+              <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+            </ns0:OrgId>
+          </ns0:Id>
+        </ns0:Ownr>
+        <ns0:Svcr>
+          <ns0:FinInstnId>
+            <ns0:BICFI>RABONL2UXXX</ns0:BICFI>
+          </ns0:FinInstnId>
+          <ns0:BrnchId>
+            <ns0:Id>BR-8EX4AUNK</ns0:Id>
+          </ns0:BrnchId>
+        </ns0:Svcr>
+      </ns0:Acct>
+      <ns0:RltdAcct>
+        <ns0:Id>
+          <ns0:Othr>
+            <ns0:Id>ACC-VLM5AL1D</ns0:Id>
+          </ns0:Othr>
+        </ns0:Id>
+        <ns0:Nm>Trust Account</ns0:Nm>
+        <ns0:Ccy>GBP</ns0:Ccy>
+        <ns0:Ownr>
+          <ns0:Nm>Nimbus &amp; Sons</ns0:Nm>
+          <ns0:PstlAdr>
+            <ns0:StrtNm>421 Ember Rd</ns0:StrtNm>
+            <ns0:TwnNm>Death Park</ns0:TwnNm>
+            <ns0:Ctry>GB</ns0:Ctry>
+          </ns0:PstlAdr>
+          <ns0:Id>
+            <ns0:OrgId>
+              <ns0:Othr>
+                <ns0:Id>ORG-2LQBC67M</ns0:Id>
+                <ns0:SchmeNm>
+                  <ns0:Prtry>BIC</ns0:Prtry>
+                </ns0:SchmeNm>
+                <ns0:Issr>RegistrarSvc</ns0:Issr>
+              </ns0:Othr>
+              <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+            </ns0:OrgId>
+          </ns0:Id>
+        </ns0:Ownr>
+        <ns0:Svcr>
+          <ns0:FinInstnId>
+            <ns0:BICFI>BOFAUS3NXXX</ns0:BICFI>
+          </ns0:FinInstnId>
+          <ns0:BrnchId>
+            <ns0:Id>BR-CJU5SD05</ns0:Id>
+          </ns0:BrnchId>
+        </ns0:Svcr>
+      </ns0:RltdAcct>
+      <ns0:Bal>
+        <ns0:Tp>
+          <ns0:CdOrPrtry>
+            <ns0:Cd>OPBD</ns0:Cd>
+          </ns0:CdOrPrtry>
+        </ns0:Tp>
+        <ns0:Amt Ccy="EUR">150000.00</ns0:Amt>
+        <ns0:CdtDbtInd>CRDT</ns0:CdtDbtInd>
+        <ns0:Dt>
+          <ns0:Dt>2025-09-20</ns0:Dt>
+        </ns0:Dt>
+      </ns0:Bal>
+      <ns0:Bal>
+        <ns0:Tp>
+          <ns0:CdOrPrtry>
+            <ns0:Cd>CLBD</ns0:Cd>
+          </ns0:CdOrPrtry>
+        </ns0:Tp>
+        <ns0:Amt Ccy="EUR">175000.00</ns0:Amt>
+        <ns0:CdtDbtInd>CRDT</ns0:CdtDbtInd>
+        <ns0:Dt>
+          <ns0:Dt>2025-09-20</ns0:Dt>
+        </ns0:Dt>
+      </ns0:Bal>
+      <ns0:Ntry>
+        <ns0:Amt Ccy="EUR">25000.00</ns0:Amt>
+        <ns0:CdtDbtInd>CRDT</ns0:CdtDbtInd>
+        <ns0:Sts>BOOK</ns0:Sts>
+        <ns0:BookgDt>
+          <ns0:Dt>2025-09-20</ns0:Dt>
+        </ns0:BookgDt>
+        <ns0:ValDt>
+          <ns0:Dt>2025-09-20</ns0:Dt>
+        </ns0:ValDt>
+        <ns0:AcctSvcrRef>ASR-UZEAS0HG</ns0:AcctSvcrRef>
+        <ns0:BkTxCd>
+          <ns0:Domn>
+            <ns0:Fmly>
+              <ns0:Cd>CrdtTrf</ns0:Cd>
+            </ns0:Fmly>
+            <ns0:Cd>PMNT</ns0:Cd>
+          </ns0:Domn>
+        </ns0:BkTxCd>
+        <ns0:NtryDtls>
+          <ns0:TxDtls>
+            <ns0:Refs>
+              <ns0:MsgId>MSGREF-DDN2QTG4</ns0:MsgId>
+              <ns0:EndToEndId>E2E-C6EWIEWC</ns0:EndToEndId>
+              <ns0:TxId>TX-OJ6YOQMW</ns0:TxId>
+              <ns0:MndtId>MND-ACRCCDKI</ns0:MndtId>
+            </ns0:Refs>
+            <ns0:AmtDtls>
+              <ns0:InstdAmt>
+                <ns0:Amt Ccy="EUR">25000.00</ns0:Amt>
+              </ns0:InstdAmt>
+            </ns0:AmtDtls>
+            <ns0:RltdPties>
+              <ns0:Nm>Avery Chen</ns0:Nm>
+              <ns0:PstlAdr>
+                <ns0:StrtNm>88 Harbor Quay</ns0:StrtNm>
+                <ns0:TwnNm>Ember City</ns0:TwnNm>
+                <ns0:Ctry>US</ns0:Ctry>
+              </ns0:PstlAdr>
+              <ns0:Id>
+                <ns0:OrgId>
+                  <ns0:Othr>
+                    <ns0:Id>ORG-IJFRQ85P</ns0:Id>
+                    <ns0:SchmeNm>
+                      <ns0:Prtry>BIC</ns0:Prtry>
+                    </ns0:SchmeNm>
+                    <ns0:Issr>RegistrarSvc</ns0:Issr>
+                  </ns0:Othr>
+                  <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+                </ns0:OrgId>
+              </ns0:Id>
+            </ns0:RltdPties>
+            <ns0:RltdAgts>
+              <ns0:FinInstnId>
+                <ns0:BICFI>NATADEFFXXX</ns0:BICFI>
+              </ns0:FinInstnId>
+              <ns0:BrnchId>
+                <ns0:Id>BR-T2FK5W48</ns0:Id>
+              </ns0:BrnchId>
+            </ns0:RltdAgts>
+            <ns0:RltdDts>
+              <ns0:Id>
+                <ns0:Othr>
+                  <ns0:Id>ACC-3A78CS3M</ns0:Id>
+                </ns0:Othr>
+              </ns0:Id>
+              <ns0:Nm>Clearing Account</ns0:Nm>
+              <ns0:Ccy>EUR</ns0:Ccy>
+              <ns0:Ownr>
+                <ns0:Nm>Blue Meadow LLC</ns0:Nm>
+                <ns0:PstlAdr>
+                  <ns0:StrtNm>303 Eclipse Blvd</ns0:StrtNm>
+                  <ns0:TwnNm>New Riverton</ns0:TwnNm>
+                  <ns0:Ctry>AU</ns0:Ctry>
+                </ns0:PstlAdr>
+                <ns0:Id>
+                  <ns0:OrgId>
+                    <ns0:Othr>
+                      <ns0:Id>ORG-XTHJV8AY</ns0:Id>
+                      <ns0:SchmeNm>
+                        <ns0:Prtry>BIC</ns0:Prtry>
+                      </ns0:SchmeNm>
+                      <ns0:Issr>RegistrarSvc</ns0:Issr>
+                    </ns0:Othr>
+                    <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+                  </ns0:OrgId>
+                </ns0:Id>
+              </ns0:Ownr>
+              <ns0:Svcr>
+                <ns0:FinInstnId>
+                  <ns0:BICFI>SECTSESSXXX</ns0:BICFI>
+                </ns0:FinInstnId>
+                <ns0:BrnchId>
+                  <ns0:Id>BR-8PC2JPYI</ns0:Id>
+                </ns0:BrnchId>
+              </ns0:Svcr>
+            </ns0:RltdDts>
+            <ns0:RmtInf>
+              <ns0:Ustrd>Payment for park event at Ember City</ns0:Ustrd>
+            </ns0:RmtInf>
+          </ns0:TxDtls>
+        </ns0:NtryDtls>
+      </ns0:Ntry>
+      <ns0:Ntry>
+        <ns0:Amt Ccy="EUR">25000.00</ns0:Amt>
+        <ns0:CdtDbtInd>DBIT</ns0:CdtDbtInd>
+        <ns0:Sts>BOOK</ns0:Sts>
+        <ns0:BookgDt>
+          <ns0:Dt>2025-09-20</ns0:Dt>
+        </ns0:BookgDt>
+        <ns0:ValDt>
+          <ns0:Dt>2025-09-20</ns0:Dt>
+        </ns0:ValDt>
+        <ns0:AcctSvcrRef>ASR-KFPAZ57Y</ns0:AcctSvcrRef>
+        <ns0:BkTxCd>
+          <ns0:Domn>
+            <ns0:Fmly>
+              <ns0:Cd>DbtTrf</ns0:Cd>
+            </ns0:Fmly>
+            <ns0:Cd>PMNT</ns0:Cd>
+          </ns0:Domn>
+        </ns0:BkTxCd>
+        <ns0:NtryDtls>
+          <ns0:TxDtls>
+            <ns0:Refs>
+              <ns0:MsgId>MSGREF-2WVW77LJ</ns0:MsgId>
+              <ns0:EndToEndId>E2E-7N3HB954</ns0:EndToEndId>
+              <ns0:TxId>TX-GO9OSHNM</ns0:TxId>
+              <ns0:MndtId>MND-6TP946ZI</ns0:MndtId>
+            </ns0:Refs>
+            <ns0:AmtDtls>
+              <ns0:InstdAmt>
+                <ns0:Amt Ccy="EUR">25000.00</ns0:Amt>
+              </ns0:InstdAmt>
+            </ns0:AmtDtls>
+            <ns0:RltdPties>
+              <ns0:Nm>Morgan Alvarez</ns0:Nm>
+              <ns0:PstlAdr>
+                <ns0:StrtNm>19 Ash Lane</ns0:StrtNm>
+                <ns0:TwnNm>New Riverton</ns0:TwnNm>
+                <ns0:Ctry>SE</ns0:Ctry>
+              </ns0:PstlAdr>
+              <ns0:Id>
+                <ns0:OrgId>
+                  <ns0:Othr>
+                    <ns0:Id>ORG-IA0U85CJ</ns0:Id>
+                    <ns0:SchmeNm>
+                      <ns0:Prtry>BIC</ns0:Prtry>
+                    </ns0:SchmeNm>
+                    <ns0:Issr>RegistrarSvc</ns0:Issr>
+                  </ns0:Othr>
+                  <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+                </ns0:OrgId>
+              </ns0:Id>
+            </ns0:RltdPties>
+            <ns0:RltdAgts>
+              <ns0:FinInstnId>
+                <ns0:BICFI>SECTSESSXXX</ns0:BICFI>
+              </ns0:FinInstnId>
+              <ns0:BrnchId>
+                <ns0:Id>BR-FSUPSPG3</ns0:Id>
+              </ns0:BrnchId>
+            </ns0:RltdAgts>
+            <ns0:RltdDts>
+              <ns0:Id>
+                <ns0:Othr>
+                  <ns0:Id>ACC-MGNKDOLH</ns0:Id>
+                </ns0:Othr>
+              </ns0:Id>
+              <ns0:Nm>Ops Account</ns0:Nm>
+              <ns0:Ccy>AUD</ns0:Ccy>
+              <ns0:Ownr>
+                <ns0:Nm>Taylor Njoroge</ns0:Nm>
+                <ns0:PstlAdr>
+                  <ns0:StrtNm>421 Ember Rd</ns0:StrtNm>
+                  <ns0:TwnNm>New Riverton</ns0:TwnNm>
+                  <ns0:Ctry>SE</ns0:Ctry>
+                </ns0:PstlAdr>
+                <ns0:Id>
+                  <ns0:OrgId>
+                    <ns0:Othr>
+                      <ns0:Id>ORG-2XHGO3VX</ns0:Id>
+                      <ns0:SchmeNm>
+                        <ns0:Prtry>BIC</ns0:Prtry>
+                      </ns0:SchmeNm>
+                      <ns0:Issr>RegistrarSvc</ns0:Issr>
+                    </ns0:Othr>
+                    <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+                  </ns0:OrgId>
+                </ns0:Id>
+              </ns0:Ownr>
+              <ns0:Svcr>
+                <ns0:FinInstnId>
+                  <ns0:BICFI>BARCGB22XXX</ns0:BICFI>
+                </ns0:FinInstnId>
+                <ns0:BrnchId>
+                  <ns0:Id>BR-FKF2LGQT</ns0:Id>
+                </ns0:BrnchId>
+              </ns0:Svcr>
+            </ns0:RltdDts>
+            <ns0:RmtInf>
+              <ns0:Ustrd>Consulting services by Taylor Njoroge</ns0:Ustrd>
+            </ns0:RmtInf>
+          </ns0:TxDtls>
+        </ns0:NtryDtls>
+      </ns0:Ntry>
+    </ns0:Rpt>
+    <ns0:SplmtryData>
+      <ns0:PlcAndNm>Note-AccountReport</ns0:PlcAndNm>
+      <ns0:Envlpd/>
+    </ns0:SplmtryData>
+  </ns0:BkToCstmrAcctRpt>
+</ns0:Document>

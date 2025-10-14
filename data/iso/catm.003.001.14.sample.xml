@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:catm.003.001.14"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="urn:iso:std:iso:20022:tech:xsd:catm.003.001.14 c442c629-a2a2-4cae-8577-57eb0958265f.xsd">
+  <AccptrCfgtnUpd>
+    <Hdr>
+      <DwnldTrf>true</DwnldTrf>
+      <FrmtVrsn>1.0</FrmtVrsn>
+      <XchgId>1</XchgId>
+      <CreDtTm>2025-09-18T04:21:09Z</CreDtTm>
+      <InitgPty>
+        <Id>INITGPTY1</Id>
+      </InitgPty>
+    </Hdr>
+    <AccptrCfgtn>
+      <TermnlMgrId>
+        <Id>TMS-123</Id>
+      </TermnlMgrId>
+      <DataSet>
+        <Id>
+          <Tp>TMSP</Tp>
+        </Id>
+        <Cntt/>
+      </DataSet>
+    </AccptrCfgtn>
+  </AccptrCfgtnUpd>
+</Document>

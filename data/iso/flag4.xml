@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:Document xmlns:ns0="urn:iso:std:iso:20022:tech:xsd:setr.001.001.04">
+  <ns0:RedBlkOrdr>
+    <ns0:MsgId>
+      <ns0:Id>RBORD-2025-09-19-001</ns0:Id>
+      <ns0:CreDtTm>2025-09-19T14:05:00Z</ns0:CreDtTm>
+    </ns0:MsgId>
+    <ns0:PoolRef>
+      <ns0:Ref>POOL-REF-001</ns0:Ref>
+    </ns0:PoolRef>
+    <ns0:PrvsRef>
+      <ns0:Ref>PREV-REF-ABC</ns0:Ref>
+    </ns0:PrvsRef>
+    <ns0:BlkOrdrDtls>
+      <ns0:MstrRef>MASTER-ORDER-42</ns0:MstrRef>
+      <ns0:PlcOfTrad>
+        <ns0:Xchg>XLON</ns0:Xchg>
+      </ns0:PlcOfTrad>
+      <ns0:OrdrDtTm>2025-09-19T14:10:00Z</ns0:OrdrDtTm>
+      <ns0:ReqdFutrTradDt>2025-09-22</ns0:ReqdFutrTradDt>
+      <ns0:CxlRght>
+        <ns0:Cd>VALI</ns0:Cd>
+      </ns0:CxlRght>
+
+      <ns0:FinInstrmDtls>
+        <ns0:Id>
+          <ns0:ISIN>US0378331005</ns0:ISIN>
+        </ns0:Id>
+        <ns0:Nm>ABC Global Equity Fund Class A</ns0:Nm>
+        <ns0:ShrtNm>ABCGEF A</ns0:ShrtNm>
+        <ns0:ClssTp>Unit Trust</ns0:ClssTp>
+        <ns0:SctiesForm>REGD</ns0:SctiesForm>
+        <ns0:DstrbtnPlcy>DIST</ns0:DstrbtnPlcy>
+        <ns0:PdctGrp>Equity</ns0:PdctGrp>
+        <ns0:SrsId>
+          <ns0:SrsNm>Series 2025</ns0:SrsNm>
+        </ns0:SrsId>
+      </ns0:FinInstrmDtls>
+
+      <ns0:IndvOrdrDtls>
+        <ns0:OrdrRef>ORD-0001</ns0:OrdrRef>
+        <ns0:ClntRef>CLIENT-REF-001</ns0:ClntRef>
+        <ns0:InvstmtAcctDtls>
+          <ns0:AcctId>IA-123456</ns0:AcctId>
+          <ns0:AcctNm>John Q Public</ns0:AcctNm>
+          <ns0:OwnrId>
+            <ns0:Pty>
+              <ns0:NmAndAdr>
+                <ns0:Nm>John Q Public</ns0:Nm>
+                <ns0:Adr>
+                  <ns0:AdrTp>HOME</ns0:AdrTp>
+                  <ns0:StrtNm>10 High Street</ns0:StrtNm>
+                  <ns0:BldgNb>12A</ns0:BldgNb>
+                  <ns0:TwnNm>London</ns0:TwnNm>
+                  <ns0:PstCd>SW1A 1AA</ns0:PstCd>
+                  <ns0:Ctry>GB</ns0:Ctry>
+                </ns0:Adr>
+              </ns0:NmAndAdr>
+            </ns0:Pty>
+            <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+          </ns0:OwnrId>
+          <ns0:AcctSvcr>
+            <ns0:Pty>
+              <ns0:NmAndAdr>
+                <ns0:Nm>ABC Transfer Agent Ltd</ns0:Nm>
+                <ns0:Adr>
+                  <ns0:TwnNm>London</ns0:TwnNm>
+                  <ns0:Ctry>GB</ns0:Ctry>
+                </ns0:Adr>
+              </ns0:NmAndAdr>
+            </ns0:Pty>
+          </ns0:AcctSvcr>
+        </ns0:InvstmtAcctDtls>
+        <ns0:OrdrTp>
+          <ns0:Cd>BEDB</ns0:Cd>
+        </ns0:OrdrTp>
+        <ns0:BnfcryDtls>
+          <ns0:Nm>Rosneft Trading S.A.</ns0:Nm>
+          <ns0:BirthDt>1990-04-12</ns0:BirthDt>
+          <ns0:CtryAndResdtlSts>
+            <ns0:Ctry>GB</ns0:Ctry>
+            <ns0:ResdtlSts>RESI</ns0:ResdtlSts>
+          </ns0:CtryAndResdtlSts>
+        </ns0:BnfcryDtls>
+        <ns0:AmtOrUnitsOrPctg>
+          <ns0:UnitsNb>1500.00000</ns0:UnitsNb>
+        </ns0:AmtOrUnitsOrPctg>
+        <ns0:SttlmAmt Ccy="GBP">125000.00</ns0:SttlmAmt>
+        <ns0:CshSttlmDt>2025-09-23</ns0:CshSttlmDt>
+        <ns0:SttlmMtd>FREE</ns0:SttlmMtd>
+        <ns0:FXDtls>
+          <ns0:UnitCcy>GBP</ns0:UnitCcy>
+          <ns0:QtdCcy>USD</ns0:QtdCcy>
+          <ns0:XchgRate>1.2800000000</ns0:XchgRate>
+          <ns0:QtnDt>2025-09-19T13:59:00Z</ns0:QtnDt>
+        </ns0:FXDtls>
+        <ns0:IncmPref>CASH</ns0:IncmPref>
+        <ns0:TxOvrhd>
+          <ns0:IndvFee>
+            <ns0:Tp>
+              <ns0:Cd>BRKF</ns0:Cd>
+            </ns0:Tp>
+            <ns0:ReqdAmt Ccy="GBP">25.00</ns0:ReqdAmt>
+          </ns0:IndvFee>
+        </ns0:TxOvrhd>
+        <ns0:SttlmAndCtdyDtls>
+          <ns0:SttlmDt>2025-09-23</ns0:SttlmDt>
+          <ns0:SttlmPlc>
+            <ns0:Pty>
+              <ns0:NmAndAdr>
+                <ns0:Nm>Euroclear UK</ns0:Nm>
+                <ns0:Adr>
+                  <ns0:Ctry>GB</ns0:Ctry>
+                </ns0:Adr>
+              </ns0:NmAndAdr>
+            </ns0:Pty>
+          </ns0:SttlmPlc>
+          <ns0:RcvgSdDtls>
+            <ns0:RcvgAgtDtls>
+              <ns0:PtyId>
+                <ns0:Pty>
+                  <ns0:NmAndAdr>
+                    <ns0:Nm>Receiving Custodian</ns0:Nm>
+                    <ns0:Adr>
+                      <ns0:Ctry>GB</ns0:Ctry>
+                    </ns0:Adr>
+                  </ns0:NmAndAdr>
+                </ns0:Pty>
+              </ns0:PtyId>
+              <ns0:AcctId>RCV-ACC-001</ns0:AcctId>
+            </ns0:RcvgAgtDtls>
+          </ns0:RcvgSdDtls>
+          <ns0:DlvrgSdDtls>
+            <ns0:DlvrgAgtDtls>
+              <ns0:PtyId>
+                <ns0:Pty>
+                  <ns0:NmAndAdr>
+                    <ns0:Nm>Delivering Custodian</ns0:Nm>
+                    <ns0:Adr>
+                      <ns0:Ctry>GB</ns0:Ctry>
+                    </ns0:Adr>
+                  </ns0:NmAndAdr>
+                </ns0:Pty>
+              </ns0:PtyId>
+              <ns0:AcctId>DLV-ACC-999</ns0:AcctId>
+            </ns0:DlvrgAgtDtls>
+          </ns0:DlvrgSdDtls>
+        </ns0:SttlmAndCtdyDtls>
+        <ns0:PhysDlvryInd>false</ns0:PhysDlvryInd>
+        <ns0:CshSttlmDtls>
+          <ns0:PmtInstrm>
+            <ns0:CdtTrfDtls>
+              <ns0:Ref>CTREF-001</ns0:Ref>
+              <ns0:Dbtr>
+                <ns0:Pty>
+                  <ns0:NmAndAdr>
+                    <ns0:Nm>John Q Public</ns0:Nm>
+                    <ns0:Adr>
+                      <ns0:TwnNm>London</ns0:TwnNm>
+                      <ns0:Ctry>GB</ns0:Ctry>
+                    </ns0:Adr>
+                  </ns0:NmAndAdr>
+                </ns0:Pty>
+              </ns0:Dbtr>
+              <ns0:DbtrAcct>
+                <ns0:Id>
+                  <ns0:IBAN>GB29NWBK60161331926819</ns0:IBAN>
+                </ns0:Id>
+                <ns0:Nm>John Q Public</ns0:Nm>
+              </ns0:DbtrAcct>
+              <ns0:DbtrAgt>
+                <ns0:Pty>
+                  <ns0:BICFI>NWBKGB2LXXX</ns0:BICFI>
+                </ns0:Pty>
+              </ns0:DbtrAgt>
+              <ns0:CdtrAgt>
+                <ns0:Pty>
+                  <ns0:BICFI>BARCGB22XXX</ns0:BICFI>
+                </ns0:Pty>
+              </ns0:CdtrAgt>
+              <ns0:Cdtr>
+                <ns0:Pty>
+                  <ns0:NmAndAdr>
+                    <ns0:Nm>ABC Fund Settlement Account</ns0:Nm>
+                    <ns0:Adr>
+                      <ns0:TwnNm>London</ns0:TwnNm>
+                      <ns0:Ctry>GB</ns0:Ctry>
+                    </ns0:Adr>
+                  </ns0:NmAndAdr>
+                </ns0:Pty>
+              </ns0:Cdtr>
+              <ns0:CdtrAcct>
+                <ns0:Id>
+                  <ns0:IBAN>GB12BARC20040123456789</ns0:IBAN>
+                </ns0:Id>
+                <ns0:Nm>ABC Fund</ns0:Nm>
+              </ns0:CdtrAcct>
+            </ns0:CdtTrfDtls>
+          </ns0:PmtInstrm>
+        </ns0:CshSttlmDtls>
+        <ns0:TxChanlTp>
+          <ns0:Cd>BRAN</ns0:Cd>
+        </ns0:TxChanlTp>
+      </ns0:IndvOrdrDtls>
+
+      <ns0:IndvOrdrDtls>
+        <ns0:OrdrRef>ORD-0002</ns0:OrdrRef>
+        <ns0:InvstmtAcctDtls>
+          <ns0:AcctId>IA-654321</ns0:AcctId>
+          <ns0:OwnrId>
+            <ns0:Pty>
+              <ns0:NmAndAdr>
+                <ns0:Nm>Acme Corp Treasury</ns0:Nm>
+                <ns0:Adr>
+                  <ns0:StrtNm>200 Market Street</ns0:StrtNm>
+                  <ns0:TwnNm>New York</ns0:TwnNm>
+                  <ns0:Ctry>US</ns0:Ctry>
+                </ns0:Adr>
+              </ns0:NmAndAdr>
+            </ns0:Pty>
+          </ns0:OwnrId>
+        </ns0:InvstmtAcctDtls>
+        <ns0:AmtOrUnitsOrPctg>
+          <ns0:NetAmt Ccy="USD">500000.00</ns0:NetAmt>
+        </ns0:AmtOrUnitsOrPctg>
+        <ns0:PhysDlvryInd>false</ns0:PhysDlvryInd>
+      </ns0:IndvOrdrDtls>
+
+      <ns0:ReqdSttlmCcy>GBP</ns0:ReqdSttlmCcy>
+      <ns0:ReqdNAVCcy>GBP</ns0:ReqdNAVCcy>
+      <ns0:TtlSttlmAmt Ccy="GBP">625000.00</ns0:TtlSttlmAmt>
+      <ns0:BlkCshSttlmDtls>
+        <ns0:PmtInstrm>
+          <ns0:CshAcctDtls>
+            <ns0:AcctId>FUND-SETTLE-001</ns0:AcctId>
+            <ns0:Tp>
+              <ns0:Cd>CASH</ns0:Cd>
+            </ns0:Tp>
+          </ns0:CshAcctDtls>
+        </ns0:PmtInstrm>
+      </ns0:BlkCshSttlmDtls>
+    </ns0:BlkOrdrDtls>
+
+    <ns0:CpyDtls>
+      <ns0:CpyInd>false</ns0:CpyInd>
+      <ns0:OrgnlRcvr>NWBKGB2LXXX</ns0:OrgnlRcvr>
+    </ns0:CpyDtls>
+    <ns0:Xtnsn>
+      <ns0:PlcAndNm>Note</ns0:PlcAndNm>
+      <ns0:Txt>Processed via standard dealing window.</ns0:Txt>
+    </ns0:Xtnsn>
+  </ns0:RedBlkOrdr>
+</ns0:Document>

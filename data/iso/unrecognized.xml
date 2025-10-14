@@ -1,0 +1,66 @@
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.08">
+  <FIToFICstmrCdtTrf>
+    <GrpHdr>
+      <MsgId>MSG-2025-09-29-001</MsgId>
+      <CreDtTm>2025-09-29T13:45:00Z</CreDtTm>
+      <NbOfTxs>1</NbOfTxs>
+      <SttlmInf>
+        <SttlmMtd>CLRG</SttlmMtd>
+      </SttlmInf>
+    </GrpHdr>
+
+    <CdtTrfTxInf>
+      <PmtId>
+        <InstrId>INSTR-001</InstrId>
+        <EndToEndId>E2E-001</EndToEndId>
+        <TxId>TX-001</TxId>
+      </PmtId>
+      <IntrBkSttlmAmt Ccy="USD">1000.00</IntrBkSttlmAmt>
+
+      <Dbtr>
+        <Nm>Regular Debtor Ltd</Nm>
+        <PstlAdr>
+          <StrtNm>Main Street</StrtNm>
+          <BldgNb>10</BldgNb>
+          <TwnNm>Metropolis</TwnNm>
+          <Ctry>US</Ctry>
+        </PstlAdr>
+      </Dbtr>
+
+      <DbtrAcct>
+        <Id>
+          <IBAN>GB29NWBK60161331926819</IBAN>
+        </Id>
+      </DbtrAcct>
+
+      <Cdtr>
+        <Nm>Regular Creditor LLC</Nm>
+        <PstlAdr>
+          <StrtNm>Oak Ave</StrtNm>
+          <BldgNb>22</BldgNb>
+          <TwnNm>Gotham</TwnNm>
+          <Ctry>US</Ctry>
+        </PstlAdr>
+      </Cdtr>
+
+      <!-- Unrecognized/extra party container -->
+      <OthrPty>
+        <PstlAdr>
+          <Nm>ACME Special Ops</Nm>
+          <AdrLine>Warehouse 7</AdrLine>
+          <TwnNm>Star City</TwnNm>
+          <PstCd>12345</PstCd>
+          <Ctry>US</Ctry>
+        </PstlAdr>
+      </OthrPty>
+
+      <CdtrAcct>
+        <Id>
+          <IBAN>DE89370400440532013000</IBAN>
+        </Id>
+      </CdtrAcct>
+
+      <ChrgBr>SHA</ChrgBr>
+    </CdtTrfTxInf>
+  </FIToFICstmrCdtTrf>
+</Document>

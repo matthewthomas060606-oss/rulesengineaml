@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:setr.001.001.04">
+  <RedBlkOrdr>
+    <MsgId>
+      <Id>RBORD-2025-09-19-001</Id>
+      <CreDtTm>2025-09-19T14:05:00Z</CreDtTm>
+    </MsgId>
+    <PoolRef>
+      <Ref>POOL-REF-001</Ref>
+    </PoolRef>
+    <PrvsRef>
+      <Ref>PREV-REF-ABC</Ref>
+    </PrvsRef>
+    <BlkOrdrDtls>
+      <MstrRef>MASTER-ORDER-42</MstrRef>
+      <PlcOfTrad>
+        <Xchg>XLON</Xchg>
+      </PlcOfTrad>
+      <OrdrDtTm>2025-09-19T14:10:00Z</OrdrDtTm>
+      <ReqdFutrTradDt>2025-09-22</ReqdFutrTradDt>
+      <CxlRght>
+        <Cd>VALI</Cd>
+      </CxlRght>
+
+      <FinInstrmDtls>
+        <Id>
+          <ISIN>US0378331005</ISIN>
+        </Id>
+        <Nm>ABC Global Equity Fund Class A</Nm>
+        <ShrtNm>ABCGEF A</ShrtNm>
+        <ClssTp>Unit Trust</ClssTp>
+        <SctiesForm>REGD</SctiesForm>
+        <DstrbtnPlcy>DIST</DstrbtnPlcy>
+        <PdctGrp>Equity</PdctGrp>
+        <SrsId>
+          <SrsNm>Series 2025</SrsNm>
+        </SrsId>
+      </FinInstrmDtls>
+
+      <IndvOrdrDtls>
+        <OrdrRef>ORD-0001</OrdrRef>
+        <ClntRef>CLIENT-REF-001</ClntRef>
+        <InvstmtAcctDtls>
+          <AcctId>IA-123456</AcctId>
+          <AcctNm>John Q Public</AcctNm>
+          <OwnrId>
+            <Pty>
+              <NmAndAdr>
+                <Nm>John Q Public</Nm>
+                <Adr>
+                  <AdrTp>HOME</AdrTp>
+                  <StrtNm>10 High Street</StrtNm>
+                  <BldgNb>12A</BldgNb>
+                  <TwnNm>London</TwnNm>
+                  <PstCd>SW1A 1AA</PstCd>
+                  <Ctry>GB</Ctry>
+                </Adr>
+              </NmAndAdr>
+            </Pty>
+            <LEI>5493001KJTIIGC8Y1R12</LEI>
+          </OwnrId>
+          <AcctSvcr>
+            <Pty>
+              <NmAndAdr>
+                <Nm>ABC Transfer Agent Ltd</Nm>
+                <Adr>
+                  <TwnNm>London</TwnNm>
+                  <Ctry>GB</Ctry>
+                </Adr>
+              </NmAndAdr>
+            </Pty>
+          </AcctSvcr>
+        </InvstmtAcctDtls>
+        <OrdrTp>
+          <Cd>BEDB</Cd>
+        </OrdrTp>
+        <BnfcryDtls>
+          <Nm>Jane Public</Nm>
+          <BirthDt>1990-04-12</BirthDt>
+          <CtryAndResdtlSts>
+            <Ctry>GB</Ctry>
+            <ResdtlSts>RESI</ResdtlSts>
+          </CtryAndResdtlSts>
+        </BnfcryDtls>
+        <AmtOrUnitsOrPctg>
+          <UnitsNb>1500.00000</UnitsNb>
+        </AmtOrUnitsOrPctg>
+        <SttlmAmt Ccy="GBP">125000.00</SttlmAmt>
+        <CshSttlmDt>2025-09-23</CshSttlmDt>
+        <SttlmMtd>FREE</SttlmMtd>
+        <FXDtls>
+          <UnitCcy>GBP</UnitCcy>
+          <QtdCcy>USD</QtdCcy>
+          <XchgRate>1.2800000000</XchgRate>
+          <QtnDt>2025-09-19T13:59:00Z</QtnDt>
+        </FXDtls>
+        <IncmPref>CASH</IncmPref>
+        <TxOvrhd>
+          <IndvFee>
+            <Tp>
+              <Cd>BRKF</Cd>
+            </Tp>
+            <ReqdAmt Ccy="GBP">25.00</ReqdAmt>
+          </IndvFee>
+        </TxOvrhd>
+        <SttlmAndCtdyDtls>
+          <SttlmDt>2025-09-23</SttlmDt>
+          <SttlmPlc>
+            <Pty>
+              <NmAndAdr>
+                <Nm>Euroclear UK</Nm>
+                <Adr>
+                  <Ctry>GB</Ctry>
+                </Adr>
+              </NmAndAdr>
+            </Pty>
+          </SttlmPlc>
+          <RcvgSdDtls>
+            <RcvgAgtDtls>
+              <PtyId>
+                <Pty>
+                  <NmAndAdr>
+                    <Nm>Receiving Custodian</Nm>
+                    <Adr>
+                      <Ctry>GB</Ctry>
+                    </Adr>
+                  </NmAndAdr>
+                </Pty>
+              </PtyId>
+              <AcctId>RCV-ACC-001</AcctId>
+            </RcvgAgtDtls>
+          </RcvgSdDtls>
+          <DlvrgSdDtls>
+            <DlvrgAgtDtls>
+              <PtyId>
+                <Pty>
+                  <NmAndAdr>
+                    <Nm>Delivering Custodian</Nm>
+                    <Adr>
+                      <Ctry>GB</Ctry>
+                    </Adr>
+                  </NmAndAdr>
+                </Pty>
+              </PtyId>
+              <AcctId>DLV-ACC-999</AcctId>
+            </DlvrgAgtDtls>
+          </DlvrgSdDtls>
+        </SttlmAndCtdyDtls>
+        <PhysDlvryInd>false</PhysDlvryInd>
+        <CshSttlmDtls>
+          <PmtInstrm>
+            <CdtTrfDtls>
+              <Ref>CTREF-001</Ref>
+              <Dbtr>
+                <Pty>
+                  <NmAndAdr>
+                    <Nm>John Q Public</Nm>
+                    <Adr>
+                      <TwnNm>London</TwnNm>
+                      <Ctry>GB</Ctry>
+                    </Adr>
+                  </NmAndAdr>
+                </Pty>
+              </Dbtr>
+              <DbtrAcct>
+                <Id>
+                  <IBAN>GB29NWBK60161331926819</IBAN>
+                </Id>
+                <Nm>John Q Public</Nm>
+              </DbtrAcct>
+              <DbtrAgt>
+                <Pty>
+                  <BICFI>NWBKGB2LXXX</BICFI>
+                </Pty>
+              </DbtrAgt>
+              <CdtrAgt>
+                <Pty>
+                  <BICFI>BARCGB22XXX</BICFI>
+                </Pty>
+              </CdtrAgt>
+              <Cdtr>
+                <Pty>
+                  <NmAndAdr>
+                    <Nm>ABC Fund Settlement Account</Nm>
+                    <Adr>
+                      <TwnNm>London</TwnNm>
+                      <Ctry>GB</Ctry>
+                    </Adr>
+                  </NmAndAdr>
+                </Pty>
+              </Cdtr>
+              <CdtrAcct>
+                <Id>
+                  <IBAN>GB12BARC20040123456789</IBAN>
+                </Id>
+                <Nm>ABC Fund</Nm>
+              </CdtrAcct>
+            </CdtTrfDtls>
+          </PmtInstrm>
+        </CshSttlmDtls>
+        <TxChanlTp>
+          <Cd>BRAN</Cd>
+        </TxChanlTp>
+      </IndvOrdrDtls>
+
+      <IndvOrdrDtls>
+        <OrdrRef>ORD-0002</OrdrRef>
+        <InvstmtAcctDtls>
+          <AcctId>IA-654321</AcctId>
+          <OwnrId>
+            <Pty>
+              <NmAndAdr>
+                <Nm>Acme Corp Treasury</Nm>
+                <Adr>
+                  <StrtNm>200 Market Street</StrtNm>
+                  <TwnNm>New York</TwnNm>
+                  <Ctry>US</Ctry>
+                </Adr>
+              </NmAndAdr>
+            </Pty>
+          </OwnrId>
+        </InvstmtAcctDtls>
+        <AmtOrUnitsOrPctg>
+          <NetAmt Ccy="USD">500000.00</NetAmt>
+        </AmtOrUnitsOrPctg>
+        <PhysDlvryInd>false</PhysDlvryInd>
+      </IndvOrdrDtls>
+
+      <ReqdSttlmCcy>GBP</ReqdSttlmCcy>
+      <ReqdNAVCcy>GBP</ReqdNAVCcy>
+      <TtlSttlmAmt Ccy="GBP">625000.00</TtlSttlmAmt>
+      <BlkCshSttlmDtls>
+        <PmtInstrm>
+          <CshAcctDtls>
+            <AcctId>FUND-SETTLE-001</AcctId>
+            <Tp>
+              <Cd>CASH</Cd>
+            </Tp>
+          </CshAcctDtls>
+        </PmtInstrm>
+      </BlkCshSttlmDtls>
+    </BlkOrdrDtls>
+
+    <CpyDtls>
+      <CpyInd>false</CpyInd>
+      <OrgnlRcvr>NWBKGB2LXXX</OrgnlRcvr>
+    </CpyDtls>
+    <Xtnsn>
+      <PlcAndNm>Note</PlcAndNm>
+      <Txt>Processed via standard dealing window.</Txt>
+    </Xtnsn>
+  </RedBlkOrdr>
+</Document>

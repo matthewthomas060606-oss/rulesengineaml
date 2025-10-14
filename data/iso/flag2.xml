@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:Document xmlns:ns0="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.12">
+  <ns0:FIToFIPmtStsRpt>
+    <ns0:GrpHdr>
+      <ns0:MsgId>MSG-3ALMZMV0</ns0:MsgId>
+      <ns0:CreDtTm>2025-09-20T02:13:06Z</ns0:CreDtTm>
+      <ns0:InstgAgt>
+        <ns0:FinInstnId>
+          <ns0:BICFI>BOFAUS3NXXX</ns0:BICFI>
+        </ns0:FinInstnId>
+        <ns0:BrnchId>
+          <ns0:Id>BR-RM0OUSZZ</ns0:Id>
+        </ns0:BrnchId>
+      </ns0:InstgAgt>
+      <ns0:InstdAgt>
+        <ns0:FinInstnId>
+          <ns0:BICFI>BOFAUS3NXXX</ns0:BICFI>
+        </ns0:FinInstnId>
+        <ns0:BrnchId>
+          <ns0:Id>BR-MX8DHM1J</ns0:Id>
+        </ns0:BrnchId>
+      </ns0:InstdAgt>
+    </ns0:GrpHdr>
+    <ns0:OrgnlGrpInfAndSts>
+      <ns0:OrgnlMsgId>ORIGMSG-IYXGR7TA</ns0:OrgnlMsgId>
+      <ns0:OrgnlMsgNmId>pacs.008.001.10</ns0:OrgnlMsgNmId>
+      <ns0:OrgnlNbOfTxs>2</ns0:OrgnlNbOfTxs>
+      <ns0:OrgnlCtrlSum>250000.00</ns0:OrgnlCtrlSum>
+      <ns0:GrpSts>PART</ns0:GrpSts>
+      <ns0:StsRsnInf>
+        <ns0:Rsn>
+          <ns0:Cd>AC04</ns0:Cd>
+        </ns0:Rsn>
+        <ns0:Orgtr>
+          <ns0:FinInstnId>
+            <ns0:BICFI>SECTSESSXXX</ns0:BICFI>
+          </ns0:FinInstnId>
+          <ns0:BrnchId>
+            <ns0:Id>BR-XPU1MPUC</ns0:Id>
+          </ns0:BrnchId>
+        </ns0:Orgtr>
+        <ns0:AddtlInf>One transaction accepted, one pending investigation.</ns0:AddtlInf>
+      </ns0:StsRsnInf>
+    </ns0:OrgnlGrpInfAndSts>
+    <ns0:TxInfAndSts>
+      <ns0:StsId>STS-IC2PVNO0</ns0:StsId>
+      <ns0:OrgnlInstrId>INSTR-BVJHBOL1</ns0:OrgnlInstrId>
+      <ns0:OrgnlEndToEndId>E2E-Y83QTWNR</ns0:OrgnlEndToEndId>
+      <ns0:TxSts>ACCP</ns0:TxSts>
+      <ns0:StsRsnInf>
+        <ns0:Rsn>
+          <ns0:Cd>G000</ns0:Cd>
+        </ns0:Rsn>
+        <ns0:AddtlInf>Auto-accepted</ns0:AddtlInf>
+      </ns0:StsRsnInf>
+      <ns0:ChrgsInf>
+        <ns0:TtlChrgsAndTaxAmt Ccy="AUD">12.50</ns0:TtlChrgsAndTaxAmt>
+        <ns0:Agt>
+          <ns0:FinInstnId>
+            <ns0:BICFI>SECTSESSXXX</ns0:BICFI>
+          <ns0:Nm>Oleg Deripaska</ns0:Nm></ns0:FinInstnId>
+          <ns0:BrnchId>
+            <ns0:Id>BR-KSLDOSPS</ns0:Id>
+          </ns0:BrnchId>
+        </ns0:Agt>
+      </ns0:ChrgsInf>
+      <ns0:OrgnlTxRef>
+        <ns0:IntrBkSttlmAmt Ccy="AUD">125000.00</ns0:IntrBkSttlmAmt>
+        <ns0:IntrBkSttlmDt>2025-09-20</ns0:IntrBkSttlmDt>
+        <ns0:PmtTpInf>
+          <ns0:SvcLvl>
+            <ns0:Cd>SEPA</ns0:Cd>
+          </ns0:SvcLvl>
+          <ns0:LclInstrm>
+            <ns0:Prtry>INST</ns0:Prtry>
+          </ns0:LclInstrm>
+          <ns0:CtgyPurp>
+            <ns0:Cd>SALA</ns0:Cd>
+          </ns0:CtgyPurp>
+        </ns0:PmtTpInf>
+        <ns0:Dbtr>
+          <ns0:Nm>Avery Chen</ns0:Nm>
+          <ns0:PstlAdr>
+            <ns0:StrtNm>421 Ember Rd</ns0:StrtNm>
+            <ns0:TwnNm>Hollow Creek</ns0:TwnNm>
+            <ns0:Ctry>AU</ns0:Ctry>
+          </ns0:PstlAdr>
+          <ns0:Id>
+            <ns0:OrgId>
+              <ns0:Othr>
+                <ns0:Id>ORG-34LSFAMG</ns0:Id>
+                <ns0:SchmeNm>
+                  <ns0:Prtry>BIC</ns0:Prtry>
+                </ns0:SchmeNm>
+                <ns0:Issr>RegistrarSvc</ns0:Issr>
+              </ns0:Othr>
+              <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+            </ns0:OrgId>
+          </ns0:Id>
+        </ns0:Dbtr>
+        <ns0:DbtrAcct>
+          <ns0:Id>
+            <ns0:Othr>
+              <ns0:Id>ACC-WAMVBBJ0</ns0:Id>
+            </ns0:Othr>
+          </ns0:Id>
+          <ns0:Nm>Trust Account</ns0:Nm>
+          <ns0:Ccy>CAD</ns0:Ccy>
+        </ns0:DbtrAcct>
+        <ns0:DbtrAgt>
+          <ns0:FinInstnId>
+            <ns0:BICFI>BARCGB22XXX</ns0:BICFI>
+          </ns0:FinInstnId>
+          <ns0:BrnchId>
+            <ns0:Id>BR-LBYJZHN8</ns0:Id>
+          </ns0:BrnchId>
+        </ns0:DbtrAgt>
+        <ns0:DbtrAgtAcct>
+          <ns0:Id>
+            <ns0:Othr>
+              <ns0:Id>ACC-RAL6BSV4</ns0:Id>
+            </ns0:Othr>
+          </ns0:Id>
+          <ns0:Nm>Ops Account</ns0:Nm>
+          <ns0:Ccy>EUR</ns0:Ccy>
+        </ns0:DbtrAgtAcct>
+        <ns0:Cdtr>
+          <ns0:Nm>Benevolence International Fund</ns0:Nm>
+          <ns0:PstlAdr>
+            <ns0:StrtNm>2465 Cawthra Rd., Unit 203, Missisauga</ns0:StrtNm>
+            <ns0:TwnNm>Ontario</ns0:TwnNm>
+            <ns0:Ctry>CA</ns0:Ctry>
+          </ns0:PstlAdr>
+          <ns0:Id>
+            <ns0:OrgId>
+              <ns0:Othr>
+                <ns0:Id>ORG-IY6PPEYO</ns0:Id>
+                <ns0:SchmeNm>
+                  <ns0:Prtry>BIC</ns0:Prtry>
+                </ns0:SchmeNm>
+                <ns0:Issr>RegistrarSvc</ns0:Issr>
+              </ns0:Othr>
+              <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+            </ns0:OrgId>
+          </ns0:Id>
+        </ns0:Cdtr>
+        <ns0:CdtrAcct>
+          <ns0:Id>
+            <ns0:Othr>
+              <ns0:Id>ACC-FU5WE789</ns0:Id>
+            </ns0:Othr>
+          </ns0:Id>
+          <ns0:Nm>Trust Account</ns0:Nm>
+          <ns0:Ccy>EUR</ns0:Ccy>
+        </ns0:CdtrAcct>
+        <ns0:CdtrAgt>
+          <ns0:FinInstnId>
+            <ns0:BICFI>SECTSESSXXX</ns0:BICFI>
+          </ns0:FinInstnId>
+          <ns0:BrnchId>
+            <ns0:Id>BR-VUDLUKAO</ns0:Id>
+          </ns0:BrnchId>
+        </ns0:CdtrAgt>
+        <ns0:CdtrAgtAcct>
+          <ns0:Id>
+            <ns0:Othr>
+              <ns0:Id>ACC-Q6S43IXG</ns0:Id>
+            </ns0:Othr>
+          </ns0:Id>
+          <ns0:Nm>Ops Account</ns0:Nm>
+          <ns0:Ccy>USD</ns0:Ccy>
+        </ns0:CdtrAgtAcct>
+        <ns0:RmtInf>
+          <ns0:Ustrd>Consulting services by Taylor Njoroge</ns0:Ustrd>
+        </ns0:RmtInf>
+      </ns0:OrgnlTxRef>
+      <ns0:SplmtryData />
+    </ns0:TxInfAndSts>
+    <ns0:TxInfAndSts>
+      <ns0:StsId>STS-ZVVU191E</ns0:StsId>
+      <ns0:OrgnlInstrId>INSTR-GDKXZN54</ns0:OrgnlInstrId>
+      <ns0:OrgnlEndToEndId>E2E-UBUUB2P6</ns0:OrgnlEndToEndId>
+      <ns0:TxSts>PDNG</ns0:TxSts>
+      <ns0:StsRsnInf>
+        <ns0:Rsn>
+          <ns0:Cd>AC04</ns0:Cd>
+        </ns0:Rsn>
+        <ns0:AddtlInf>Account format requires review</ns0:AddtlInf>
+      </ns0:StsRsnInf>
+      <ns0:ChrgsInf>
+        <ns0:TtlChrgsAndTaxAmt Ccy="SEK">12.50</ns0:TtlChrgsAndTaxAmt>
+        <ns0:Agt>
+          <ns0:FinInstnId>
+            <ns0:BICFI>NATADEFFXXX</ns0:BICFI>
+          </ns0:FinInstnId>
+          <ns0:BrnchId>
+            <ns0:Id>BR-6NAK4OED</ns0:Id>
+          </ns0:BrnchId>
+        </ns0:Agt>
+      </ns0:ChrgsInf>
+      <ns0:OrgnlTxRef>
+        <ns0:IntrBkSttlmAmt Ccy="SEK">125000.00</ns0:IntrBkSttlmAmt>
+        <ns0:IntrBkSttlmDt>2025-09-20</ns0:IntrBkSttlmDt>
+        <ns0:PmtTpInf>
+          <ns0:SvcLvl>
+            <ns0:Cd>SEPA</ns0:Cd>
+          </ns0:SvcLvl>
+          <ns0:LclInstrm>
+            <ns0:Prtry>INST</ns0:Prtry>
+          </ns0:LclInstrm>
+          <ns0:CtgyPurp>
+            <ns0:Cd>SALA</ns0:Cd>
+          </ns0:CtgyPurp>
+        </ns0:PmtTpInf>
+        <ns0:Dbtr>
+          <ns0:Nm>Quinn O'Connor</ns0:Nm>
+          <ns0:PstlAdr>
+            <ns0:StrtNm>7 Willow Walk</ns0:StrtNm>
+            <ns0:TwnNm>Hollow Creek</ns0:TwnNm>
+            <ns0:Ctry>AU</ns0:Ctry>
+          </ns0:PstlAdr>
+          <ns0:Id>
+            <ns0:OrgId>
+              <ns0:Othr>
+                <ns0:Id>ORG-DB2VCQ69</ns0:Id>
+                <ns0:SchmeNm>
+                  <ns0:Prtry>BIC</ns0:Prtry>
+                </ns0:SchmeNm>
+                <ns0:Issr>RegistrarSvc</ns0:Issr>
+              </ns0:Othr>
+              <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+            </ns0:OrgId>
+          </ns0:Id>
+        </ns0:Dbtr>
+        <ns0:DbtrAcct>
+          <ns0:Id>
+            <ns0:Othr>
+              <ns0:Id>ACC-M3R72BOC</ns0:Id>
+            </ns0:Othr>
+          </ns0:Id>
+          <ns0:Nm>Pool Account</ns0:Nm>
+          <ns0:Ccy>EUR</ns0:Ccy>
+        </ns0:DbtrAcct>
+        <ns0:DbtrAgt>
+          <ns0:FinInstnId>
+            <ns0:BICFI>RABONL2UXXX</ns0:BICFI>
+          </ns0:FinInstnId>
+          <ns0:BrnchId>
+            <ns0:Id>BR-ADC9AIG8</ns0:Id>
+          </ns0:BrnchId>
+        </ns0:DbtrAgt>
+        <ns0:DbtrAgtAcct>
+          <ns0:Id>
+            <ns0:Othr>
+              <ns0:Id>ACC-F8R270MG</ns0:Id>
+            </ns0:Othr>
+          </ns0:Id>
+          <ns0:Nm>Pool Account</ns0:Nm>
+          <ns0:Ccy>CAD</ns0:Ccy>
+        </ns0:DbtrAgtAcct>
+        <ns0:Cdtr>
+          <ns0:Nm>Orchid Bay Limited</ns0:Nm>
+          <ns0:PstlAdr>
+            <ns0:StrtNm>12 Quartz Loop</ns0:StrtNm>
+            <ns0:TwnNm>New Riverton</ns0:TwnNm>
+            <ns0:Ctry>AU</ns0:Ctry>
+          </ns0:PstlAdr>
+          <ns0:Id>
+            <ns0:OrgId>
+              <ns0:Othr>
+                <ns0:Id>ORG-ABEJUSCZ</ns0:Id>
+                <ns0:SchmeNm>
+                  <ns0:Prtry>BIC</ns0:Prtry>
+                </ns0:SchmeNm>
+                <ns0:Issr>RegistrarSvc</ns0:Issr>
+              </ns0:Othr>
+              <ns0:LEI>5493001KJTIIGC8Y1R12</ns0:LEI>
+            </ns0:OrgId>
+          </ns0:Id>
+        </ns0:Cdtr>
+        <ns0:CdtrAcct>
+          <ns0:Id>
+            <ns0:Othr>
+              <ns0:Id>ACC-LKYS3ZYH</ns0:Id>
+            </ns0:Othr>
+          </ns0:Id>
+          <ns0:Nm>Trust Account</ns0:Nm>
+          <ns0:Ccy>USD</ns0:Ccy>
+        </ns0:CdtrAcct>
+        <ns0:CdtrAgt>
+          <ns0:FinInstnId>
+            <ns0:BICFI>BARCGB22XXX</ns0:BICFI>
+          </ns0:FinInstnId>
+          <ns0:BrnchId>
+            <ns0:Id>BR-E4ZR6V9P</ns0:Id>
+          </ns0:BrnchId>
+        </ns0:CdtrAgt>
+        <ns0:CdtrAgtAcct>
+          <ns0:Id>
+            <ns0:Othr>
+              <ns0:Id>ACC-F63RNQJY</ns0:Id>
+            </ns0:Othr>
+          </ns0:Id>
+          <ns0:Nm>Ops Account</ns0:Nm>
+          <ns0:Ccy>USD</ns0:Ccy>
+        </ns0:CdtrAgtAcct>
+        <ns0:RmtInf>
+          <ns0:Ustrd>Payment for park event at Ember City</ns0:Ustrd>
+        </ns0:RmtInf>
+      </ns0:OrgnlTxRef>
+      <ns0:SplmtryData />
+    </ns0:TxInfAndSts>
+  </ns0:FIToFIPmtStsRpt>
+</ns0:Document>

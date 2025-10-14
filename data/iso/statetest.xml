@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.12">
+  <CstmrCdtTrfInitn>
+    <GrpHdr>
+      <MsgId>STATE-NAME-MATCH-TEST-001</MsgId>
+      <CreDtTm>2025-10-13T12:00:00Z</CreDtTm>
+      <NbOfTxs>1</NbOfTxs>
+      <InitgPty>
+        <Nm>Test Initiator Inc.</Nm>
+      </InitgPty>
+    </GrpHdr>
+
+    <PmtInf>
+      <PmtInfId>PMT-001</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+
+      <!-- Debtor = sanctioned subject -->
+      <Dbtr>
+        <!-- Use the exact primary name from the database for a strong name match -->
+        <Nm>Michel Joseph MARTELLY</Nm>
+        <PstlAdr>
+          <AdrLine>123 Example Street</AdrLine>
+          <TwnNm>Miami</TwnNm>
+          <!-- ISO 20022 state/province -->
+          <CtrySubDvsn>FL</CtrySubDvsn>
+          <Ctry>US</Ctry>
+        </PstlAdr>
+      </Dbtr>
+
+      <DbtrAcct>
+        <Id><IBAN>US00TEST0000000000000000</IBAN></Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId><BICFI>TESTUS33XXX</BICFI></FinInstnId>
+      </DbtrAgt>
+
+      <CdtTrfTxInf>
+        <PmtId><EndToEndId>E2E-001</EndToEndId></PmtId>
+        <Amt><InstdAmt Ccy="USD">100.00</InstdAmt></Amt>
+
+        <!-- Dummy counterparty -->
+        <Cdtr>
+          <Nm>Sample Beneficiary</Nm>
+          <PstlAdr>
+            <AdrLine>456 Beneficiary Ave</AdrLine>
+            <TwnNm>New York</TwnNm>
+            <CtrySubDvsn>NY</CtrySubDvsn>
+            <Ctry>US</Ctry>
+          </PstlAdr>
+        </Cdtr>
+        <CdtrAcct>
+          <Id><IBAN>US00TEST1111111111111111</IBAN></Id>
+        </CdtrAcct>
+      </CdtTrfTxInf>
+    </PmtInf>
+  </CstmrCdtTrfInitn>
+</Document>
