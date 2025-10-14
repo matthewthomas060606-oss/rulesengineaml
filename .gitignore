@@ -15,4 +15,4 @@ data/sanctions.db
 .idea/
 
 # OS
-.DS_Store
+.DS_Store-e "iso-viewer/public/history.jsonl\niso-viewer/public/sanctions_index.json" 
