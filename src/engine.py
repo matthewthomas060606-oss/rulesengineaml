@@ -1,8 +1,9 @@
-from pathlib import Path
 import sqlite3
 import time
-from turtle import Screen
-from typing import List
+import json
+from pathlib import Path
+from typing import Any, Callable, List, Sequence, Tuple
+
 from isoparser import parse, buildbase
 from returnitems import returnitems
 from database import createdatabase, returnDetails2_fts_multi, returnDetails2
@@ -17,9 +18,21 @@ from matcher import matching
 from screening import submitresponse
 from config import get_config, ScreeningConfig
 from rules import apply_rules
-import json
 
 cfg = get_config()
+
+SanctionsLoader = Tuple[Callable[[], Any], Callable[[Any], List[dict]]]
+
+SANCTIONS_LOADERS: Sequence[SanctionsLoader] = (
+    (OFAC_fetch_cons, OFAC_extract),
+    (OFAC_fetch_sdn, OFAC_extract),
+    (UK_fetch, UK_extract),
+    (UN_fetch, UN_extract),
+    (EU_fetch, EU_extract),
+    (AU_fetch, AU_extract),
+    (CA_fetch, CA_extract),
+    (SECO_fetch, SECO_extract),
+)
 
 def _ensure_db_ready() -> None:
     p = cfg.paths.DB_PATH
@@ -34,20 +47,18 @@ def screen_xml_bytes(xml_bytes: bytes):
     party_infos, transaction_info = returnitems(parsed, base)
     _ensure_db_ready()
     queries: List[str] = []
-    for p in (party_infos or []):
-        nm = (p.get("Name") or "").strip()
-        if nm:
-            queries.append(nm)
+    for party in (party_infos or []):
+        name = (party.get("Name") or "").strip()
+        if name:
+            queries.append(name)
     if not queries and (transaction_info or {}).get("EndToEndId"):
         queries.append(str(transaction_info["EndToEndId"]))
-    table_data = returnDetails2_fts_multi(queries, None, limit=300)  or returnDetails2()
+    table_data = returnDetails2_fts_multi(queries, None, limit=300)
+    if not table_data:
+        table_data = returnDetails2()
     engine_result = matching(party_infos, transaction_info, table_data, ScreeningConfig)
     response = submitresponse(base, party_infos, transaction_info, engine_result, apply_rules)
-    #writes json file to GUI 
-    formattedresponse  = json.dumps(response, indent=2, ensure_ascii=False)
-    (GUI_PATH / "latest.json").write_text(formattedresponse, encoding="utf-8")
-    with (GUI_PATH / "history.jsonl").open("a", encoding="utf-8") as f:
-        f.write(json.dumps(response, ensure_ascii=False) + "\n")
+    _persist_response(GUI_PATH, response)
     return response
 
 def response_code_from_result(result: dict) -> str:
@@ -57,14 +68,10 @@ def response_code_from_result(result: dict) -> str:
 
 def refresh_lists() -> int:
     details: List[dict] = []
-    details.extend(OFAC_extract(OFAC_fetch_cons()))
-    details.extend(OFAC_extract(OFAC_fetch_sdn()))
-    details.extend(UK_extract(UK_fetch()))
-    details.extend(UN_extract(UN_fetch()))
-    details.extend(EU_extract(EU_fetch()))
-    details.extend(AU_extract(AU_fetch()))
-    details.extend(CA_extract(CA_fetch()))
-    details.extend(SECO_extract(SECO_fetch()))
+    for fetch, extract in SANCTIONS_LOADERS:
+        source = fetch()
+        extracted = extract(source) or []
+        details.extend(extracted)
     createdatabase(details)
     conn = sqlite3.connect(cfg.paths.DB_PATH)
     try:
@@ -83,10 +90,8 @@ def refresh_lists() -> int:
         conn.close()
 
 
-
-
-
-
-
-
-
+def _persist_response(gui_path: Path, response: dict) -> None:
+    formatted = json.dumps(response, indent=2, ensure_ascii=False)
+    (gui_path / "latest.json").write_text(formatted, encoding="utf-8")
+    with (gui_path / "history.jsonl").open("a", encoding="utf-8") as history_file:
+        history_file.write(json.dumps(response, ensure_ascii=False) + "\n")
