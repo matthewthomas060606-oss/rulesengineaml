@@ -1,9 +1,9 @@
 fastapi
-uvicorn
+uvicorn[standard]
 python-multipart
 pydantic
 requests
+httpx
 pandas
 openpyxl
-httpx
-bs4
+beautifulsoup4
