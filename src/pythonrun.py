@@ -39,8 +39,8 @@ def main(xmlpath):
     #Reads xml from path
     xmlbytes = Path(xmlpath).read_bytes()
     #gui
-    gui = Path(__file__).parent.parent / "iso-viewer" / "public"
-    gui.mkdir(parents=True, exist_ok=True)
+    # gui = Path(__file__).parent.parent / "iso-viewer" / "public"
+    # gui.mkdir(parents=True, exist_ok=True)
 
     dbpath = Path(__file__).parent.parent / "data" / "sanctions.db"
     latestpath = Path(__file__).parent.parent / "data" / "latest.json"
@@ -101,9 +101,9 @@ def main(xmlpath):
     payload = json.dumps(response, indent=2, ensure_ascii=False)
     print(payload)
     logging.info(payload)
-    (gui / "latest.json").write_text(payload, encoding="utf-8")
-    with (gui / "history.jsonl").open("a", encoding="utf-8") as f:
-        f.write(json.dumps(response, ensure_ascii=False) + "\n")
+    # (gui / "latest.json").write_text(payload, encoding="utf-8")
+    # with (gui / "history.jsonl").open("a", encoding="utf-8") as f:
+    #     f.write(json.dumps(response, ensure_ascii=False) + "\n")
     #Returns response
     return response
 

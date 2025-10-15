@@ -28,7 +28,7 @@ def _ensure_db_ready() -> None:
     refresh_lists()
 
 def screen_xml_bytes(xml_bytes: bytes):
-    GUI_PATH = cfg.paths.GUI_PATH
+    # GUI_PATH = cfg.paths.GUI_PATH
     parsed = parse(xml_bytes)
     base = buildbase(parsed)
     party_infos, transaction_info = returnitems(parsed, base)
@@ -48,9 +48,9 @@ def screen_xml_bytes(xml_bytes: bytes):
     engine_result = matching(party_infos, transaction_info, table_data, ScreeningConfig)
     response = submitresponse(base, party_infos, transaction_info, engine_result, apply_rules)
     formattedresponse = json.dumps(response, indent=2, ensure_ascii=False)
-    (GUI_PATH / "latest.json").write_text(formattedresponse, encoding="utf-8")
-    with (GUI_PATH / "history.jsonl").open("a", encoding="utf-8") as f:
-        f.write(json.dumps(response, ensure_ascii=False) + "\n")
+    # (GUI_PATH / "latest.json").write_text(formattedresponse, encoding="utf-8")
+    # with (GUI_PATH / "history.jsonl").open("a", encoding="utf-8") as f:
+    #     f.write(json.dumps(response, ensure_ascii=False) + "\n")
     return response
 
 def response_code_from_result(result: dict) -> str:
