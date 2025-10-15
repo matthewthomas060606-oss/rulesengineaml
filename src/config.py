@@ -28,9 +28,6 @@ class ApiConfig:
     port: int = _env("AML_API_PORT", 8000, int)
     debug: bool = _env("AML_DEBUG", False, bool)
 
-@dataclass(frozen=True)
-class SecurityConfig:
-    admin_key: str = _env("AML_ADMIN_KEY", "dev-key")
 
 @dataclass(frozen=True)
 class PathsConfig:
@@ -42,12 +39,11 @@ class PathsConfig:
 @dataclass
 class ScreeningConfig:
     #change to True to include slight matches (score lower than 20) that the engine has found in the JSON response. Adds a lot more matches and most of them aren't helpful
-    SHOW_SLIGHT_MATCHES: bool = _env("SHOW_SLIGHT_MATCHES", True, cast=bool)
+    SHOW_SLIGHT_MATCHES: bool = _env("SHOW_SLIGHT_MATCHES", False, cast=bool)
 
 @dataclass(frozen=True)
 class AppConfig:
     api: "ApiConfig" = field(default_factory=lambda: ApiConfig())
-    security: "SecurityConfig" = field(default_factory=lambda: SecurityConfig())
     paths: "PathsConfig" = field(default_factory=lambda: PathsConfig())
     screening: "ScreeningConfig" = field(default_factory=lambda: ScreeningConfig())
 

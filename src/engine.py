@@ -34,17 +34,20 @@ def screen_xml_bytes(xml_bytes: bytes):
     party_infos, transaction_info = returnitems(parsed, base)
     _ensure_db_ready()
     queries: List[str] = []
+    queries: List[object] = []
     for p in (party_infos or []):
         nm = (p.get("Name") or "").strip()
         if nm:
             queries.append(nm)
-    if not queries and (transaction_info or {}).get("EndToEndId"):
-        queries.append(str(transaction_info["EndToEndId"]))
-    table_data = returnDetails2_fts_multi(queries, None, limit=300)  or returnDetails2()
+        addr = (p.get("Address Line") or "").strip()
+        if addr:
+            queries.append({"field": "address", "value": addr})
+    table_data = returnDetails2_fts_multi(queries, list_filter=None, limit=65000)
+    #Will return every single row and do a thorough search; Takes a lot longer
+   #table_data = returnDetails2()
     engine_result = matching(party_infos, transaction_info, table_data, ScreeningConfig)
     response = submitresponse(base, party_infos, transaction_info, engine_result, apply_rules)
-    #writes json file to GUI 
-    formattedresponse  = json.dumps(response, indent=2, ensure_ascii=False)
+    formattedresponse = json.dumps(response, indent=2, ensure_ascii=False)
     (GUI_PATH / "latest.json").write_text(formattedresponse, encoding="utf-8")
     with (GUI_PATH / "history.jsonl").open("a", encoding="utf-8") as f:
         f.write(json.dumps(response, ensure_ascii=False) + "\n")

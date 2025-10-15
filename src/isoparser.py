@@ -5,6 +5,168 @@ import io
 import re
 
 
+def _tag_name(element):
+    tag = element.tag
+    return tag.split("}")[-1] if isinstance(tag, str) else tag
+
+
+def _text(element):
+    if element is None or element.text is None:
+        return None
+    value = element.text.strip()
+    return value or None
+
+
+def _empty_address():
+    return {
+        "type": {"id": None, "issuer": None, "schemeName": None},
+        "careOf": None,
+        "department": None,
+        "subDepartment": None,
+        "street": None,
+        "buildingNumber": None,
+        "buildingName": None,
+        "floor": None,
+        "unitNumber": None,
+        "postBox": None,
+        "room": None,
+        "postalCode": None,
+        "city": None,
+        "townLocationName": None,
+        "districtName": None,
+        "state": None,
+        "country": None,
+        "addressLine": None,
+        "addressLines": []
+    }
+
+
+def _address_has_core_fields(address):
+    return bool(address.get("street") or address.get("city") or address.get("postalCode") or address.get("country"))
+
+
+def _populate_address_from_node(address, node):
+    for child in list(node):
+        child_name = _tag_name(child)
+        child_value = _text(child)
+        lower_name = child_name.lower() if isinstance(child_name, str) else child_name
+        if child_name == "AdrTp":
+            for descendant in child.iter():
+                descendant_name = _tag_name(descendant)
+                descendant_value = _text(descendant)
+                if descendant_name == "Prtry":
+                    for proprietary in list(descendant):
+                        proprietary_name = _tag_name(proprietary)
+                        proprietary_value = _text(proprietary)
+                        if proprietary_name == "Id" and proprietary_value:
+                            address["type"]["id"] = proprietary_value
+                        elif proprietary_name == "Issr" and proprietary_value:
+                            address["type"]["issuer"] = proprietary_value
+                        elif proprietary_name == "SchmeNm" and proprietary_value:
+                            address["type"]["schemeName"] = proprietary_value
+        elif lower_name == "careof" and child_value:
+            address["careOf"] = child_value
+        elif child_name == "Dept" and child_value:
+            address["department"] = child_value
+        elif child_name == "SubDept" and child_value:
+            address["subDepartment"] = child_value
+        elif child_name == "StrtNm" and child_value:
+            address["street"] = child_value
+        elif child_name == "BldgNb" and child_value:
+            address["buildingNumber"] = child_value
+        elif child_name == "BldgNm" and child_value:
+            address["buildingName"] = child_value
+        elif child_name == "Flr" and child_value:
+            address["floor"] = child_value
+        elif child_name == "UnitNb" and child_value:
+            address["unitNumber"] = child_value
+        elif child_name == "PstBx" and child_value:
+            address["postBox"] = child_value
+        elif child_name == "Room" and child_value:
+            address["room"] = child_value
+        elif lower_name in ("pstcd", "postcd") and child_value:
+            address["postalCode"] = child_value
+        elif lower_name in ("twnnm", "townnm") and child_value:
+            address["city"] = child_value
+        elif child_name == "TwnLctnNm" and child_value:
+            address["townLocationName"] = child_value
+        elif child_name == "DstrctNm" and child_value:
+            address["districtName"] = child_value
+        elif child_name == "CtrySubDvsn" and child_value:
+            address["state"] = child_value
+        elif child_name in ("Ctry", "CtryCd") and child_value:
+            address["country"] = child_value
+        elif child_name == "AdrLine" and child_value:
+            address["addressLines"].append(child_value)
+
+
+def _extract_address(element):
+    address = _empty_address()
+    descendants = list(element.iter())
+    address_node = None
+
+    for candidate in descendants:
+        candidate_name = _tag_name(candidate)
+        if candidate_name == "PstlAdr":
+            address_node = candidate
+            break
+    if address_node is None:
+        for candidate in descendants:
+            candidate_name = _tag_name(candidate)
+            if candidate_name == "Adr":
+                address_node = candidate
+                break
+    if address_node is None:
+        for candidate in descendants:
+            candidate_name = _tag_name(candidate)
+            if candidate_name == "Lctn":
+                address_node = candidate
+                break
+
+    if address_node is not None:
+        _populate_address_from_node(address, address_node)
+        if address["addressLines"] and not address.get("addressLine"):
+            address["addressLine"] = address["addressLines"][0]
+
+    if not _address_has_core_fields(address):
+        nm_and_adr_node = None
+        for candidate in descendants:
+            if _tag_name(candidate) == "NmAndAdr":
+                nm_and_adr_node = candidate
+                break
+        if nm_and_adr_node is not None:
+            for child in list(nm_and_adr_node):
+                if _tag_name(child) == "Adr":
+                    _populate_address_from_node(address, child)
+                    break
+            if address["addressLines"] and not address.get("addressLine"):
+                address["addressLine"] = address["addressLines"][0]
+
+    if not _address_has_core_fields(address):
+        direct_address = None
+        for candidate in descendants:
+            if _tag_name(candidate) == "Adr":
+                direct_address = candidate
+                break
+        if direct_address is not None:
+            _populate_address_from_node(address, direct_address)
+            if address["addressLines"] and not address.get("addressLine"):
+                address["addressLine"] = address["addressLines"][0]
+
+    if not _address_has_core_fields(address):
+        location_node = None
+        for candidate in descendants:
+            if _tag_name(candidate) == "Lctn":
+                location_node = candidate
+                break
+        if location_node is not None:
+            _populate_address_from_node(address, location_node)
+            if address["addressLines"] and not address.get("addressLine"):
+                address["addressLine"] = address["addressLines"][0]
+
+    return address
+
+
 def parse(iso20022xml: bytes):
     try:
         tree = ET.parse(io.BytesIO(iso20022xml))
@@ -280,96 +442,7 @@ def parse(iso20022xml: bytes):
                 continue
 
             alias_values = None
-            address = {
-                "type": {"id": None, "issuer": None, "schemeName": None},
-                "careOf": None,
-                "department": None,
-                "subDepartment": None,
-                "street": None,
-                "buildingNumber": None,
-                "buildingName": None,
-                "floor": None,
-                "unitNumber": None,
-                "postBox": None,
-                "room": None,
-                "postalCode": None,
-                "city": None,
-                "townLocationName": None,
-                "districtName": None,
-                "state": None,
-                "country": None,
-                "addressLine": None,
-                "addressLines": []
-            }
-
-            address_node = None
-            for e in parent.iter():
-                if (e.tag.split("}")[-1] if isinstance(e.tag, str) else e.tag) == "PstlAdr":
-                    address_node = e
-                    break
-            if address_node is None:
-                for e in parent.iter():
-                    if (e.tag.split("}")[-1] if isinstance(e.tag, str) else e.tag) == "Adr":
-                        address_node = e
-                        break
-            if address_node is None:
-                for e in parent.iter():
-                    if (e.tag.split("}")[-1] if isinstance(e.tag, str) else e.tag) == "Lctn":
-                        address_node = e
-                        break
-
-            if address_node is not None:
-                for c in address_node:
-                    cn = c.tag.split("}")[-1] if isinstance(c.tag, str) else c.tag
-                    cl = cn.lower() if isinstance(cn, str) else cn
-                    if cn == "AdrTp":
-                        for p in c.iter():
-                            pn = p.tag.split("}")[-1] if isinstance(p.tag, str) else p.tag
-                            if pn == "Prtry":
-                                for q in p:
-                                    qn = q.tag.split("}")[-1] if isinstance(q.tag, str) else q.tag
-                                    if qn == "Id" and q.text and q.text.strip():
-                                        address["type"]["id"] = q.text.strip()
-                                    elif qn == "Issr" and q.text and q.text.strip():
-                                        address["type"]["issuer"] = q.text.strip()
-                                    elif qn == "SchmeNm" and q.text and q.text.strip():
-                                        address["type"]["schemeName"] = q.text.strip()
-                    elif cl == "careof" and c.text and c.text.strip():
-                        address["careOf"] = c.text.strip()
-                    elif cn == "Dept" and c.text and c.text.strip():
-                        address["department"] = c.text.strip()
-                    elif cn == "SubDept" and c.text and c.text.strip():
-                        address["subDepartment"] = c.text.strip()
-                    elif cn == "StrtNm" and c.text and c.text.strip():
-                        address["street"] = c.text.strip()
-                    elif cn == "BldgNb" and c.text and c.text.strip():
-                        address["buildingNumber"] = c.text.strip()
-                    elif cn == "BldgNm" and c.text and c.text.strip():
-                        address["buildingName"] = c.text.strip()
-                    elif cn == "Flr" and c.text and c.text.strip():
-                        address["floor"] = c.text.strip()
-                    elif cn == "UnitNb" and c.text and c.text.strip():
-                        address["unitNumber"] = c.text.strip()
-                    elif cn == "PstBx" and c.text and c.text.strip():
-                        address["postBox"] = c.text.strip()
-                    elif cn == "Room" and c.text and c.text.strip():
-                        address["room"] = c.text.strip()
-                    elif cl in ("pstcd", "postcd") and c.text and c.text.strip():
-                        address["postalCode"] = c.text.strip()
-                    elif cl in ("twnnm", "townnm") and c.text and c.text.strip():
-                        address["city"] = c.text.strip()
-                    elif cn == "TwnLctnNm" and c.text and c.text.strip():
-                        address["townLocationName"] = c.text.strip()
-                    elif cn == "DstrctNm" and c.text and c.text.strip():
-                        address["districtName"] = c.text.strip()
-                    elif cn == "CtrySubDvsn" and c.text and c.text.strip():
-                        address["state"] = c.text.strip()
-                    elif cn in ("Ctry", "CtryCd") and c.text and c.text.strip():
-                        address["country"] = c.text.strip()
-                    elif cn == "AdrLine" and c.text and c.text.strip():
-                        address["addressLines"].append(c.text.strip())
-                if address["addressLines"] and not address.get("addressLine"):
-                    address["addressLine"] = address["addressLines"][0]
+            address = _extract_address(parent)
 
             identifiers = {"id": None, "anyBIC": None, "lei": None, "other": []}
             bic_value = None
@@ -717,165 +790,7 @@ def parse(iso20022xml: bytes):
         if not alias_values:
             alias_values = None
 
-        address = {
-            "type": {"id": None, "issuer": None, "schemeName": None},
-            "careOf": None,
-            "department": None,
-            "subDepartment": None,
-            "street": None,
-            "buildingNumber": None,
-            "buildingName": None,
-            "floor": None,
-            "unitNumber": None,
-            "postBox": None,
-            "room": None,
-            "postalCode": None,
-            "city": None,
-            "townLocationName": None,
-            "districtName": None,
-            "state": None,
-            "country": None,
-            "addressLine": None,
-            "addressLines": []
-        }
-
-        address_node = None
-        for e in element.iter():
-            if (e.tag.split("}")[-1] if isinstance(e.tag, str) else e.tag) == "PstlAdr":
-                address_node = e
-                break
-        if address_node is not None:
-            for c in address_node:
-                cn = c.tag.split("}")[-1] if isinstance(c.tag, str) else c.tag
-                cl = cn.lower() if isinstance(cn, str) else cn
-                if cn == "AdrTp":
-                    for p in c.iter():
-                        pn = p.tag.split("}")[-1] if isinstance(p.tag, str) else p.tag
-                        if pn == "Prtry":
-                            for q in p:
-                                qn = q.tag.split("}")[-1] if isinstance(q.tag, str) else q.tag
-                                if qn == "Id" and q.text and q.text.strip():
-                                    address["type"]["id"] = q.text.strip()
-                                elif qn == "Issr" and q.text and q.text.strip():
-                                    address["type"]["issuer"] = q.text.strip()
-                                elif qn == "SchmeNm" and q.text and q.text.strip():
-                                    address["type"]["schemeName"] = q.text.strip()
-                elif cl == "careof" and c.text and c.text.strip():
-                    address["careOf"] = c.text.strip()
-                elif cn == "Dept" and c.text and c.text.strip():
-                    address["department"] = c.text.strip()
-                elif cn == "SubDept" and c.text and c.text.strip():
-                    address["subDepartment"] = c.text.strip()
-                elif cn == "StrtNm" and c.text and c.text.strip():
-                    address["street"] = c.text.strip()
-                elif cn == "BldgNb" and c.text and c.text.strip():
-                    address["buildingNumber"] = c.text.strip()
-                elif cn == "BldgNm" and c.text and c.text.strip():
-                    address["buildingName"] = c.text.strip()
-                elif cn == "Flr" and c.text and c.text.strip():
-                    address["floor"] = c.text.strip()
-                elif cn == "UnitNb" and c.text and c.text.strip():
-                    address["unitNumber"] = c.text.strip()
-                elif cn == "PstBx" and c.text and c.text.strip():
-                    address["postBox"] = c.text.strip()
-                elif cn == "Room" and c.text and c.text.strip():
-                    address["room"] = c.text.strip()
-                elif cl in ("pstcd", "postcd") and c.text and c.text.strip():
-                    address["postalCode"] = c.text.strip()
-                elif cl in ("twnnm", "townnm") and c.text and c.text.strip():
-                    address["city"] = c.text.strip()
-                elif cn == "TwnLctnNm" and c.text and c.text.strip():
-                    address["townLocationName"] = c.text.strip()
-                elif cn == "DstrctNm" and c.text and c.text.strip():
-                    address["districtName"] = c.text.strip()
-                elif cn == "CtrySubDvsn" and c.text and c.text.strip():
-                    address["state"] = c.text.strip()
-                elif cn in ("Ctry", "CtryCd") and c.text and c.text.strip():
-                    address["country"] = c.text.strip()
-                elif cn == "AdrLine" and c.text and c.text.strip():
-                    address["addressLines"].append(c.text.strip())
-            if address["addressLines"] and not address.get("addressLine"):
-                address["addressLine"] = address["addressLines"][0]
-
-        if not address.get("street") and not address.get("city") and not address.get("postalCode") and not address.get("country"):
-            nm_and_adr_node = None
-            for e in element.iter():
-                if (e.tag.split("}")[-1] if isinstance(e.tag, str) else e.tag) == "NmAndAdr":
-                    nm_and_adr_node = e
-                    break
-            if nm_and_adr_node is not None:
-                adr_node = None
-                for c in nm_and_adr_node:
-                    if (c.tag.split("}")[-1] if isinstance(c.tag, str) else c.tag) == "Adr":
-                        adr_node = c
-                        break
-                if adr_node is not None:
-                    for c in adr_node:
-                        cn = c.tag.split("}")[-1] if isinstance(c.tag, str) else c.tag
-                        if cn == "StrtNm" and c.text and c.text.strip():
-                            address["street"] = c.text.strip()
-                        elif cn == "BldgNb" and c.text and c.text.strip():
-                            address["buildingNumber"] = c.text.strip()
-                        elif cn in ("TwnNm", "TownNm") and c.text and c.text.strip():
-                            address["city"] = c.text.strip()
-                        elif cn in ("PstCd", "PostCd") and c.text and c.text.strip():
-                            address["postalCode"] = c.text.strip()
-                        elif cn == "Ctry" and c.text and c.text.strip():
-                            address["country"] = c.text.strip()
-                        elif cn == "AdrLine" and c.text and c.text.strip():
-                            address["addressLines"].append(c.text.strip())
-                    if address["addressLines"] and not address.get("addressLine"):
-                        address["addressLine"] = address["addressLines"][0]
-
-        if not address.get("street") and not address.get("city") and not address.get("postalCode") and not address.get("country"):
-            direct_adr_node = None
-            for e in element.iter():
-                if (e.tag.split("}")[-1] if isinstance(e.tag, str) else e.tag) == "Adr":
-                    direct_adr_node = e
-                    break
-            if direct_adr_node is not None:
-                for c in direct_adr_node:
-                    cn = c.tag.split("}")[-1] if isinstance(c.tag, str) else c.tag
-                    if cn == "StrtNm" and c.text and c.text.strip():
-                        address["street"] = c.text.strip()
-                    elif cn == "BldgNb" and c.text and c.text.strip():
-                        address["buildingNumber"] = c.text.strip()
-                    elif cn in ("TwnNm", "TownNm") and c.text and c.text.strip():
-                        address["city"] = c.text.strip()
-                    elif cn in ("PstCd", "PostCd") and c.text and c.text.strip():
-                        address["postalCode"] = c.text.strip()
-                    elif cn in ("Ctry", "CtryCd") and c.text and c.text.strip():
-                        address["country"] = c.text.strip()
-                    elif cn == "AdrLine" and c.text and c.text.strip():
-                        address["addressLines"].append(c.text.strip())
-                if address["addressLines"] and not address.get("addressLine"):
-                    address["addressLine"] = address["addressLines"][0]
-
-        if not address.get("street") and not address.get("city") and not address.get("postalCode") and not address.get("country"):
-            lctn_node = None
-            for e in element.iter():
-                if (e.tag.split("}")[-1] if isinstance(e.tag, str) else e.tag) == "Lctn":
-                    lctn_node = e
-                    break
-            if lctn_node is not None:
-                for c in lctn_node:
-                    cn = c.tag.split("}")[-1] if isinstance(c.tag, str) else c.tag
-                    if cn == "StrtNm" and c.text and c.text.strip():
-                        address["street"] = c.text.strip()
-                    elif cn in ("BldgNb", "BldgNm") and c.text and c.text.strip():
-                        address["buildingNumber"] = c.text.strip()
-                    elif cn in ("PstCd", "PostCd") and c.text and c.text.strip():
-                        address["postalCode"] = c.text.strip()
-                    elif cn in ("TwnNm", "TownNm") and c.text and c.text.strip():
-                        address["city"] = c.text.strip()
-                    elif cn in ("CtrySubDvsn",) and c.text and c.text.strip():
-                        address["state"] = c.text.strip()
-                    elif cn in ("Ctry", "CtryCd") and c.text and c.text.strip():
-                        address["country"] = c.text.strip()
-                    elif cn == "AdrLine" and c.text and c.text.strip():
-                        address["addressLines"].append(c.text.strip())
-                if address["addressLines"] and not address.get("addressLine"):
-                    address["addressLine"] = address["addressLines"][0]
+        address = _extract_address(element)
 
         identifiers = {"id": None, "anyBIC": None, "lei": None, "other": []}
         for child in list(element):
@@ -2019,11 +1934,7 @@ def buildbase(parsed):
     message_definition = application_header.get("msgDefId")
     message_family = message_definition.split(".")[0] if message_definition else None
     parties = parsed.get("parties") or []
-    role_priority = {"Debtor": 1, "InitiatingParty": 2, "AccountOwner": 3, "Creditor": 4}
-    selected_party = None
-    for party in sorted(parties, key=lambda p: role_priority.get(p.get("role"), 99)):
-        selected_party = party
-        break
+    selected_party = parties[0] if parties else None
 
     customer = None
     if selected_party is not None:

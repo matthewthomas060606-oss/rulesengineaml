@@ -14,9 +14,10 @@ try:
 except Exception:
     config = get_config()
 
-MAX_REQUEST_MB = int(os.getenv("AML_MAX_REQUEST_MB", 5))
+#Maximum MB for incoming file
+MAX_REQUEST_MB = int(os.getenv("AML_MAX_REQUEST_MB", 100))
 
-app = FastAPI(title="AML Screening API", version="0.1.0")
+app = FastAPI(title="AML Screening API")
 
 @app.on_event("startup")
 def startup_warm():

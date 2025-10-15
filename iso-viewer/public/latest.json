@@ -1,0 +1,326 @@
+{
+  "listsUsed": [
+    {
+      "name": "OFAC SDN",
+      "publisher": "OFAC (USA)",
+      "sourceUrl": "https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.XML",
+      "lastRefreshedAt": "2025-10-15T20:45:23.049210+00:00"
+    },
+    {
+      "name": "OFAC consolidated",
+      "publisher": "OFAC (USA)",
+      "sourceUrl": "https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/CONSOLIDATED.XML",
+      "lastRefreshedAt": "2025-10-15T20:45:19.144474+00:00"
+    },
+    {
+      "name": "UK consolidated",
+      "publisher": "OFSI (UK)",
+      "sourceUrl": "https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.xml",
+      "lastRefreshedAt": "2025-10-15T20:45:27.743702+00:00"
+    },
+    {
+      "name": "UN consolidated",
+      "publisher": "United Nations",
+      "sourceUrl": "https://scsanctions.un.org/resources/xml/en/consolidated.xml",
+      "lastRefreshedAt": "2025-10-15T20:45:31.240315+00:00"
+    },
+    {
+      "name": "EU consolidated",
+      "publisher": "European Union",
+      "sourceUrl": "https://webgate.ec.europa.eu/fsd/fsf/public/files/xmlFullSanctionsList_1_1/content?token=n009sfr8",
+      "lastRefreshedAt": "2025-10-15T20:45:35.827855+00:00"
+    },
+    {
+      "name": "AU consolidated",
+      "publisher": "DFAT (Australia)",
+      "sourceUrl": "https://www.dfat.gov.au/sites/default/files/regulation8_consolidated.xlsx",
+      "lastRefreshedAt": "2025-10-15T20:45:45.528264+00:00"
+    },
+    {
+      "name": "CA consolidated",
+      "publisher": "Global Affairs Canada",
+      "sourceUrl": "https://www.international.gc.ca/world-monde/assets/office_docs/international_relations-relations_internationales/sanctions/sema-lmes.xml",
+      "lastRefreshedAt": "2025-10-15T20:45:47.712533+00:00"
+    },
+    {
+      "name": "SECO consolidated",
+      "publisher": "SECO (Switzerland)",
+      "sourceUrl": "https://www.sesam.search.admin.ch/sesam-search-web/pages/downloadXmlGesamtliste.xhtml",
+      "lastRefreshedAt": "2025-10-15T20:46:23.450705+00:00"
+    }
+  ],
+  "parties": [
+    {
+      "Role": [
+        "initiatingParty"
+      ],
+      "Name": "Ali Saddam Hussein Al-Tikriti"
+    },
+    {
+      "Role": [
+        "atmManager"
+      ],
+      "Name": "OpalBank-ATM-Mgr",
+      "Identifier": "OpalBank-ATM-Mgr",
+      "Structured Identifiers": {
+        "id": "OpalBank-ATM-Mgr"
+      }
+    },
+    {
+      "Role": [
+        "hostingEntity"
+      ],
+      "Name": "HST-Alpha",
+      "Identifier": "HST-Alpha",
+      "Structured Identifiers": {
+        "id": "HST-Alpha"
+      }
+    },
+    {
+      "Role": [
+        "atm"
+      ],
+      "Name": "ATM-9081-OPAL",
+      "Identifier": "ATM-9081-OPAL",
+      "Country": "US",
+      "City": "Madison",
+      "Postal Code": "37115",
+      "Street": "2450 Rivergate Pkwy",
+      "Building Number": "Suite 120",
+      "Address Line": "Lobby, Rivergate Mall",
+      "State": "TN",
+      "Structured Identifiers": {
+        "id": "ATM-9081-OPAL"
+      }
+    },
+    {
+      "Role": [
+        "accountServicer"
+      ],
+      "Name": "OPALUS33XXX",
+      "BIC": "OPALUS33XXX",
+      "Structured Identifiers": {
+        "bic": "OPALUS33XXX"
+      }
+    },
+    {
+      "Role": [
+        "accountServicer"
+      ],
+      "Name": "SVCR-ALT-01"
+    }
+  ],
+  "transaction": {
+    "Creation Date Time": "2025-09-20T02:57:50Z",
+    "Amount": "2.50",
+    "Currency": "USD",
+    "Message Definition": "catp.007.001.03",
+    "Message Family": "catp"
+  },
+  "decision": {
+    "recommendedAction": "Review"
+  },
+  "riskSummary": {
+    "riskScore": 100,
+    "riskLevel": "very high risk",
+    "drivers": [],
+    "time": "2025-10-15T22:34:20.343363Z"
+  },
+  "engine": {
+    "topMatchScore": 95,
+    "topMatchRiskLevel": "very high risk",
+    "riskScore": 100,
+    "riskLevel": "very high risk",
+    "responseCode": "VERY_HIGH_RISK",
+    "flagged": true,
+    "matchCounts": {
+      "total": 54,
+      "byRiskLevel": {
+        "very high risk": 5,
+        "high risk": 0,
+        "moderate risk": 4,
+        "slight risk": 0,
+        "no risk": 45
+      }
+    }
+  },
+  "matches": [
+    {
+      "partyName": "Ali Saddam Hussein Al-Tikriti",
+      "role": "initiatingParty",
+      "sanctionsName": "Ali Saddam Hussein Al-Tikriti",
+      "sanctionsAliases": [
+        "ali saddam hussein al-tikriti",
+        "hassan"
+      ],
+      "sanctionsList": "EU",
+      "sanctionsId": "1892",
+      "riskLevel": "very high risk",
+      "finalScore": 95,
+      "matchedFields": [
+        {
+          "field": "name",
+          "strength": "exact"
+        }
+      ],
+      "matchSummary": "Son of Samira Shahbandar and Saddam Hussein. Name in Arabic script: http://www.un.org/Docs/sc/committees/1518/1483_lst.htm regulationType=amendment; organisationType=commission; numberTitle=924/2004 (OJ L163); regulationId=354; publicationUrl=http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2004:163:0100:0101:EN:PDF; subjectType=person; classificationCode=P; nameAliasReg=924/2004 (OJ L163); nameAliasUrl=http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2004:163:0100:0101:EN:PDF; nameAliasRegLang=en; nameAliasReg=924/2004 (OJ L163); nameAliasUrl=http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2004:163:0100:0101:EN:PDF; nameAliasRegLang=en; citizenshipPubDate=2004-04-30; citizenshipReg=924/2004 (OJ L163); citizenshipUrl=http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2004:163:0100:0101:EN:PDF; circa=false; calendarType=GREGORIAN; birthPubDate=2004-04-30; birthReg=924/2004 (OJ L163); birthUrl=http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2004:163:0100:0101:EN:PDF; circa=false; calendarType=GREGORIAN; birthPubDate=2004-04-30; birthReg=924/2004 (OJ L163); birthUrl=http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2004:163:0100:0101:EN:PDF"
+    },
+    {
+      "partyName": "Ali Saddam Hussein Al-Tikriti",
+      "role": "initiatingParty",
+      "sanctionsName": "Saddam Hussein Al-Tikriti",
+      "sanctionsAliases": [
+        "saddam hussein al-tikriti",
+        "abu ali",
+        "abou ali"
+      ],
+      "sanctionsList": "EU",
+      "sanctionsId": "13",
+      "riskLevel": "moderate risk",
+      "finalScore": 64,
+      "matchedFields": [
+        {
+          "field": "name",
+          "strength": "strong"
+        }
+      ],
+      "matchSummary": "UNSC RESOLUTION 1483 regulationType=regulation; organisationType=commission; numberTitle=1210/2003 (OJ L169); regulationId=348; publicationUrl=http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2003:169:0006:0023:EN:PDF; subjectType=person; classificationCode=P; nameAliasReg=1210/2003 (OJ L169); nameAliasUrl=http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2003:169:0006:0023:EN:PDF; nameAliasRegLang=en; nameAliasReg=1210/2003 (OJ L169); nameAliasUrl=http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2003:169:0006:0023:EN:PDF; nameAliasRegLang=en; nameAliasReg=1210/2003 (OJ L169); nameAliasUrl=http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2003:169:0006:0023:EN:PDF; nameAliasRegLang=en; citizenshipPubDate=2003-07-08; citizenshipReg=1210/2003 (OJ L169); citizenshipUrl=http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2003:169:0006:0023:EN:PDF; circa=false; calendarType=GREGORIAN; birthPubDate=2003-07-08; birthReg=1210/2003 (OJ L169); birthUrl=http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2003:169:0006:0023:EN:PDF"
+    },
+    {
+      "partyName": "Ali Saddam Hussein Al-Tikriti",
+      "role": "initiatingParty",
+      "sanctionsName": "Saddam Hussein AL-TIKRITI",
+      "sanctionsAliases": [
+        "abu ali",
+        "saddam husayn",
+        "saddam hussain",
+        "saddam hussein"
+      ],
+      "sanctionsList": "OFAC",
+      "sanctionsId": "7843",
+      "riskLevel": "moderate risk",
+      "finalScore": 64,
+      "matchedFields": [
+        {
+          "field": "name",
+          "strength": "strong"
+        }
+      ],
+      "matchSummary": "named in UNSCR 1483; President since 1979 named in UNSCR 1483; President since 1979"
+    },
+    {
+      "partyName": "Ali Saddam Hussein Al-Tikriti",
+      "role": "initiatingParty",
+      "sanctionsName": "SADDAM HUSSEIN AL-TIKRITI",
+      "sanctionsAliases": [
+        "abu ali"
+      ],
+      "sanctionsList": "UN",
+      "sanctionsId": "6908048",
+      "riskLevel": "moderate risk",
+      "finalScore": 64,
+      "matchedFields": [
+        {
+          "field": "name",
+          "strength": "strong"
+        }
+      ],
+      "matchSummary": ""
+    },
+    {
+      "partyName": "Ali Saddam Hussein Al-Tikriti",
+      "role": "initiatingParty",
+      "sanctionsName": "Ali Saddam Hussein AL-TIKRITI",
+      "sanctionsAliases": [
+        "hassan"
+      ],
+      "sanctionsList": "OFAC",
+      "sanctionsId": "8187",
+      "riskLevel": "very high risk",
+      "finalScore": 95,
+      "matchedFields": [
+        {
+          "field": "name",
+          "strength": "exact"
+        }
+      ],
+      "matchSummary": "son of Saddam Hussein al-Tikriti son of Saddam Hussein al-Tikriti"
+    },
+    {
+      "partyName": "Ali Saddam Hussein Al-Tikriti",
+      "role": "initiatingParty",
+      "sanctionsName": "SADDAM HUSSEIN AL-TIKRITI",
+      "sanctionsAliases": [
+        "abu ali",
+        "صدام حسين التكريتي"
+      ],
+      "sanctionsList": "UK",
+      "sanctionsId": "IRQ0062",
+      "riskLevel": "moderate risk",
+      "finalScore": 64,
+      "matchedFields": [
+        {
+          "field": "name",
+          "strength": "strong"
+        }
+      ],
+      "matchSummary": "OFSIGroupID: 7612; UNReferenceNumber: IQi.001; DesignationSource: UN; SubjectType: Individual; SanctionsImposed: Asset freeze; SanctionsIndicators: Asset Freeze"
+    },
+    {
+      "partyName": "Ali Saddam Hussein Al-Tikriti",
+      "role": "initiatingParty",
+      "sanctionsName": "ALI SADDAM HUSSEIN AL-TIKRITI",
+      "sanctionsAliases": [
+        "hassan"
+      ],
+      "sanctionsList": "UN",
+      "sanctionsId": "6908108",
+      "riskLevel": "very high risk",
+      "finalScore": 95,
+      "matchedFields": [
+        {
+          "field": "name",
+          "strength": "exact"
+        }
+      ],
+      "matchSummary": ""
+    },
+    {
+      "partyName": "Ali Saddam Hussein Al-Tikriti",
+      "role": "initiatingParty",
+      "sanctionsName": "ALI SADDAM HUSSEIN AL-TIKRITI",
+      "sanctionsAliases": [
+        "hassan",
+        "علي صدام حسين التكريتي"
+      ],
+      "sanctionsList": "UK",
+      "sanctionsId": "IRQ0122",
+      "riskLevel": "very high risk",
+      "finalScore": 95,
+      "matchedFields": [
+        {
+          "field": "name",
+          "strength": "exact"
+        }
+      ],
+      "matchSummary": "OFSIGroupID: 8247; UNReferenceNumber: IQi.061; DesignationSource: UN; SubjectType: Individual; SanctionsImposed: Asset freeze; SanctionsIndicators: Asset Freeze"
+    },
+    {
+      "partyName": "Ali Saddam Hussein Al-Tikriti",
+      "role": "initiatingParty",
+      "sanctionsName": "Ali Saddam Hussein Al-Tikriti",
+      "sanctionsAliases": [],
+      "sanctionsList": "SECO",
+      "sanctionsId": "1608",
+      "riskLevel": "very high risk",
+      "finalScore": 95,
+      "matchedFields": [
+        {
+          "field": "name",
+          "strength": "exact"
+        }
+      ],
+      "matchSummary": ""
+    }
+  ]
+}

@@ -30,10 +30,10 @@ from rules import apply_rules
 # xmlpath = Path(__file__).parent.parent / "data" / "iso" / "pain.013.001.11-maximal.xml"
 # xmlpath = Path(__file__).parent.parent / "data" / "iso" / "camt.052.001.13-maximal.xml"
 # xmlpath = Path(__file__).parent.parent / "data" / "iso" / "catp.007.001.03-ATMInquiryResponseV03-sample.xml"
-# xmlpath = Path(__file__).parent.parent / "data" / "iso" / "flag2.xml"
+xmlpath = Path(__file__).parent.parent / "data" / "iso" / "flag3.xml"
 # xmlpath = Path(__file__).parent.parent / "data" / "iso" / "colr.014-example.xml"
 # xmlpath = Path(__file__).parent.parent / "data" / "iso" / "unrecognized.xml"
-xmlpath = Path(__file__).parent.parent / "data" / "iso" / "statetest.xml"
+# xmlpath = Path(__file__).parent.parent / "data" / "iso" / "statetest.xml"
 
 def main(xmlpath):
     #Reads xml from path
@@ -79,7 +79,8 @@ def main(xmlpath):
     
         refreshed = True
     queries = [ (p.get("Name") or "").strip() for p in (party_infos or []) ]
-    TableData = returnDetails2_fts_multi(queries, None, 300) or returnDetails2()
+    print(queries)
+    TableData = returnDetails2()
 
     if refreshed or os.getenv("AML_EXPORT_ALL") == "1":
         try:

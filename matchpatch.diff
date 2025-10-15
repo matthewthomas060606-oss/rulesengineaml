@@ -1,0 +1,1424 @@
+diff --git a/src/matcher.py b/src/matcher.py
+index 31a481037884848103adf305da6fc7b053ae10f1..3f492306f966ffda38b6525415560fa5bb6d8444 100644
+--- a/src/matcher.py
++++ b/src/matcher.py
+@@ -1,679 +1,807 @@
+-﻿from datetime import datetime, timezone
+-import unicodedata
++from __future__ import annotations
++
++from datetime import datetime, timezone
+ import json
+ import re
++import unicodedata
++from typing import Any, Dict, Iterable, List, Sequence, Tuple
++
+ from countrycode import country_to_iso2
+ 
+-def matching(party_infos, transaction_info, table_data, ScreeningConfig):
+-    whitespace_re = re.compile(r"\s+")
+-
+-    def to_text(value):
+-        return value if isinstance(value, str) else ("" if value is None else str(value))
+-
+-    def normalize_basic(value):
+-        s = to_text(value)
+-        s = unicodedata.normalize("NFKC", s)
+-        s = s.casefold().strip()
+-        cleaned = []
+-        for ch in s:
+-            if ch.isalnum() or ch.isspace() or ch in "-'@._":
+-                cleaned.append(ch)
+-            else:
+-                cleaned.append(" ")
+-        s = "".join(cleaned)
+-        s = whitespace_re.sub(" ", s).strip()
+-        return s
+ 
+-    def strip_accents_only(value):
+-        try:
+-            return "".join(ch for ch in unicodedata.normalize("NFKD", to_text(value)) if not unicodedata.combining(ch))
+-        except Exception:
+-            return to_text(value)
+-
+-    def collapse_duplicate_tokens(name_string):
+-        toks = [t for t in to_text(name_string).split() if t]
+-        if not toks:
+-            return ""
+-        if len(toks) % 2 == 0:
+-            mid = len(toks) // 2
+-            if toks[:mid] == toks[mid:]:
+-                return " ".join(toks[:mid])
+-        dedup = []
+-        prev = None
+-        for t in toks:
+-            if t != prev:
+-                dedup.append(t)
+-            prev = t
+-        return " ".join(dedup)
+-
+-    def normalize_text(value):
+-        return normalize_basic(value)
+-
+-    def normalize_text_without_accents(value):
+-        return normalize_basic(strip_accents_only(value))
+-
+-    def bic_normalize(value):
+-        return unicodedata.normalize("NFKC", to_text(value)).upper().replace(" ", "")
+-
+-    def iban_normalize(value):
+-        return unicodedata.normalize("NFKC", to_text(value)).upper().replace(" ", "")
+-
+-    def to_iso2(value):
+-        s = to_text(value).strip()
+-        if not s:
+-            return ""
+-        if len(s) == 2 and s.isalpha():
+-            return s.upper()
+-        try:
+-            c = country_to_iso2(s)
+-            return c.upper() if isinstance(c, str) and len(c) == 2 else ""
+-        except Exception:
+-            return ""
+-
+-    def pick_party_name(party_object):
+-        if not isinstance(party_object, dict):
+-            return ""
+-        for key in ("Name", "name", "FullName", "full_name"):
+-            if party_object.get(key):
+-                return to_text(party_object.get(key))
++WHITESPACE_RE = re.compile(r"\s+")
++ALLOWED_PUNCT = {"-", "'", "@", ".", "_"}
++STOP_WORDS = {
++    "bank",
++    "ag",
++    "plc",
++    "inc",
++    "corp",
++    "llc",
++    "ltd",
++    "company",
++    "co",
++    "group",
++    "holding",
++    "holdings",
++    "national",
++    "state",
++    "of",
++    "the",
++    "and",
++    "sa",
++    "spa",
++    "gmbh",
++    "s.a.",
++    "s.p.a.",
++    "s.a.s.",
++    "sarl",
++    "oy",
++    "ab",
++    "nv",
++    "bv",
++    "kg",
++    "kgaa",
++}
++RISK_LEVELS = ("very high risk", "high risk", "moderate risk", "slight risk")
++EXCLUDE_ROLES: Tuple[str, ...] = ()
++
++
++def to_text(value: Any) -> str:
++    if isinstance(value, str):
++        return value
++    if value is None:
+         return ""
++    return str(value)
+ 
+-    risk_levels_order = ["very high risk", "high risk", "moderate risk", "slight risk"]
+-    matches_total = 0
+-    matches_by_risk = {rl: 0 for rl in risk_levels_order}
+-
+-    def risk_from_score(score_value_0_to_1):
+-        if score_value_0_to_1 >= 0.90:
+-            return "very high risk"
+-        if score_value_0_to_1 >= 0.70:
+-            return "high risk"
+-        if score_value_0_to_1 >= 0.25:
+-            return "moderate risk"
+-        if score_value_0_to_1 > 0.10:
+-            return "slight risk"
+-        return "no risk"
+-
+-    def normalize_party(party_object):
+-        if not isinstance(party_object, dict):
+-            return {
+-                "name_raw": "", "name": "", "aliases": [],
+-                "street": "", "town": "", "state": "", "post_code": "", "country": "", "country_iso": "",
+-                "nationality": "", "citizenship": "", "bic": "", "iban": "", "email": "",
+-                "date_of_birth": "", "place_of_birth_city": "", "place_of_birth_country": "",
+-                "id_numbers": []
+-            }
+-        name_raw = pick_party_name(party_object)
+ 
+-        aliases_value = party_object.get("Aliases")
+-        if isinstance(aliases_value, str):
+-            try:
+-                aliases_list = json.loads(aliases_value) if aliases_value.strip().startswith(("[", "{")) else [aliases_value]
+-                if isinstance(aliases_list, dict):
+-                    aliases_list = list(aliases_list.values())
+-            except Exception:
+-                aliases_list = [aliases_value]
+-        elif isinstance(aliases_value, list):
+-            aliases_list = aliases_value
+-        else:
+-            aliases_list = []
+-
+-        party_date_of_birth = to_text(
+-            party_object.get("DateOfBirth")
+-            or party_object.get("Date Of Birth")
+-            or party_object.get("DOB")
+-            or party_object.get("BirthDate")
+-            or party_object.get("Birth Date")
+-            or party_object.get("date_of_birth")
+-            or party_object.get("Date Of Birth")
+-            or ""
++def _normalize_basic(value: Any) -> str:
++    text = to_text(value)
++    if not text:
++        return ""
++    text = unicodedata.normalize("NFKC", text).casefold()
++    cleaned = [
++        ch if (ch.isalnum() or ch.isspace() or ch in ALLOWED_PUNCT) else " "
++        for ch in text
++    ]
++    normalized = "".join(cleaned)
++    return WHITESPACE_RE.sub(" ", normalized).strip()
++
++
++def strip_accents(value: Any) -> str:
++    try:
++        return "".join(
++            ch for ch in unicodedata.normalize("NFKD", to_text(value)) if not unicodedata.combining(ch)
+         )
++    except Exception:
++        return to_text(value)
+ 
+-        pob_text = to_text(
+-            party_object.get("PlaceOfBirthCity")
+-            or party_object.get("Place Of Birth City")
+-            or party_object.get("BirthPlaceCity")
+-            or party_object.get("Birth Place City")
+-            or party_object.get("place_of_birth_city")
+-            or party_object.get("PlaceOfBirth")
+-            or party_object.get("Place Of Birth")
+-            or ""
+-        )
+-        pob_city = pob_text.split(",")[0].strip() if pob_text else ""
+-        pob_country = pob_text.split(",")[1].strip() if (pob_text and "," in pob_text) else ""
+-
+-        id_numbers_value = (
+-            party_object.get("IdNumbers")
+-            or party_object.get("IDNumbers")
+-            or party_object.get("Identifiers")
+-            or party_object.get("identifiers")
+-            or []
+-        )
+-        id_numbers_list = []
+-        if isinstance(id_numbers_value, str):
++
++def normalize_text(value: Any) -> str:
++    return _normalize_basic(value)
++
++
++def normalize_text_without_accents(value: Any) -> str:
++    return _normalize_basic(strip_accents(value))
++
++
++def collapse_duplicate_tokens(name_string: Any) -> str:
++    tokens = [t for t in to_text(name_string).split() if t]
++    if not tokens:
++        return ""
++    if len(tokens) % 2 == 0:
++        midpoint = len(tokens) // 2
++        if tokens[:midpoint] == tokens[midpoint:]:
++            return " ".join(tokens[:midpoint])
++    deduped: List[str] = []
++    previous = None
++    for token in tokens:
++        if token != previous:
++            deduped.append(token)
++        previous = token
++    return " ".join(deduped)
++
++
++def tokenize(value: Any) -> List[str]:
++    return [t for t in normalize_text_without_accents(value).split() if len(t) > 2 and t not in STOP_WORDS]
++
++
++def raw_tokens(value: Any) -> List[str]:
++    return [t for t in normalize_text_without_accents(value).split() if t]
++
++
++def _parse_jsonish(value: Any) -> List[Any]:
++    if isinstance(value, list):
++        return list(value)
++    if isinstance(value, tuple):
++        return list(value)
++    if isinstance(value, str):
++        stripped = value.strip()
++        if not stripped:
++            return []
++        if stripped.startswith(("[", "{")):
+             try:
+-                maybe = json.loads(id_numbers_value) if id_numbers_value.strip().startswith(("[", "{")) else [id_numbers_value]
++                data = json.loads(stripped)
+             except Exception:
+-                maybe = [id_numbers_value]
+-            if isinstance(maybe, dict):
+-                for v in maybe.values():
+-                    if isinstance(v, list):
+-                        id_numbers_list.extend([to_text(x) for x in v])
+-                    else:
+-                        id_numbers_list.append(to_text(v))
+-            else:
+-                id_numbers_list.extend([to_text(x) for x in maybe])
+-        elif isinstance(id_numbers_value, list):
+-            id_numbers_list = [to_text(x) for x in id_numbers_value]
+-
+-        country_text = party_object.get("Country") or ""
+-        state_text = (
+-            party_object.get("State")
+-            or party_object.get("State/Province")
+-            or party_object.get("Province")
+-            or party_object.get("Region")
+-            or party_object.get("CtrySubDvsn")
+-            or party_object.get("Country Sub Division")
+-            or ""
+-        )
++                return [stripped]
++            if isinstance(data, dict):
++                return [v for v in data.values() if v is not None]
++            if isinstance(data, list):
++                return [v for v in data if v is not None]
++            return [data]
++        return [stripped]
++    return []
++
++
++def _coalesce(*values: Any) -> str:
++    for value in values:
++        text = to_text(value).strip()
++        if text:
++            return text
++    return ""
++
++
++def _split_place_of_birth(value: str) -> Tuple[str, str]:
++    if not value:
++        return "", ""
++    if "," in value:
++        city, country = value.split(",", 1)
++        return city.strip(), country.strip()
++    return value.strip(), ""
++
++
++def _to_iso2(value: Any) -> str:
++    text = to_text(value).strip()
++    if not text:
++        return ""
++    if len(text) == 2 and text.isalpha():
++        return text.upper()
++    try:
++        code = country_to_iso2(text)
++    except Exception:
++        return ""
++    return code.upper() if isinstance(code, str) and len(code) == 2 else ""
++
++
++def _normalize_id_numbers(values: Iterable[Any]) -> List[str]:
++    normalized: List[str] = []
++    for value in values or []:
++        text = unicodedata.normalize("NFKC", to_text(value)).upper().replace(" ", "").strip()
++        if text and text not in normalized:
++            normalized.append(text)
++    return normalized
+ 
+-        normalized = {
+-            "name_raw": name_raw,
+-            "name": normalize_text(collapse_duplicate_tokens(name_raw)),
+-            "aliases": [normalize_text(collapse_duplicate_tokens(a)) for a in aliases_list if a],
+-            "street": normalize_text(party_object.get("Street", "")),
+-            "town": normalize_text(party_object.get("City", "") or party_object.get("Town", "")),
+-            "state": normalize_text(state_text),
+-            "post_code": normalize_text(party_object.get("Postal Code", "") or party_object.get("Post Code", "")),
+-            "country": normalize_text(country_text),
+-            "country_iso": to_iso2(country_text),
+-            "nationality": normalize_text(party_object.get("Nationality", "") or party_object.get("Nationality Country", "")),
+-            "citizenship": normalize_text(party_object.get("Citizenship", "") or party_object.get("Citizenship Country", "")),
+-            "bic": bic_normalize(party_object.get("BIC", "")),
+-            "iban": iban_normalize(party_object.get("Iban", "") or party_object.get("IBAN", "")),
+-            "email": normalize_text(party_object.get("Email", "")),
+-            "date_of_birth": normalize_text(party_date_of_birth),
+-            "place_of_birth_city": normalize_text(pob_city),
+-            "place_of_birth_country": normalize_text(pob_country),
+-            "id_numbers": [unicodedata.normalize("NFKC", to_text(x)).upper().replace(" ", "") for x in id_numbers_list if to_text(x).strip()],
++
++def normalize_party(party_object: Dict[str, Any]) -> Dict[str, Any]:
++    if not isinstance(party_object, dict):
++        return {
++            "name_raw": "",
++            "name": "",
++            "aliases": [],
++            "street": "",
++            "town": "",
++            "state": "",
++            "post_code": "",
++            "country": "",
++            "country_iso": "",
++            "nationality": "",
++            "citizenship": "",
++            "bic": "",
++            "iban": "",
++            "email": "",
++            "date_of_birth": "",
++            "place_of_birth_city": "",
++            "place_of_birth_country": "",
++            "id_numbers": [],
+         }
+-        return normalized
+-
+-    def record_fields(record_tuple):
+-        list_name = record_tuple[0] if len(record_tuple) > 0 else ""
+-        list_id = record_tuple[1] if len(record_tuple) > 1 else ""
+-        classification = record_tuple[2] if len(record_tuple) > 2 else ""
+-        full = record_tuple[3] if len(record_tuple) > 3 else ""
+-        first = record_tuple[4] if len(record_tuple) > 4 else ""
+-        middle = record_tuple[5] if len(record_tuple) > 5 else ""
+-        last = record_tuple[6] if len(record_tuple) > 6 else ""
+-        other_first = record_tuple[7] if len(record_tuple) > 7 else ""
+-        nationality_value = record_tuple[8] if len(record_tuple) > 8 else ""
+-        citizenship_country_value = record_tuple[9] if len(record_tuple) > 9 else ""
+-        address_primary_value = record_tuple[11] if len(record_tuple) > 11 else ""
+-        address_city_value = record_tuple[12] if len(record_tuple) > 12 else ""
+-        address_state_value = record_tuple[13] if len(record_tuple) > 13 else ""
+-        address_post_value = record_tuple[14] if len(record_tuple) > 14 else ""
+-        address_country_value = record_tuple[15] if len(record_tuple) > 15 else ""
+-        address_country_iso_value = record_tuple[16] if len(record_tuple) > 16 else ""
+-        alt_addresses_value = record_tuple[17] if len(record_tuple) > 17 else ""
+-        aliases_raw_value = record_tuple[18] if len(record_tuple) > 18 else ""
+-        justification_col_value = record_tuple[20] if len(record_tuple) > 20 else ""
+-        other_info_col_value = record_tuple[21] if len(record_tuple) > 21 else ""
+-        name_raw = ""
+-        name_candidates = [
+-            to_text(full).strip(),
+-            " ".join([to_text(first).strip(), to_text(middle).strip(), to_text(last).strip()]).strip(),
+-            " ".join([to_text(other_first).strip(), to_text(last).strip()]).strip(),
+-            " ".join([to_text(last).strip(), to_text(first).strip(), to_text(middle).strip()]).strip(),
+-            " ".join([to_text(last).strip(), to_text(other_first).strip()]).strip(),
+-        ]
+-        for cand in name_candidates:
+-            if cand:
+-                name_raw = cand
+-                break
+-        if not name_raw:
+-            parts = [to_text(first).strip(), to_text(middle).strip(), to_text(last).strip(), to_text(other_first).strip()]
+-            name_raw = " ".join([p for p in parts if p]).strip()
++
++    name_candidates = [
++        party_object.get(key, "")
++        for key in ("Name", "name", "FullName", "full_name")
++    ]
++    name_raw = _coalesce(*name_candidates)
++
++    alias_values = []
++    for key in ("Aliases", "aliases", "Alias", "alias"):
++        alias_values = _parse_jsonish(party_object.get(key))
++        if alias_values:
++            break
++
++    dob_value = _coalesce(
++        party_object.get("DateOfBirth"),
++        party_object.get("Date Of Birth"),
++        party_object.get("DOB"),
++        party_object.get("BirthDate"),
++        party_object.get("Birth Date"),
++        party_object.get("date_of_birth"),
++    )
++
++    pob_value = _coalesce(
++        party_object.get("PlaceOfBirthCity"),
++        party_object.get("Place Of Birth City"),
++        party_object.get("BirthPlaceCity"),
++        party_object.get("Birth Place City"),
++        party_object.get("place_of_birth_city"),
++        party_object.get("PlaceOfBirth"),
++        party_object.get("Place Of Birth"),
++    )
++    pob_city, pob_country = _split_place_of_birth(to_text(pob_value))
++
++    id_sources: List[Any] = []
++    for key in ("IdNumbers", "IDNumbers", "Identifiers", "identifiers", "id_numbers"):
++        value = party_object.get(key)
++        if value:
++            id_sources.extend(_parse_jsonish(value))
++    id_numbers = _normalize_id_numbers(id_sources)
++
++    country_text = _coalesce(
++        party_object.get("Country"),
++        party_object.get("CountryName"),
++    )
++    state_text = _coalesce(
++        party_object.get("State"),
++        party_object.get("State/Province"),
++        party_object.get("Province"),
++        party_object.get("Region"),
++        party_object.get("CtrySubDvsn"),
++        party_object.get("Country Sub Division"),
++    )
++
++    normalized = {
++        "name_raw": name_raw,
++        "name": normalize_text(collapse_duplicate_tokens(name_raw)),
++        "aliases": [normalize_text(collapse_duplicate_tokens(a)) for a in alias_values if a],
++        "street": normalize_text(party_object.get("Street", "")),
++        "town": normalize_text(_coalesce(party_object.get("City"), party_object.get("Town"))),
++        "state": normalize_text(state_text),
++        "post_code": normalize_text(_coalesce(party_object.get("Postal Code"), party_object.get("Post Code"))),
++        "country": normalize_text(country_text),
++        "country_iso": _to_iso2(
++            _coalesce(party_object.get("CountryIso"), party_object.get("Country ISO"), party_object.get("CountryCode"), country_text)
++        ),
++        "nationality": normalize_text(_coalesce(party_object.get("Nationality"), party_object.get("Nationality Country"))),
++        "citizenship": normalize_text(_coalesce(party_object.get("Citizenship"), party_object.get("Citizenship Country"))),
++        "bic": unicodedata.normalize("NFKC", to_text(party_object.get("BIC", ""))).upper().replace(" ", ""),
++        "iban": unicodedata.normalize("NFKC", to_text(_coalesce(party_object.get("Iban"), party_object.get("IBAN")))).upper().replace(" ", ""),
++        "email": normalize_text(party_object.get("Email", "")),
++        "date_of_birth": normalize_text(dob_value),
++        "place_of_birth_city": normalize_text(pob_city),
++        "place_of_birth_country": normalize_text(pob_country),
++        "id_numbers": id_numbers,
++    }
++    return normalized
++
++
++def normalize_record(record_tuple: Sequence[Any]) -> Dict[str, Any]:
++    def get(index: int, default: Any = "") -> Any:
+         try:
+-            aliases_list = json.loads(aliases_raw_value) if isinstance(aliases_raw_value, str) and aliases_raw_value.strip().startswith(("[", "{")) else []
+-            if isinstance(aliases_list, dict):
+-                aliases_list = list(aliases_list.values())
+-        except Exception:
+-            aliases_list = []
+-        address_primary = to_text(address_primary_value)
+-        combined_address = " ".join([x for x in [
+-            to_text(address_city_value).strip(),
+-            to_text(address_state_value).strip(),
+-            to_text(address_post_value).strip(),
+-            to_text(address_country_value).strip()
+-        ] if x])
+-        addresses_list = []
+-        if address_primary.strip():
+-            addresses_list.append(address_primary.strip())
+-        if combined_address.strip() and combined_address.strip() not in addresses_list:
+-            addresses_list.append(combined_address.strip())
+-        if isinstance(alt_addresses_value, str) and alt_addresses_value.strip():
+-            try:
+-                arr = json.loads(alt_addresses_value)
+-                if isinstance(arr, list):
+-                    for a in arr:
+-                        s = to_text(a).strip()
+-                        if s and s not in addresses_list:
+-                            addresses_list.append(s)
+-            except Exception:
+-                pass
+-        record_bics = []
+-        record_ibans = []
+-        record_emails = []
+-        record_date_of_birth = ""
+-        record_place_of_birth_city = ""
+-        record_place_of_birth_country = ""
+-        record_id_numbers = []
+-        out = {
+-            "list_name": to_text(list_name),
+-            "list_id": to_text(list_id),
+-            "classification": to_text(classification),
+-            "name_raw": to_text(name_raw),
+-            "name": normalize_text(collapse_duplicate_tokens(name_raw)),
+-            "aliases": [normalize_text(collapse_duplicate_tokens(a)) for a in aliases_list],
+-            "addr_country": normalize_text(address_country_value),
+-            "addr_country_iso": to_iso2(address_country_iso_value) or to_iso2(address_country_value),
+-            "addr_city": normalize_text(address_city_value),
+-            "addr_state": normalize_text(address_state_value),
+-            "addr_post": normalize_text(address_post_value),
+-            "addr_street": normalize_text(address_primary),
+-            "addresses": addresses_list,
+-            "nationality": normalize_text(nationality_value),
+-            "citizenship": normalize_text(citizenship_country_value),
+-            "bics": list({x for x in record_bics if x}),
+-            "ibans": list({x for x in record_ibans if x}),
+-            "email": record_emails[0] if record_emails else "",
+-            "date_of_birth": normalize_text(record_date_of_birth),
+-            "place_of_birth_city": normalize_text(record_place_of_birth_city),
+-            "place_of_birth_country": normalize_text(record_place_of_birth_country),
+-            "id_numbers": list({unicodedata.normalize("NFKC", to_text(x)).upper().replace(" ", "") for x in record_id_numbers if to_text(x).strip()}),
+-            "justification_text": to_text(justification_col_value),
+-            "other_information_text": to_text(other_info_col_value),
+-        }
+-        return out
+-
+-    STOP = {"bank","ag","plc","inc","corp","llc","ltd","company","co","group","holding","holdings","national","state","of","the","and","sa","spa","gmbh","s.a.","s.p.a.","s.a.s.","sarl","oy","ab","nv","bv","kg","kgaa"}
+-    EXCLUDE_ROLES = {}
+-
+-    def tokens(s):
+-        raw = [t for t in normalize_text_without_accents(s).split() if t]
+-        return [t for t in raw if len(t) > 2 and t not in STOP]
+-
+-    def raw_tokens(s):
+-        return [t for t in normalize_text_without_accents(s).split() if t]
+-
+-    def jaccard(a, b):
+-        sa = set(a); sb = set(b)
+-        if not sa and not sb:
+-            return 0.0
+-        return len(sa & sb) / float(len(sa | sb) or 1.0)
+-
+-    def matched_fields_struct(labels, extras):
+-        label_map = {}
+-        for lab in labels:
+-            if lab in ("name_exact", "name_strong", "name_partial"):
+-                key = ("name", "exact" if lab == "name_exact" else ("strong" if lab == "name_strong" else "partial"))
+-            elif lab in ("alias_strong", "alias_partial", "alias_match"):
+-                key = ("alias", "strong" if lab == "alias_strong" else ("partial" if lab == "alias_partial" else "match"))
+-            elif lab in ("country_exact", "country_iso_match"):
+-                key = ("country", "exact" if lab == "country_exact" else "iso")
+-            elif lab in ("town_exact", "town_partial"):
+-                key = ("city", "exact" if lab == "town_exact" else "partial")
+-            elif lab in ("state_exact", "state_partial"):
+-                key = ("state", "exact" if lab == "state_exact" else "partial")
+-            elif lab in ("street_exact", "street_partial"):
+-                key = ("street", "exact" if lab == "street_exact" else "partial")
+-            elif lab in ("nationality_overlap",):
+-                key = ("nationality", "overlap")
+-            elif lab in ("citizenship_overlap",):
+-                key = ("citizenship", "overlap")
+-            elif lab in ("bic_exact",):
+-                key = ("bic", "exact")
+-            elif lab in ("iban_exact",):
+-                key = ("iban", "exact")
+-            elif lab in ("email_exact", "email_partial"):
+-                key = ("email", "exact" if lab == "email_exact" else "partial")
+-            elif lab in ("dob_exact", "dob_year"):
+-                key = ("date_of_birth", "exact" if lab == "dob_exact" else "year")
+-            elif lab in ("pob_country", "pob_city_exact", "pob_city_partial"):
+-                key = ("place_of_birth", "country" if lab == "pob_country" else ("city_exact" if lab == "pob_city_exact" else "city_partial"))
+-            elif lab in ("id_exact",):
+-                key = ("id_number", "exact")
+-            else:
+-                continue
+-            if key not in label_map:
+-                label_map[key] = {"field": key[0], "strength": key[1]}
++            return record_tuple[index]
++        except IndexError:
++            return default
++
++    list_name = to_text(get(0))
++    list_id = to_text(get(1))
++    classification = to_text(get(2))
++    full = to_text(get(3))
++    first = to_text(get(4))
++    middle = to_text(get(5))
++    last = to_text(get(6))
++    other_first = to_text(get(7))
++    nationality_value = get(8)
++    citizenship_value = get(9)
++    citizenship_iso_value = get(10)
++    street_value = get(11)
++    city_value = get(12)
++    state_value = get(13)
++    post_value = get(14)
++    country_value = get(15)
++    country_iso_value = get(16)
++    alt_addresses_value = get(17)
++    aliases_value = get(18)
++    global_id_value = get(19)
++    justification_value = get(20)
++    other_info_value = get(21)
++
++    name_candidates = [full.strip(), f"{first} {middle} {last}".strip(), f"{other_first} {last}".strip(), f"{last} {first} {middle}".strip(), f"{last} {other_first}".strip()]
++    name_raw = next((candidate for candidate in name_candidates if candidate), "")
++    if not name_raw:
++        parts = [first.strip(), middle.strip(), last.strip(), other_first.strip()]
++        name_raw = " ".join([p for p in parts if p]).strip()
++
++    aliases_list = _parse_jsonish(aliases_value)
++    alt_addresses = _parse_jsonish(alt_addresses_value)
++
++    addresses: List[str] = []
++    primary = to_text(street_value).strip()
++    if primary:
++        addresses.append(primary)
++    combined_address = " ".join(
++        [
++            to_text(city_value).strip(),
++            to_text(state_value).strip(),
++            to_text(post_value).strip(),
++            to_text(country_value).strip(),
++        ]
++    ).strip()
++    if combined_address and combined_address not in addresses:
++        addresses.append(combined_address)
++    for address in alt_addresses:
++        text = to_text(address).strip()
++        if text and text not in addresses:
++            addresses.append(text)
++
++    id_numbers = _normalize_id_numbers(_parse_jsonish(global_id_value))
++
++    normalized = {
++        "list_name": list_name,
++        "list_id": list_id,
++        "classification": classification,
++        "name_raw": name_raw,
++        "name": normalize_text(collapse_duplicate_tokens(name_raw)),
++        "aliases": [normalize_text(collapse_duplicate_tokens(alias)) for alias in aliases_list if alias],
++        "addr_country": normalize_text(country_value),
++        "addr_country_iso": _to_iso2(country_iso_value or country_value),
++        "addr_city": normalize_text(city_value),
++        "addr_state": normalize_text(state_value),
++        "addr_post": normalize_text(post_value),
++        "addr_street": normalize_text(primary),
++        "addresses": [normalize_text(addr) for addr in addresses if addr],
++        "nationality": normalize_text(nationality_value),
++        "citizenship": normalize_text(citizenship_value),
++        "citizenship_iso": _to_iso2(citizenship_iso_value),
++        "bics": [],
++        "ibans": [],
++        "email": "",
++        "date_of_birth": "",
++        "place_of_birth_city": "",
++        "place_of_birth_country": "",
++        "id_numbers": id_numbers,
++        "justification_text": to_text(justification_value),
++        "other_information_text": to_text(other_info_value),
++    }
++    return normalized
++
++
++def risk_from_score(score_value: float) -> str:
++    if score_value >= 0.90:
++        return "very high risk"
++    if score_value >= 0.70:
++        return "high risk"
++    if score_value >= 0.25:
++        return "moderate risk"
++    if score_value > 0.10:
++        return "slight risk"
++    return "no risk"
++
++
++def matched_fields_struct(labels: Iterable[str], extras: Iterable[Dict[str, str]]) -> List[Dict[str, str]]:
++    label_map: Dict[Tuple[str, str], Dict[str, str]] = {}
++    for label in labels:
++        if label in {"name_exact", "name_strong", "name_partial"}:
++            key = ("name", "exact" if label == "name_exact" else ("strong" if label == "name_strong" else "partial"))
++        elif label in {"alias_strong", "alias_partial", "alias_match"}:
++            key = ("alias", "strong" if label == "alias_strong" else ("partial" if label == "alias_partial" else "match"))
++        elif label in {"country_exact", "country_iso_match"}:
++            key = ("country", "exact" if label == "country_exact" else "iso")
++        elif label in {"town_exact", "town_partial"}:
++            key = ("city", "exact" if label == "town_exact" else "partial")
++        elif label in {"state_exact", "state_partial"}:
++            key = ("state", "exact" if label == "state_exact" else "partial")
++        elif label in {"street_exact", "street_partial"}:
++            key = ("street", "exact" if label == "street_exact" else "partial")
++        elif label == "nationality_overlap":
++            key = ("nationality", "overlap")
++        elif label == "citizenship_overlap":
++            key = ("citizenship", "overlap")
++        elif label == "bic_exact":
++            key = ("bic", "exact")
++        elif label == "iban_exact":
++            key = ("iban", "exact")
++        elif label in {"email_exact", "email_partial"}:
++            key = ("email", "exact" if label == "email_exact" else "partial")
++        elif label in {"dob_exact", "dob_year"}:
++            key = ("date_of_birth", "exact" if label == "dob_exact" else "year")
++        elif label in {"pob_country", "pob_city_exact", "pob_city_partial"}:
++            key = ("place_of_birth", "country" if label == "pob_country" else ("city_exact" if label == "pob_city_exact" else "city_partial"))
++        elif label == "id_exact":
++            key = ("id_number", "exact")
++        else:
++            continue
++        label_map.setdefault(key, {"field": key[0], "strength": key[1]})
++
++    for extra in extras:
++        field = extra.get("field")
++        strength = extra.get("strength")
++        if not field or not strength:
++            continue
++        key = (field, strength)
++        label_map.setdefault(key, {"field": field, "strength": strength})
++
++    return list(label_map.values())
++
+ 
+-        # Drop all token payloads from extras (no partyTokens / recordTokens)
+-        for e in extras:
+-            f = e.get("field"); st = e.get("strength")
+-            if not f or not st:
++def _best_alias_score(party_alias_tokens: List[List[str]], record_alias_tokens: List[List[str]]) -> float:
++    best = 0.0
++    for party_tokens in party_alias_tokens:
++        for record_tokens in record_alias_tokens:
++            if not party_tokens and not record_tokens:
+                 continue
+-            key = (f, st)
+-            if key not in label_map:
+-                label_map[key] = {"field": f, "strength": st}
+-        return list(label_map.values())
+-
+-    def evaluate(party_norm, rec_norm, role, party_name_tokens, record_name_tokens, party_alias_tokens, record_alias_tokens):
+-        matched = []
+-        score = 0.0
+-        extras = []
+-
+-        if party_norm.get("bic") and rec_norm.get("bics"):
+-            if party_norm["bic"] in rec_norm["bics"]:
+-                score += 0.90; matched.append("bic_exact")
+-                extras.append({"field":"bic","strength":"exact"})
+-
+-        if party_norm.get("iban") and rec_norm.get("ibans"):
+-            if party_norm["iban"] in rec_norm["ibans"]:
+-                score += 0.90; matched.append("iban_exact")
+-                extras.append({"field":"iban","strength":"exact"})
+-
+-        if party_norm.get("id_numbers") and rec_norm.get("id_numbers"):
+-            party_ids = {unicodedata.normalize("NFKC", to_text(x)).upper().replace(" ", "") for x in party_norm["id_numbers"]}
+-            record_ids = set(rec_norm["id_numbers"])
+-            inter = sorted(party_ids & record_ids)
+-            if inter:
+-                score += 0.90; matched.append("id_exact")
+-                extras.append({"field":"id_number","strength":"exact"})
+-
+-        if party_norm.get("date_of_birth") and rec_norm.get("date_of_birth"):
+-            pd = party_norm["date_of_birth"]; rd = rec_norm["date_of_birth"]
+-            if len(pd) >= 10 and len(rd) >= 10 and pd[:10] != rd[:10]:
++            union = set(party_tokens) | set(record_tokens)
++            if not union:
++                continue
++            score = len(set(party_tokens) & set(record_tokens)) / float(len(union))
++            if score > best:
++                best = score
++    return best
++
++
++def _street_similarity(party_street_tokens: List[str], record_text: str) -> float:
++    if not party_street_tokens:
++        return 0.0
++    party_set = set(party_street_tokens)
++    record_set = set(tokenize(record_text))
++    if not record_set and not party_set:
++        return 0.0
++    union = party_set | record_set
++    if not union:
++        return 0.0
++    return len(party_set & record_set) / float(len(union))
++
++
++def evaluate_match(
++    party_norm: Dict[str, Any],
++    rec_norm: Dict[str, Any],
++    role: str,
++    party_name_tokens: List[str],
++    record_name_tokens: List[str],
++    party_alias_tokens: List[List[str]],
++    record_alias_tokens: List[List[str]],
++) -> Dict[str, Any] | None:
++    matched: List[str] = []
++    extras: List[Dict[str, str]] = []
++    score = 0.0
++
++    party_bic = party_norm.get("bic")
++    if party_bic and party_bic in (rec_norm.get("bics") or []):
++        score += 0.90
++        matched.append("bic_exact")
++        extras.append({"field": "bic", "strength": "exact"})
++
++    party_iban = party_norm.get("iban")
++    if party_iban and party_iban in (rec_norm.get("ibans") or []):
++        score += 0.90
++        matched.append("iban_exact")
++        extras.append({"field": "iban", "strength": "exact"})
++
++    party_ids = set(party_norm.get("id_numbers") or [])
++    record_ids = set(rec_norm.get("id_numbers") or [])
++    if party_ids and record_ids:
++        if party_ids & record_ids:
++            score += 0.90
++            matched.append("id_exact")
++            extras.append({"field": "id_number", "strength": "exact"})
++
++    party_dob = party_norm.get("date_of_birth", "")
++    record_dob = rec_norm.get("date_of_birth", "")
++    if party_dob and record_dob:
++        party_years = re.findall(r"\d{4}", party_dob)
++        record_years = re.findall(r"\d{4}", record_dob)
++        if party_years and record_years and party_years[0] != record_years[0]:
++            return None
++        if len(party_dob) >= 10 and len(record_dob) >= 10:
++            if party_dob[:10] != record_dob[:10]:
+                 return None
+-            py = re.findall(r"\d{4}", pd); ry = re.findall(r"\d{4}", rd)
+-            if py and ry:
+-                if py[0] == ry[0]:
+-                    score += 0.01; matched.append("dob_year")
+-                    extras.append({"field":"date_of_birth","strength":"year"})
+-                else:
+-                    return None
+-            if len(pd) >= 10 and len(rd) >= 10 and pd[:10] == rd[:10]:
+-                score += 0.02; matched.append("dob_exact")
+-                extras.append({"field":"date_of_birth","strength":"exact"})
+-
+-        if party_norm.get("place_of_birth_country") and rec_norm.get("place_of_birth_country"):
+-            pbc = normalize_text(party_norm["place_of_birth_country"]); rbc = normalize_text(rec_norm["place_of_birth_country"])
+-            if pbc == rbc:
+-                score += 0.01; matched.append("pob_country")
+-                extras.append({"field":"place_of_birth","strength":"country"})
+-
+-        if party_norm.get("place_of_birth_city") and rec_norm.get("place_of_birth_city"):
+-            pn = normalize_text(party_norm["place_of_birth_city"]); rn = normalize_text(rec_norm["place_of_birth_city"])
+-            if pn == rn:
+-                score += 0.02; matched.append("pob_city_exact")
+-                extras.append({"field":"place_of_birth","strength":"city_exact"})
+-            elif pn in rn or rn in pn:
+-                score += 0.02; matched.append("pob_city_partial")
+-                extras.append({"field":"place_of_birth","strength":"city_partial"})
+-
+-        name_j = jaccard(party_name_tokens, record_name_tokens)
+-        name_points = 0.0
+-        if   name_j >= 0.95:
+-            matched.append("name_exact"); name_points = 0.85
+-        elif name_j >= 0.80:
+-            matched.append("name_strong"); name_points = 0.75 * name_j
+-        elif name_j >= 0.60:
+-            matched.append("name_partial"); name_points = 0.75 * name_j
+-        if any(lab in matched for lab in ("name_exact","name_strong","name_partial")):
+-            extras.append({"field":"name","strength":("exact" if "name_exact" in matched else ("strong" if "name_strong" in matched else "partial"))})
+-
+-        def _first_last(tokens_):
+-            return (tokens_[0], tokens_[-1]) if len(tokens_) >= 2 else (None, None)
+-        p_fl = _first_last(party_name_tokens)
+-        r_fl = _first_last(record_name_tokens)
+-        first_last_match = (p_fl[0] and r_fl[0] and p_fl[0] == r_fl[0] and p_fl[1] == r_fl[1])
+-        subset_match = (len(party_name_tokens) >= 2 and set(party_name_tokens).issubset(set(record_name_tokens)))
++            score += 0.02
++            matched.append("dob_exact")
++            extras.append({"field": "date_of_birth", "strength": "exact"})
++        elif party_years and record_years and party_years[0] == record_years[0]:
++            score += 0.01
++            matched.append("dob_year")
++            extras.append({"field": "date_of_birth", "strength": "year"})
++
++    party_pob_country = party_norm.get("place_of_birth_country")
++    record_pob_country = rec_norm.get("place_of_birth_country")
++    if party_pob_country and record_pob_country and party_pob_country == record_pob_country:
++        score += 0.01
++        matched.append("pob_country")
++        extras.append({"field": "place_of_birth", "strength": "country"})
++
++    party_pob_city = party_norm.get("place_of_birth_city")
++    record_pob_city = rec_norm.get("place_of_birth_city")
++    if party_pob_city and record_pob_city:
++        if party_pob_city == record_pob_city:
++            score += 0.02
++            matched.append("pob_city_exact")
++            extras.append({"field": "place_of_birth", "strength": "city_exact"})
++        elif party_pob_city in record_pob_city or record_pob_city in party_pob_city:
++            score += 0.02
++            matched.append("pob_city_partial")
++            extras.append({"field": "place_of_birth", "strength": "city_partial"})
++
++    name_tokens_party = party_name_tokens
++    name_tokens_record = record_name_tokens
++    intersection = set(name_tokens_party) & set(name_tokens_record)
++    union = set(name_tokens_party) | set(name_tokens_record)
++    name_jaccard = (len(intersection) / float(len(union))) if union else 0.0
++
++    name_points = 0.0
++    if name_jaccard >= 0.95:
++        matched.append("name_exact")
++        name_points = 0.85
++    elif name_jaccard >= 0.80:
++        matched.append("name_strong")
++        name_points = 0.75 * name_jaccard
++    elif name_jaccard >= 0.60:
++        matched.append("name_partial")
++        name_points = 0.75 * name_jaccard
++
++    if matched and any(label.startswith("name_") for label in matched):
++        extras.append(
++            {
++                "field": "name",
++                "strength": "exact" if "name_exact" in matched else ("strong" if "name_strong" in matched else "partial"),
++            }
++        )
++
++    if len(name_tokens_party) >= 2:
++        party_first, party_last = name_tokens_party[0], name_tokens_party[-1]
++        record_first = record_last = None
++        if len(name_tokens_record) >= 2:
++            record_first, record_last = name_tokens_record[0], name_tokens_record[-1]
++        first_last_match = bool(record_first and record_last and party_first == record_first and party_last == record_last)
++        subset_match = set(name_tokens_party).issubset(set(name_tokens_record))
+         if first_last_match or subset_match:
+             name_points = max(name_points, 0.55 if name_points == 0.0 else name_points)
+-        score += name_points
+-
+-        if party_alias_tokens and record_alias_tokens:
+-            best_alias = 0.0
+-            for pt in party_alias_tokens:
+-                for rt in record_alias_tokens:
+-                    val = jaccard(pt, rt)
+-                    if val > best_alias:
+-                        best_alias = val
+-            if   best_alias >= 0.8:
+-                score += 0.50; matched.append("alias_strong")
+-                extras.append({"field":"alias","strength":"strong"})
+-            elif best_alias >= 0.6:
+-                score += 0.25; matched.append("alias_partial")
+-                extras.append({"field":"alias","strength":"partial"})
+-            elif best_alias >  0.0:
+-                score += 0.10; matched.append("alias_match")
+-                extras.append({"field":"alias","strength":"match"})
+-
+-        country_exact_bool = bool(party_norm["country"] and rec_norm["addr_country"] and party_norm["country"] == rec_norm["addr_country"])
+-        iso_match_bool = bool(party_norm.get("country_iso") and rec_norm.get("addr_country_iso") and party_norm["country_iso"] == rec_norm["addr_country_iso"])
+-        if country_exact_bool:
+-            score += 0.03; matched.append("country_exact")
+-            extras.append({"field":"country","strength":"exact"})
+-        elif iso_match_bool:
+-            score += 0.03; matched.append("country_iso_match")
+-            extras.append({"field":"country","strength":"iso"})
+-
+-        if party_norm["town"] and (rec_norm["addr_city"] or rec_norm["addr_state"]):
+-            if party_norm["town"] == rec_norm["addr_city"]:
+-                score += 0.04; matched.append("town_exact")
+-                extras.append({"field":"city","strength":"exact"})
+-            elif party_norm["town"] in rec_norm["addr_city"] or party_norm["town"] in rec_norm["addr_state"]:
+-                score += 0.02; matched.append("town_partial")
+-                extras.append({"field":"city","strength":"partial"})
+-
+-        if party_norm.get("state") and (rec_norm.get("addr_state") or rec_norm.get("addr_city")):
+-            if party_norm["state"] == rec_norm.get("addr_state"):
+-                score += 0.03; matched.append("state_exact")
+-                extras.append({"field":"state","strength":"exact"})
+-            elif (rec_norm.get("addr_state") and party_norm["state"] in rec_norm["addr_state"]) or \
+-                 (rec_norm.get("addr_city")  and party_norm["state"] in rec_norm["addr_city"]):
+-                score += 0.01; matched.append("state_partial")
+-                extras.append({"field":"state","strength":"partial"})
+-
+-        # Street similarity with threshold and scaled partial
+-        if party_norm.get("street"):
+-            party_street_tokens = tokens(party_norm["street"])
+-            rec_street = rec_norm.get("addr_street") or ""
+-            best_sim = 0.0
+-            matched_exact = False
+-
+-            def _sim_with(addr_text):
+-                party = set(party_street_tokens)
+-                rec = set(tokens(addr_text))
+-                if not party and not rec:
+-                    return 0.0
+-                return len(party & rec) / float(len(party | rec) or 1.0)
+-
+-            if rec_street:
+-                if party_norm["street"] == rec_street:
++
++    score += name_points
++
++    if party_alias_tokens and record_alias_tokens:
++        alias_score = _best_alias_score(party_alias_tokens, record_alias_tokens)
++        if alias_score >= 0.80:
++            score += 0.50
++            matched.append("alias_strong")
++            extras.append({"field": "alias", "strength": "strong"})
++        elif alias_score >= 0.60:
++            score += 0.25
++            matched.append("alias_partial")
++            extras.append({"field": "alias", "strength": "partial"})
++        elif alias_score > 0.0:
++            score += 0.10
++            matched.append("alias_match")
++            extras.append({"field": "alias", "strength": "match"})
++
++    party_country = party_norm.get("country")
++    record_country = rec_norm.get("addr_country")
++    party_country_iso = party_norm.get("country_iso")
++    record_country_iso = rec_norm.get("addr_country_iso")
++    if party_country and record_country and party_country == record_country:
++        score += 0.03
++        matched.append("country_exact")
++        extras.append({"field": "country", "strength": "exact"})
++    elif party_country_iso and record_country_iso and party_country_iso == record_country_iso:
++        score += 0.03
++        matched.append("country_iso_match")
++        extras.append({"field": "country", "strength": "iso"})
++
++    party_town = party_norm.get("town")
++    record_city = rec_norm.get("addr_city")
++    record_state = rec_norm.get("addr_state")
++    if party_town and (record_city or record_state):
++        if party_town and party_town == record_city:
++            score += 0.04
++            matched.append("town_exact")
++            extras.append({"field": "city", "strength": "exact"})
++        elif (record_city and party_town in record_city) or (record_state and party_town in record_state):
++            score += 0.02
++            matched.append("town_partial")
++            extras.append({"field": "city", "strength": "partial"})
++
++    party_state = party_norm.get("state")
++    if party_state and (record_state or record_city):
++        if party_state == record_state:
++            score += 0.03
++            matched.append("state_exact")
++            extras.append({"field": "state", "strength": "exact"})
++        elif (record_state and party_state in record_state) or (record_city and party_state in record_city):
++            score += 0.01
++            matched.append("state_partial")
++            extras.append({"field": "state", "strength": "partial"})
++
++    party_street = party_norm.get("street")
++    if party_street:
++        party_street_tokens = tokenize(party_street)
++        record_street = rec_norm.get("addr_street") or ""
++        matched_exact = bool(party_street and record_street and party_street == record_street)
++        best_similarity = 0.0
++        if not matched_exact:
++            if record_street:
++                best_similarity = _street_similarity(party_street_tokens, record_street)
++            for addr in rec_norm.get("addresses") or []:
++                if party_street == addr:
+                     matched_exact = True
+-                else:
+-                    best_sim = _sim_with(rec_street)
+-            else:
+-                for addr in (rec_norm.get("addresses") or []):
+-                    addr_norm = normalize_text(addr)
+-                    if not addr_norm:
+-                        continue
+-                    if party_norm["street"] == addr_norm:
+-                        matched_exact = True
+-                        break
+-                    best_sim = max(best_sim, _sim_with(addr_norm))
+-
+-            if matched_exact:
+-                score += 0.40; matched.append("street_exact")
+-                extras.append({"field":"street","strength":"exact"})
+-            elif best_sim > 0.60:
+-                score += 0.30 * best_sim; matched.append("street_partial")
+-                extras.append({"field":"street","strength":"partial"})
+-
+-        if party_norm.get("email") and rec_norm.get("email"):
+-            party_email = party_norm["email"]
+-            record_email = rec_norm["email"]
+-            if party_email == record_email:
+-                score += 0.90; matched.append("email_exact")
+-                extras.append({"field":"email","strength":"exact"})
+-            else:
+-                if "@" in party_email and "@" in record_email:
+-                    party_local, party_domain = party_email.split("@", 1)
+-                    record_local, record_domain = record_email.split("@", 1)
+-                    if party_domain == record_domain:
+-                        if party_local == record_local or party_local in record_local or record_local in party_local:
+-                            if abs(len(party_local) - len(record_local)) <= 2:
+-                                score += 0.30; matched.append("email_partial")
+-                                extras.append({"field":"email","strength":"partial"})
+-
+-        if not matched and score > 0:
+-            if name_points > 0:
+-                matched.append("name_partial")
+-                extras.append({"field":"name","strength":"partial"})
+-
+-        score = min(1.0, score)
+-        final_score_int = min(100, int(round(score * 100)))
+-        risk_value = risk_from_score(score)
+-        return {
+-            "partyName": party_norm.get("name_raw", ""),
+-            "role": role,
+-            "sanctionsName": rec_norm.get("name_raw", ""),
+-            "sanctionsAliases": rec_norm.get("aliases", []),
+-            "sanctionsList": rec_norm.get("list_name", ""),
+-            "sanctionsId": rec_norm.get("list_id", ""),
+-            "riskLevel": risk_value,
+-            "finalScore": final_score_int,
+-            "matchedFields": matched_fields_struct(matched, extras),
+-            "matchSummary": (rec_norm.get("justification_text", "") + " " + rec_norm.get("other_information_text", "")).strip()
+-        }
++                    break
++                best_similarity = max(best_similarity, _street_similarity(party_street_tokens, addr))
++        if matched_exact:
++            score += 0.40
++            matched.append("street_exact")
++            extras.append({"field": "street", "strength": "exact"})
++        elif best_similarity > 0.60:
++            score += 0.30 * best_similarity
++            matched.append("street_partial")
++            extras.append({"field": "street", "strength": "partial"})
++
++    party_email = party_norm.get("email")
++    record_email = rec_norm.get("email")
++    if party_email and record_email:
++        if party_email == record_email:
++            score += 0.90
++            matched.append("email_exact")
++            extras.append({"field": "email", "strength": "exact"})
++        elif "@" in party_email and "@" in record_email:
++            party_local, party_domain = party_email.split("@", 1)
++            record_local, record_domain = record_email.split("@", 1)
++            if party_domain == record_domain:
++                if party_local == record_local or party_local in record_local or record_local in party_local:
++                    if abs(len(party_local) - len(record_local)) <= 2:
++                        score += 0.30
++                        matched.append("email_partial")
++                        extras.append({"field": "email", "strength": "partial"})
++
++    if not matched and score > 0 and name_points == 0.0:
++        matched.append("name_partial")
++        extras.append({"field": "name", "strength": "partial"})
++
++    score = min(1.0, score)
++    final_score = min(100, int(round(score * 100)))
++    risk_value = risk_from_score(score)
++    return {
++        "partyName": party_norm.get("name_raw", ""),
++        "role": role,
++        "sanctionsName": rec_norm.get("name_raw", ""),
++        "sanctionsAliases": rec_norm.get("aliases", []),
++        "sanctionsList": rec_norm.get("list_name", ""),
++        "sanctionsId": rec_norm.get("list_id", ""),
++        "riskLevel": risk_value,
++        "finalScore": final_score,
++        "matchedFields": matched_fields_struct(matched, extras),
++        "matchSummary": (rec_norm.get("justification_text", "") + " " + rec_norm.get("other_information_text", "")).strip(),
++    }
++
++
++def _dedup(matches: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
++    deduped: Dict[Tuple[str, str, str], Dict[str, Any]] = {}
++    for match in matches:
++        key = (
++            normalize_text(collapse_duplicate_tokens(match.get("partyName", ""))),
++            match.get("sanctionsList"),
++            match.get("sanctionsId"),
++        )
++        existing = deduped.get(key)
++        if not existing or int(match.get("finalScore", 0)) > int(existing.get("finalScore", 0)):
++            deduped[key] = match
++    return list(deduped.values())
++
++
++def matching(party_infos, transaction_info, table_data, ScreeningConfig):
++    _ = transaction_info  # transaction details are not currently used in matching logic
++    matches_total = 0
++    matches_by_risk = {level: 0 for level in RISK_LEVELS}
++    matches_by_risk["no risk"] = 0
++    sanctions_cache: Dict[Tuple[str, str], Dict[str, Any]] = {}
++    all_matches: List[Dict[str, Any]] = []
++    shown_matches: List[Dict[str, Any]] = []
+ 
+-    sanctions_cache = {}
+-    all_matches = []
+-    shown_matches = []
+-    show_slight = False
+     if isinstance(ScreeningConfig, dict):
+         show_slight = bool(ScreeningConfig.get("SHOW_SLIGHT_MATCHES"))
+     else:
+         show_slight = bool(getattr(ScreeningConfig, "SHOW_SLIGHT_MATCHES", False))
+-    for item in (party_infos or []):
+-        if not isinstance(item, dict):
++
++    for party in party_infos or []:
++        if not isinstance(party, dict):
+             continue
+-        role_value = item.get("Role") or ""
++        role_value = to_text(party.get("Role") or "")
+         role_norm = normalize_text(role_value)
+-        if any(k in role_norm for k in EXCLUDE_ROLES):
++        if any(stop_role in role_norm for stop_role in EXCLUDE_ROLES):
+             continue
+-        party_object = item
+-        index = item.get("index") or item.get("i") or item.get("idx") or ""
+-
+-        party_norm = normalize_party(party_object)
+-        party_name_tokens = tokens(party_norm["name"])
+-        party_alias_tokens = [tokens(a) for a in (party_norm["aliases"] or [])]
+-
+-        best_by_record = {}
+-        for record_tuple in (table_data or []):
+-            rec_key = (
+-                record_tuple[0] if len(record_tuple) > 0 else "",
+-                record_tuple[1] if len(record_tuple) > 1 else "",
+-            )
+-            if rec_key in sanctions_cache:
+-                cached = sanctions_cache[rec_key]
+-                rec_norm = cached["norm"]
+-                record_name_tokens = cached["name_tokens"]
+-                record_alias_tokens = cached["alias_tokens"]
+-            else:
+-                rec_norm = record_fields(record_tuple)
+-                record_name_tokens = tokens(rec_norm["name"])
+-                record_alias_tokens = [tokens(a) for a in rec_norm["aliases"]]
+-                sanctions_cache[rec_key] = {
++        index = party.get("index") or party.get("i") or party.get("idx") or ""
++        party_norm = normalize_party(party)
++        name_tokens = tokenize(party_norm.get("name", ""))
++        alias_tokens = [tokenize(alias) for alias in party_norm.get("aliases", [])]
++
++        best_by_record: Dict[Tuple[str, str, str, Any], Dict[str, Any]] = {}
++        for record in table_data or []:
++            record_key = (to_text(record[0]) if len(record) > 0 else "", to_text(record[1]) if len(record) > 1 else "")
++            cached = sanctions_cache.get(record_key)
++            if cached is None:
++                rec_norm = normalize_record(record)
++                cache_entry = {
+                     "norm": rec_norm,
+-                    "name_tokens": record_name_tokens,
+-                    "alias_tokens": record_alias_tokens,
++                    "name_tokens": tokenize(rec_norm.get("name", "")),
++                    "alias_tokens": [tokenize(alias) for alias in rec_norm.get("aliases", [])],
+                 }
+-
+-            match_obj = evaluate(
+-                party_norm, rec_norm, role_value,
+-                party_name_tokens, record_name_tokens,
+-                party_alias_tokens, record_alias_tokens
++                sanctions_cache[record_key] = cache_entry
++            else:
++                rec_norm = cached["norm"]
++            cache_tokens = sanctions_cache[record_key]
++            match_obj = evaluate_match(
++                party_norm,
++                rec_norm,
++                role_value,
++                name_tokens,
++                cache_tokens["name_tokens"],
++                alias_tokens,
++                cache_tokens["alias_tokens"],
+             )
+             if match_obj is None:
+                 matches_total += 1
+                 matches_by_risk["no risk"] += 1
+                 continue
+-            rl = risk_from_score((match_obj.get("finalScore", 0) or 0) / 100.0)
++            risk_label = risk_from_score((match_obj.get("finalScore", 0) or 0) / 100.0)
+             matches_total += 1
+-            matches_by_risk[rl] = matches_by_risk.get(rl, 0) + 1
+-            if rl == "no risk":
++            matches_by_risk[risk_label] = matches_by_risk.get(risk_label, 0) + 1
++            if risk_label == "no risk":
+                 continue
+-            key = (match_obj["sanctionsList"], match_obj["sanctionsId"], role_value, index)
+-            if key not in best_by_record or match_obj.get("finalScore", 0) > best_by_record[key].get("finalScore", 0):
+-                best_by_record[key] = match_obj
++            dedupe_key = (match_obj["sanctionsList"], match_obj["sanctionsId"], role_value, index)
++            existing = best_by_record.get(dedupe_key)
++            if not existing or match_obj.get("finalScore", 0) > existing.get("finalScore", 0):
++                best_by_record[dedupe_key] = match_obj
+         if best_by_record:
+-            for m in best_by_record.values():
+-                all_matches.append(m)
+-                if show_slight or (m.get("riskLevel", "").lower() not in {"slight risk"}):
+-                    shown_matches.append(m)
+-
+-    def _dedup(lst):
+-        ded = {}
+-        for m in lst:
+-            key = (
+-                normalize_text(collapse_duplicate_tokens(m.get("partyName", ""))),
+-                m.get("sanctionsList"),
+-                m.get("sanctionsId"),
+-            )
+-            if key not in ded or int(m.get("finalScore", 0)) > int(ded[key].get("finalScore", 0)):
+-                ded[key] = m
+-        return list(ded.values())
++            for match in best_by_record.values():
++                all_matches.append(match)
++                if show_slight or (match.get("riskLevel", "").lower() not in {"slight risk"}):
++                    shown_matches.append(match)
+ 
+     all_matches = _dedup(all_matches)
+     shown_matches = _dedup(shown_matches)
+ 
+-    match_counts = {"total": matches_total, "byRiskLevel": matches_by_risk}
++    top_score = max((int(match.get("finalScore", 0)) for match in all_matches), default=0)
+ 
+-    top_score_points = max((int(m.get("finalScore", 0)) for m in all_matches), default=0)
++    groups: Dict[str, List[Dict[str, Any]]] = {}
++    for match in all_matches:
++        party_name_key = normalize_text(collapse_duplicate_tokens(match.get("partyName", "")))
++        groups.setdefault(party_name_key, []).append(match)
+ 
+-    groups = {}
+-    for m in all_matches:
+-        pname = normalize_text(collapse_duplicate_tokens(m.get("partyName", "")))
+-        groups.setdefault(pname, []).append(m)
+-    risk_score_points = 0
+-    for pname, group in groups.items():
+-        base = max(int(g.get("finalScore", 0)) for g in group)
++    risk_score = 0
++    for group in groups.values():
++        base_score = max(int(item.get("finalScore", 0)) for item in group)
+         qualifying_levels = {"moderate risk", "high risk", "very high risk"}
+         qualifying_lists = {
+-            g.get("sanctionsList")
+-            for g in group
+-            if (g.get("sanctionsList") and (g.get("riskLevel") or "").lower() in qualifying_levels)
++            item.get("sanctionsList")
++            for item in group
++            if (item.get("sanctionsList") and (item.get("riskLevel") or "").lower() in qualifying_levels)
+         }
+         distinct_lists = len(qualifying_lists)
+         bonus_points = 0 * distinct_lists
+-        agg = min(100, base + bonus_points)
+-        if agg > risk_score_points:
+-            risk_score_points = agg
++        aggregate = min(100, base_score + bonus_points)
++        if aggregate > risk_score:
++            risk_score = aggregate
++
+     if not groups:
+-        risk_score_points = 0
++        risk_score = 0
++
++    top_risk_level = risk_from_score(top_score / 100.0) if all_matches else "no risk"
++    overall_risk_level = risk_from_score(risk_score / 100.0) if all_matches else "no risk"
++    flagged = overall_risk_level in {"very high risk", "high risk", "moderate risk"}
+ 
+-    top_risk_level = risk_from_score(top_score_points / 100.0) if all_matches else "no risk"
+-    overall_risk_level = risk_from_score(risk_score_points / 100.0) if all_matches else "no risk"
+-    flagged = overall_risk_level in ("very high risk", "high risk", "moderate risk")
+-    rc_map = {
++    response_code_map = {
+         "very high risk": "VERY_HIGH_RISK",
+         "high risk": "HIGH_RISK",
+         "moderate risk": "MODERATE_RISK",
+         "slight risk": "SLIGHT_RISK",
+         "no risk": "NONE",
+     }
+-    response_code_value = f"{rc_map.get(overall_risk_level, 'UNKNOWN')}"
++    response_code_value = response_code_map.get(overall_risk_level, "UNKNOWN")
++
++    match_counts = {"total": matches_total, "byRiskLevel": matches_by_risk}
++
+     return {
+         "flagged": flagged,
+         "matches": shown_matches,
+         "topRiskLevel": top_risk_level,
+-        "topScore": top_score_points,
+-        "riskScore": min(100, risk_score_points),
++        "topScore": top_score,
++        "riskScore": min(100, risk_score),
+         "riskLevel": overall_risk_level,
+         "responseCode": response_code_value,
+         "matchCounts": match_counts,
+         "timeflagged": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+     }
