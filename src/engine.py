@@ -38,11 +38,11 @@ def screen_xml_bytes(xml_bytes: bytes):
         nm = (p.get("Name") or "").strip()
         if nm:
             queries.append(nm)
-        addr = (p.get("Address Line") or "").strip()
+        addr = (p.get("Street") or "").strip()
         if addr:
             queries.append({"field": "address", "value": addr})
-    table_data = returnDetails2_fts_multi(queries, list_filter=None, limit=65000)
-    #Will return every single row and do a thorough search; Takes a lot longer
+    table_data = returnDetails2_fts_multi(queries, list_filter=None, limit=500)
+    #returndetails2 Will return every single row and do a thorough search; Takes a lot longer
    #table_data = returnDetails2()
     engine_result = matching(party_infos, transaction_info, table_data, ScreeningConfig)
     response = submitresponse(base, party_infos, transaction_info, engine_result)

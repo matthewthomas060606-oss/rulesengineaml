@@ -517,10 +517,10 @@ def evaluate_match(
         name_points = 0.85
     elif name_jaccard >= 0.70:
         matched.append("name_strong")
-        name_points = 0.85 * name_jaccard
+        name_points = 0.65 * name_jaccard
     elif name_jaccard >= 0.40:
         matched.append("name_partial")
-        name_points = 0.85 * name_jaccard
+        name_points = 0.35 * name_jaccard
 
     if matched and any(label.startswith("name_") for label in matched):
         extras.append(

@@ -2002,9 +2002,17 @@ def returnDetails2_fts_multi(queries, list_filter, limit):
     for field, tokens in normalized_queries:
         if field == "address":
             match_parts = [f"addresses:{token}*" for token in tokens]
+            match_expression = " AND ".join(match_parts)
         else:
-            match_parts = [f"(name:{token}* OR aliases:{token}*)" for token in tokens]
-        match_expression = " AND ".join(match_parts)
+            clauses = [f"(name:{t}* OR aliases:{t}*)" for t in tokens]
+            if len(clauses) >= 2:
+                pairs = []
+                for i in range(len(clauses)):
+                    for j in range(i + 1, len(clauses)):
+                        pairs.append(f"({clauses[i]} AND {clauses[j]})")
+                match_expression = " OR ".join(pairs)
+            else:
+                match_expression = clauses[0]
         if not match_expression:
             continue
 

@@ -14,7 +14,7 @@ try:
 except Exception:
     config = get_config()
 
-#Maximum MB for incoming file
+#Maximum MB for incoming file.
 MAX_REQUEST_MB = int(os.getenv("AML_MAX_REQUEST_MB", 100))
 
 app = FastAPI(title="AML Screening API")

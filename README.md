@@ -34,3 +34,46 @@ Example:
 Pythonrun.py
 Offline testing tool I used to fine-tune matching.
 
+
+
+Default Response Codes / Risk Levels (change on rules.py):
+
+
+RISKLEVEL\_DEFAULT = { #Change Risk Levels
+
+&nbsp;   "veryHighFrom": 0.90,
+
+&nbsp;   "highFrom": 0.70,
+
+&nbsp;   "moderateFrom": 0.25,
+
+&nbsp;   "slightAbove": 0.10,
+
+}
+
+
+
+RESPONSECODE\_RULES\_PATH = Path(os.getenv("AML\_RESPONSECODE\_RULES\_PATH", Path(\_\_file\_\_).parent / "responsecode\_rules.json"))
+
+RESPONSECODE\_DEFAULT = { #Change Response Codes
+
+&nbsp;   "very high risk": "VERY\_HIGH\_RISK",
+
+&nbsp;   "high risk": "HIGH\_RISK",
+
+&nbsp;   "moderate risk": "MODERATE\_RISK",
+
+&nbsp;   "slight risk": "SLIGHT\_RISK",
+
+&nbsp;   "no risk": "NONE",
+
+}
+
+
+
+
+
+
+
+Example ISO20022 files in data\\iso
+

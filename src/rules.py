@@ -1,6 +1,5 @@
 import os
 import json
-from pathlib import Path
 
 RISKLEVEL_DEFAULT = { #Change Risk Levels
     "veryHighFrom": 0.90,
@@ -9,7 +8,6 @@ RISKLEVEL_DEFAULT = { #Change Risk Levels
     "slightAbove": 0.10,
 }
 
-RESPONSECODE_RULES_PATH = Path(os.getenv("AML_RESPONSECODE_RULES_PATH", Path(__file__).parent / "responsecode_rules.json"))
 RESPONSECODE_DEFAULT = { #Change Response Codes
     "very high risk": "VERY_HIGH_RISK",
     "high risk": "HIGH_RISK",
@@ -41,10 +39,10 @@ def _as_float(v, fallback: float | None = None) -> float | None:
 
 def risk_from_score(score_value: float) -> str:
     r = get_risklevel_rules()
-    very_high = _as_float(r.get("veryHighFrom"), 0.90)
-    high = _as_float(r.get("highFrom"), 0.70)
-    moderate = _as_float(r.get("moderateFrom"), 0.25)
-    slight = _as_float(r.get("slightAbove"), 0.10)
+    very_high = _as_float(r.get("veryHighFrom"))
+    high = _as_float(r.get("highFrom"))
+    moderate = _as_float(r.get("moderateFrom"))
+    slight = _as_float(r.get("slightAbove"))
 
     try:
         s = float(score_value)
