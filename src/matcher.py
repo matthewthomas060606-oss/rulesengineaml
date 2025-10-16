@@ -7,7 +7,7 @@ import unicodedata
 from typing import Any, Dict, Iterable, List, Sequence, Tuple
 
 from countrycode import country_to_iso2
-
+from rules import apply_risklevel_rules
 
 WHITESPACE_RE = re.compile(r"\s+")
 ALLOWED_PUNCT = {"-", "'", "@", ".", "_"}
@@ -361,19 +361,6 @@ def normalize_record(record_tuple: Sequence[Any]) -> Dict[str, Any]:
     }
     return normalized
 
-
-def risk_from_score(score_value: float) -> str:
-    if score_value >= 0.90:
-        return "very high risk"
-    if score_value >= 0.70:
-        return "high risk"
-    if score_value >= 0.25:
-        return "moderate risk"
-    if score_value > 0.10:
-        return "slight risk"
-    return "no risk"
-
-
 def matched_fields_struct(labels: Iterable[str], extras: Iterable[Dict[str, str]]) -> List[Dict[str, str]]:
     label_map: Dict[Tuple[str, str], Dict[str, str]] = {}
     for label in labels:
@@ -653,7 +640,7 @@ def evaluate_match(
 
     score = min(1.0, score)
     final_score = min(100, int(round(score * 100)))
-    risk_value = risk_from_score(score)
+    risk_value = apply_risklevel_rules(score)
     return {
         "partyName": party_norm.get("name_raw", ""),
         "role": role,
@@ -691,7 +678,7 @@ def matching(party_infos, transaction_info, table_data, ScreeningConfig):
     shown_matches: List[Dict[str, Any]] = []
 
     if isinstance(ScreeningConfig, dict):
-        show_slight = bool(ScreeningConfig.get("SHOW_SLIGHT_MATCHES"))
+        show_slight = bool(getattr(ScreeningConfig, "SHOW_SLIGHT_MATCHES"))
     else:
         show_slight = bool(getattr(ScreeningConfig, "SHOW_SLIGHT_MATCHES", False))
 
@@ -735,7 +722,7 @@ def matching(party_infos, transaction_info, table_data, ScreeningConfig):
                 matches_total += 1
                 matches_by_risk["no risk"] += 1
                 continue
-            risk_label = risk_from_score((match_obj.get("finalScore", 0) or 0) / 100.0)
+            risk_label = apply_risklevel_rules((match_obj.get("finalScore", 0) or 0) / 100.0)
             matches_total += 1
             matches_by_risk[risk_label] = matches_by_risk.get(risk_label, 0) + 1
             if risk_label == "no risk":
@@ -778,19 +765,9 @@ def matching(party_infos, transaction_info, table_data, ScreeningConfig):
     if not groups:
         risk_score = 0
 
-    top_risk_level = risk_from_score(top_score / 100.0) if all_matches else "no risk"
-    overall_risk_level = risk_from_score(risk_score / 100.0) if all_matches else "no risk"
+    top_risk_level = apply_risklevel_rules(top_score / 100.0) if all_matches else "no risk"
+    overall_risk_level = apply_risklevel_rules(risk_score / 100.0) if all_matches else "no risk"
     flagged = overall_risk_level in {"very high risk", "high risk", "moderate risk"}
-
-    response_code_map = {
-        "very high risk": "VERY_HIGH_RISK",
-        "high risk": "HIGH_RISK",
-        "moderate risk": "MODERATE_RISK",
-        "slight risk": "SLIGHT_RISK",
-        "no risk": "NONE",
-    }
-    response_code_value = response_code_map.get(overall_risk_level, "UNKNOWN")
-
     match_counts = {"total": matches_total, "byRiskLevel": matches_by_risk}
 
     return {
@@ -800,7 +777,6 @@ def matching(party_infos, transaction_info, table_data, ScreeningConfig):
         "topScore": top_score,
         "riskScore": min(100, risk_score),
         "riskLevel": overall_risk_level,
-        "responseCode": response_code_value,
         "matchCounts": match_counts,
         "timeflagged": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
     }

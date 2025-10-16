@@ -2,17 +2,26 @@ import os
 import json
 from pathlib import Path
 
-RULES_PATH = Path(os.getenv("AML_RULES_PATH", Path(__file__).parent / "rules.json"))
+RISKLEVEL_DEFAULT = { #Change Risk Levels
+    "veryHighFrom": 0.90,
+    "highFrom": 0.70,
+    "moderateFrom": 0.25,
+    "slightAbove": 0.10,
+}
 
-DEFAULT = {"releaseBelow": 25, "reviewFrom": 25, "escalateFrom": None}
+RESPONSECODE_RULES_PATH = Path(os.getenv("AML_RESPONSECODE_RULES_PATH", Path(__file__).parent / "responsecode_rules.json"))
+RESPONSECODE_DEFAULT = { #Change Response Codes
+    "very high risk": "VERY_HIGH_RISK",
+    "high risk": "HIGH_RISK",
+    "moderate risk": "MODERATE_RISK",
+    "slight risk": "SLIGHT_RISK",
+    "no risk": "NONE",
+}
 
-def get_rules():
-    if RULES_PATH.exists():
-        try:
-            return {**DEFAULT, **json.loads(RULES_PATH.read_text())}
-        except Exception:
-            pass
-    return DEFAULT
+
+def _load_rules(default: dict) -> dict:
+    return dict(default)
+
 
 def _as_int_or_none(v):
     try:
@@ -20,20 +29,45 @@ def _as_int_or_none(v):
     except (TypeError, ValueError):
         return None
 
-def apply_rules(riskScore):
-    rules = get_rules()
 
-    esc = _as_int_or_none(rules.get("escalateFrom"))
-    rev = _as_int_or_none(rules.get("reviewFrom"))
-    rel = _as_int_or_none(rules.get("releaseBelow"))
+def get_risklevel_rules() -> dict:
+    return _load_rules(RISKLEVEL_DEFAULT)
 
-    if esc is not None and riskScore >= esc:
-        action = "Escalate"
-    elif rev is not None and riskScore >= rev:
-        action = "Review"
-    elif rel is not None and riskScore <= rel:
-        action = "Release"
-    else:
-        action = "N/A"
+def _as_float(v, fallback: float | None = None) -> float | None:
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return fallback
 
-    return action
+def risk_from_score(score_value: float) -> str:
+    r = get_risklevel_rules()
+    very_high = _as_float(r.get("veryHighFrom"), 0.90)
+    high = _as_float(r.get("highFrom"), 0.70)
+    moderate = _as_float(r.get("moderateFrom"), 0.25)
+    slight = _as_float(r.get("slightAbove"), 0.10)
+
+    try:
+        s = float(score_value)
+    except (TypeError, ValueError):
+        s = 0.0
+
+    if very_high is not None and s >= very_high:
+        return "very high risk"
+    if high is not None and s >= high:
+        return "high risk"
+    if moderate is not None and s >= moderate:
+        return "moderate risk"
+    if slight is not None and s > slight:
+        return "slight risk"
+    return "no risk"
+
+def apply_risklevel_rules(score_value: float) -> str:
+    return risk_from_score(score_value)
+
+def get_responsecode_rules() -> dict:
+    return _load_rules(RESPONSECODE_DEFAULT)
+
+def apply_responsecode_rules(overall_risk_level: str) -> str:
+    mapping = get_responsecode_rules()
+    key = (overall_risk_level or "").strip().lower()
+    return mapping.get(key, "UNKNOWN")

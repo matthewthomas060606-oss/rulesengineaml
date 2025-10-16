@@ -68,7 +68,7 @@ def screen(req: ScreenRequest = Body(...)):
         result = screen_xml_bytes(data)
         code = response_code_from_result(result)
         result.setdefault("engine", {})["responseCode"] = code
-        return JSONResponse(content=result, headers={"X-Response-Code": code})
+        return JSONResponse(content=result, headers={"Response-Code": code})
     except HTTPException:
         raise
     except Exception as e:
@@ -82,7 +82,7 @@ async def screen_file(file: UploadFile = File(...)):
         result = screen_xml_bytes(xml_bytes)
         code = response_code_from_result(result)
         result.setdefault("engine", {})["responseCode"] = code
-        return JSONResponse(content=result, headers={"X-Response-Code": code})
+        return JSONResponse(content=result, headers={"Response-Code": code})
     except HTTPException:
         raise
     except Exception as e:

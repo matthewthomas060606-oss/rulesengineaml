@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from typing import Any, Dict, Mapping, Optional
 
 from readLog import readLogFiles
+from rules import apply_responsecode_rules
 
 _PARTY_NAME_KEYS: tuple[str, ...] = (
     "Name",
@@ -123,7 +124,7 @@ def _build_lists_used() -> list[dict[str, Any]]:
     return lists
 
 
-def submitresponse(base, party_infos, transaction_info, engine_result, apply_rules):
+def submitresponse(base, party_infos, transaction_info, engine_result):
     engine_result = engine_result or {}
 
     risk_score_points = _coerce_score(engine_result.get("riskScore"))
@@ -144,11 +145,10 @@ def submitresponse(base, party_infos, transaction_info, engine_result, apply_rul
         normalized = _normalize_party(party_map)
         if normalized:
             parties.append(normalized)
-
-    decision_block = {"recommendedAction": apply_rules(score_for_rules)}
+    responsecode = apply_responsecode_rules(overall_risk_level_value)
     risk_summary_block = {
         "riskScore": score_for_rules,
-        "riskLevel": overall_risk_level_value,
+        "riskLevel": risk_score_points,
         "drivers": list(engine_result.get("drivers") or []),
         "time": time_flagged,
     }
@@ -158,7 +158,7 @@ def submitresponse(base, party_infos, transaction_info, engine_result, apply_rul
         "topMatchRiskLevel": top_risk_level_value,
         "riskScore": score_for_rules,
         "riskLevel": overall_risk_level_value,
-        "responseCode": response_code_value,
+        "responseCode": responsecode,
         "flagged": bool(engine_result.get("flagged")),
         "matchCounts": engine_result.get("matchCounts") or {"total": 0, "byRiskLevel": {}},
     }
@@ -167,7 +167,7 @@ def submitresponse(base, party_infos, transaction_info, engine_result, apply_rul
         "listsUsed": _build_lists_used(),
         "parties": parties,
         "transaction": transaction_info or {},
-        "decision": decision_block,
+        "responseCode": responsecode,
         "riskSummary": risk_summary_block,
         "engine": engine_block,
         "matches": list(engine_result.get("matches") or []),

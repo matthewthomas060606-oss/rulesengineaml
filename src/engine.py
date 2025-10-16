@@ -16,7 +16,6 @@ from SECOload import SECO_fetch, SECO_extract
 from matcher import matching
 from screening import submitresponse
 from config import get_config, ScreeningConfig
-from rules import apply_rules
 import json
 
 cfg = get_config()
@@ -46,7 +45,7 @@ def screen_xml_bytes(xml_bytes: bytes):
     #Will return every single row and do a thorough search; Takes a lot longer
    #table_data = returnDetails2()
     engine_result = matching(party_infos, transaction_info, table_data, ScreeningConfig)
-    response = submitresponse(base, party_infos, transaction_info, engine_result, apply_rules)
+    response = submitresponse(base, party_infos, transaction_info, engine_result)
     formattedresponse = json.dumps(response, indent=2, ensure_ascii=False)
     # (GUI_PATH / "latest.json").write_text(formattedresponse, encoding="utf-8")
     # with (GUI_PATH / "history.jsonl").open("a", encoding="utf-8") as f:

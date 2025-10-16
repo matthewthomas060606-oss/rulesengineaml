@@ -38,8 +38,7 @@ class PathsConfig:
 
 @dataclass
 class ScreeningConfig:
-    #change to True to include slight matches (score lower than 20) that the engine has found in the JSON response. Adds a lot more matches and most of them aren't helpful
-    SHOW_SLIGHT_MATCHES: bool = _env("SHOW_SLIGHT_MATCHES", False, cast=bool)
+    SHOW_SLIGHT_MATCHES: bool = _env("SHOW_SLIGHT_MATCHES", True, cast=bool)
 
 @dataclass(frozen=True)
 class AppConfig:
